@@ -1,3 +1,1 @@
-But, A is ~.
-So, A is ~.
-But, A is ~.
+But, A is ~. So, A is ~. But, A is ~.

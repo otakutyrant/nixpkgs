@@ -1,7 +1,7 @@
 # Goss {#module-services-goss}
 
-[goss](https://goss.rocks/) is a YAML based serverspec alternative tool
-for validating a server's configuration.
+[goss](https://goss.rocks/) is a YAML based serverspec alternative tool for
+validating a server's configuration.
 
 ## Basic Usage {#module-services-goss-basic-usage}
 

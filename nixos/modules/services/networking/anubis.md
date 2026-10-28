@@ -1,20 +1,22 @@
 # Anubis {#module-services-anubis}
 
-[Anubis](https://anubis.techaro.lol) is a scraper defense software that blocks AI scrapers. It is designed to sit
-between a reverse proxy and the service to be protected.
+[Anubis](https://anubis.techaro.lol) is a scraper defense software that blocks
+AI scrapers. It is designed to sit between a reverse proxy and the service to be
+protected.
 
 ## Quickstart {#module-services-anubis-quickstart}
 
-This module is designed to use Unix domain sockets as the socket paths can be automatically configured for multiple
-instances, but TCP sockets are also supported.
+This module is designed to use Unix domain sockets as the socket paths can be
+automatically configured for multiple instances, but TCP sockets are also
+supported.
 
 Configuring multiple instances may look like the following.
 
 Notes:
 
 - Each instance as its runtime directory set to `anubis/anubis-<instance name>`.
-- When a single instance is declared with unix sockets, the runtime directory `anubis` is allowed for backward
-  compatibility.
+- When a single instance is declared with unix sockets, the runtime directory
+  `anubis` is allowed for backward compatibility.
 
 ```nix
 {
@@ -36,7 +38,8 @@ Notes:
 }
 ```
 
-A minimal configuration with [nginx](#opt-services.nginx.enable) may look like the following:
+A minimal configuration with [nginx](#opt-services.nginx.enable) may look like
+the following:
 
 ```nix
 { config, ... }:
@@ -53,7 +56,8 @@ A minimal configuration with [nginx](#opt-services.nginx.enable) may look like t
 }
 ```
 
-If Unix domain sockets are not needed or desired, this module supports operating with only TCP sockets.
+If Unix domain sockets are not needed or desired, this module supports operating
+with only TCP sockets.
 
 ```nix
 {
@@ -73,7 +77,8 @@ If Unix domain sockets are not needed or desired, this module supports operating
 
 ## Configuration {#module-services-anubis-configuration}
 
-It is possible to configure default settings for all instances of Anubis, via {option}`services.anubis.defaultOptions`.
+It is possible to configure default settings for all instances of Anubis, via
+{option}`services.anubis.defaultOptions`.
 
 ```nix
 {
@@ -83,8 +88,9 @@ It is possible to configure default settings for all instances of Anubis, via {o
 }
 ```
 
-By default, this module uses Anubis's built-in policy (`botPolicies.yaml`), which includes sensible defaults for bot
-rules, thresholds, status codes, and storage backend. A custom policy file is only generated when you explicitly
+By default, this module uses Anubis's built-in policy (`botPolicies.yaml`),
+which includes sensible defaults for bot rules, thresholds, status codes, and
+storage backend. A custom policy file is only generated when you explicitly
 customize the policy via {option}`services.anubis.instances.<name>.policy`.
 
 To add custom bot rules while keeping the defaults:
@@ -124,11 +130,12 @@ To opt out of the default bot rules entirely and define your own:
 }
 ```
 
-::: {.note}
-When you customize the policy, a custom policy file is generated. This file imports the default bot rules via
-`(data)/meta/default-config.yaml` when {option}`services.anubis.instances.<name>.policy.useDefaultBotRules` is enabled,
-but uses Anubis's simpler legacy threshold instead of the 5-tier thresholds from `botPolicies.yaml`. If you need custom
-thresholds, specify them in {option}`services.anubis.instances.<name>.policy.settings`.
-:::
+::: {.note} When you customize the policy, a custom policy file is generated.
+This file imports the default bot rules via `(data)/meta/default-config.yaml`
+when {option}`services.anubis.instances.<name>.policy.useDefaultBotRules` is
+enabled, but uses Anubis's simpler legacy threshold instead of the 5-tier
+thresholds from `botPolicies.yaml`. If you need custom thresholds, specify them
+in {option}`services.anubis.instances.<name>.policy.settings`. :::
 
-See [the upstream documentation](https://anubis.techaro.lol/docs/admin/policies) for all available policy options.
+See [the upstream documentation](https://anubis.techaro.lol/docs/admin/policies)
+for all available policy options.

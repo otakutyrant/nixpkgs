@@ -1,4 +1,3 @@
-
 # `redisTestHook` {#sec-redisTestHook}
 
 This hook starts a Redis server during `checkPhase`. Example:
@@ -18,6 +17,7 @@ stdenv.mkDerivation {
 ```
 
 If you use a custom `checkPhase`, remember to add the `runHook` calls:
+
 ```nix
 {
   checkPhase = ''
@@ -32,7 +32,8 @@ If you use a custom `checkPhase`, remember to add the `runHook` calls:
 
 ## Variables {#sec-redisTestHook-variables}
 
-The hook logic will read the following variables and set them to a default value if unset or empty.
+The hook logic will read the following variables and set them to a default value
+if unset or empty.
 
 Exported variables:
 

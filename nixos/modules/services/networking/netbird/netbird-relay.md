@@ -1,17 +1,22 @@
 # Netbird Relay {#module-services-netbird-relay}
 
-The Relay service forwards encrypted WireGuard traffic between peers that cannot establish a direct P2P connection
+The Relay service forwards encrypted WireGuard traffic between peers that cannot
+establish a direct P2P connection
 
-For more information, check [external relays](https://docs.netbird.io/selfhosted/maintenance/scaling/set-up-external-relays) documentation.
+For more information, check
+[external relays](https://docs.netbird.io/selfhosted/maintenance/scaling/set-up-external-relays)
+documentation.
 
 ## Quickstart {#module-services-netbird-relay-quickstart}
 
 You can run the relay directly, or behind a reverse proxy, like `traefik`.
 
-To run it directly, you'll have to run it on HTTPS port (443) and it will need the TLS certificates. Which you can configure using the `acme` module.
+To run it directly, you'll have to run it on HTTPS port (443) and it will need
+the TLS certificates. Which you can configure using the `acme` module.
 
-In the following example, we can see the `traefik` route and the relay configuration.
-The operator should configure the TLS for the domain used by the relay, whether it's via `traefik` itself or using the `acme` module.
+In the following example, we can see the `traefik` route and the relay
+configuration. The operator should configure the TLS for the domain used by the
+relay, whether it's via `traefik` itself or using the `acme` module.
 
 ```nix
 let
@@ -77,16 +82,19 @@ Finally, you must let `netbird.server` know about the new relay:
   };
 }
 ```
+
 Done!
 
 ## TLS with Let's Encrypt {#module-services-netbird-relay-tls}
 
-You can expose the netbird relay directly to the internet with TLS. Then you won't need a reverse proxy.
+You can expose the netbird relay directly to the internet with TLS. Then you
+won't need a reverse proxy.
 
-To use TLS, set `settings."letsencrypt-domains"`.
-The relay gets and renews the certificates only when `settings."letsencrypt-domains"` is set.
+To use TLS, set `settings."letsencrypt-domains"`. The relay gets and renews the
+certificates only when `settings."letsencrypt-domains"` is set.
 
-Certificates are stored on disk, and the services runs as a systemd dynamic user.
-The only writable location is therefore a `StateDirectory`, which can only be under `/var/lib`.
+Certificates are stored on disk, and the services runs as a systemd dynamic
+user. The only writable location is therefore a `StateDirectory`, which can only
+be under `/var/lib`.
 
 Open the ports `tcp/443` and `tcp/80` manually for the HTTP challenge.

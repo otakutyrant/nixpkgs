@@ -1,6 +1,7 @@
 # uMurmur {#module-service-umurmur}
 
-[uMurmur](http://umurmur.net/) is a minimalistic Mumble server primarily targeted to run on embedded computers. This module enables it (`umurmurd`).
+[uMurmur](http://umurmur.net/) is a minimalistic Mumble server primarily
+targeted to run on embedded computers. This module enables it (`umurmurd`).
 
 ## Quick Start {#module-service-umurmur-quick-start}
 
@@ -30,4 +31,5 @@
 }
 ```
 
-See a full configuration in [umurmur.conf.example](https://github.com/umurmur/umurmur/blob/master/umurmur.conf.example)
+See a full configuration in
+[umurmur.conf.example](https://github.com/umurmur/umurmur/blob/master/umurmur.conf.example)

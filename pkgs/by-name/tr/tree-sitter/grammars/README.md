@@ -1,17 +1,22 @@
 # Tree-sitter Grammars
 
-Use [grammar-sources.nix](grammar-sources.nix) to define tree-sitter grammar sources.
+Use [grammar-sources.nix](grammar-sources.nix) to define tree-sitter grammar
+sources.
 
-Tree-sitter grammars follow a common form for compatibility with the [`tree-sitter` CLI](https://tree-sitter.github.io/tree-sitter/cli/index.html).
+Tree-sitter grammars follow a common form for compatibility with the
+[`tree-sitter` CLI](https://tree-sitter.github.io/tree-sitter/cli/index.html).
 This uniformity enables consistent packaging through shared tooling.
 
 ## Adding a Grammar
 
-To declare a new package, map the language name to a set of metadata required for the build.
-At a minimum, this must include the `version` and `src`.
+To declare a new package, map the language name to a set of metadata required
+for the build. At a minimum, this must include the `version` and `src`.
 
-You may use a shorthand [flakeref](https://nix.dev/manual/nix/2.24/command-ref/new-cli/nix3-flake#url-like-syntax) style `url` and `hash` for concise declarations.
-If the hash is not yet known, use a [fake hash placeholder](https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-fetchers-updating-source-hashes).
+You may use a shorthand
+[flakeref](https://nix.dev/manual/nix/2.24/command-ref/new-cli/nix3-flake#url-like-syntax)
+style `url` and `hash` for concise declarations. If the hash is not yet known,
+use a
+[fake hash placeholder](https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-fetchers-updating-source-hashes).
 
 ```nix
 {
@@ -40,15 +45,18 @@ This will expand to an element in `pkgs.tree-sitter.grammars` at build time:
 }
 ```
 
-Each entry is passed to [buildGrammar](build-grammar.nix), which in turn populates `pkgs.tree-sitter-grammars`.
+Each entry is passed to [buildGrammar](build-grammar.nix), which in turn
+populates `pkgs.tree-sitter-grammars`.
 
-Attempt to build the new grammar: `nix-build -A tree-sitter-grammars.tree-sitter-latex`.
-This will fail due to the invalid hash.
-Review the downloaded source, then update the source definition with the printed source `hash`.
+Attempt to build the new grammar:
+`nix-build -A tree-sitter-grammars.tree-sitter-latex`. This will fail due to the
+invalid hash. Review the downloaded source, then update the source definition
+with the printed source `hash`.
 
 ## Pinning Grammar Sources
 
-To pin to a specific ref, append this to the source `url` to override the default version tag.
+To pin to a specific ref, append this to the source `url` to override the
+default version tag.
 
 ```nix
 {
@@ -70,7 +78,9 @@ The `url` field supports the following prefixes:
 - `gitlab:` → uses `fetchFromGitLab`
 - `sourcehut:` → uses `fetchFromSourcehut`
 
-To use [other fetchers](https://nixos.org/manual/nixpkgs/unstable/#chap-pkgs-fetchers), specify the `src` attribute directly:
+To use
+[other fetchers](https://nixos.org/manual/nixpkgs/unstable/#chap-pkgs-fetchers),
+specify the `src` attribute directly:
 
 ```nix
 {
@@ -89,8 +99,8 @@ To use [other fetchers](https://nixos.org/manual/nixpkgs/unstable/#chap-pkgs-fet
 
 ## Modifying Build Behaviour
 
-Additional attributes in the grammar definition are forwarded to `buildGrammar`, and then to `mkDerivation`.
-This includes build-related flags and metadata.
+Additional attributes in the grammar definition are forwarded to `buildGrammar`,
+and then to `mkDerivation`. This includes build-related flags and metadata.
 
 ```nix
 {
@@ -111,8 +121,10 @@ This includes build-related flags and metadata.
 
 ## Overriding the Grammar Set
 
-Use `pkgs.tree-sitter-grammars.overrideScope` when adding a grammar or replacing a grammar that another package should consume.
-`pkgs.tree-sitter-grammars` is the scoped package set used for grammar overrides and scoped helpers such as `derivations`, `allGrammars`, and `withPlugins`.
+Use `pkgs.tree-sitter-grammars.overrideScope` when adding a grammar or replacing
+a grammar that another package should consume. `pkgs.tree-sitter-grammars` is
+the scoped package set used for grammar overrides and scoped helpers such as
+`derivations`, `allGrammars`, and `withPlugins`.
 
 ```nix
 let
@@ -147,40 +159,49 @@ grammars.withPlugins (p: [
 ])
 ```
 
-The scoped `withPlugins` helper receives derivations from the same overridden scope, so added or replaced grammars are visible.
+The scoped `withPlugins` helper receives derivations from the same overridden
+scope, so added or replaced grammars are visible.
 
-Deprecated or renamed grammar aliases live in [aliases.nix](aliases.nix) and are exposed only when `config.allowAliases = true`.
-An alias resolves to the same derivation as its canonical name, so `derivations`, `allGrammars`, and `withPlugins` all see it once enabled.
+Deprecated or renamed grammar aliases live in [aliases.nix](aliases.nix) and are
+exposed only when `config.allowAliases = true`. An alias resolves to the same
+derivation as its canonical name, so `derivations`, `allGrammars`, and
+`withPlugins` all see it once enabled.
 
-The set also carries package-set helpers (`callPackage`, `newScope`, `overrideScope`, …) alongside the grammars, so do not iterate it directly.
-Use one of its grammar-only views instead; each reflects any `overrideScope`:
+The set also carries package-set helpers (`callPackage`, `newScope`,
+`overrideScope`, …) alongside the grammars, so do not iterate it directly. Use
+one of its grammar-only views instead; each reflects any `overrideScope`:
 
-- `pkgs.tree-sitter-grammars.derivations` — attrset of every grammar derivation, including grammars marked broken.
-- `pkgs.tree-sitter-grammars.allGrammars` — list of the non-broken grammar derivations.
+- `pkgs.tree-sitter-grammars.derivations` — attrset of every grammar derivation,
+  including grammars marked broken.
+- `pkgs.tree-sitter-grammars.allGrammars` — list of the non-broken grammar
+  derivations.
 - `pkgs.tree-sitter-grammars.withPlugins` — build a grammar link farm.
 
 ```nix
 builtins.attrValues pkgs.tree-sitter-grammars.derivations
 ```
 
-`pkgs.tree-sitter.builtGrammars` remains the plain attribute set generated directly from [grammar-sources.nix](grammar-sources.nix); use it when you specifically want the stock grammars without any scope overrides.
+`pkgs.tree-sitter.builtGrammars` remains the plain attribute set generated
+directly from [grammar-sources.nix](grammar-sources.nix); use it when you
+specifically want the stock grammars without any scope overrides.
 
 ## Building WebAssembly Parsers
 
-`buildGrammar` builds a native `$out/parser`.
-To build grammars as WebAssembly instead, use the `wasm32-wasip1` cross package set, which installs `$out/parser.wasm`:
+`buildGrammar` builds a native `$out/parser`. To build grammars as WebAssembly
+instead, use the `wasm32-wasip1` cross package set, which installs
+`$out/parser.wasm`:
 
 ```nix
 pkgsCross.wasm32-wasip1.tree-sitter.builtGrammars.tree-sitter-nix
 ```
 
-The Wasm build compiles `parser.c` and a C `scanner.c`.
-Grammars with C++ external scanners are rejected; use the native `buildGrammar` for those.
+The Wasm build compiles `parser.c` and a C `scanner.c`. Grammars with C++
+external scanners are rejected; use the native `buildGrammar` for those.
 
 ## Updating
 
-All grammar sources have a default update script defined.
-To manually trigger an update of a specific grammar definition:
+All grammar sources have a default update script defined. To manually trigger an
+update of a specific grammar definition:
 
 ```shell
 nix-shell maintainers/scripts/update.nix --argstr package tree-sitter-grammars.tree-sitter-${name}

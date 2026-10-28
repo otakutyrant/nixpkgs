@@ -1,16 +1,16 @@
 # Zapret2 {#module-services-zapret2}
 
 [Zapret2](https://github.com/bol-van/zapret2) is a service that enables
-bypassing DPI systems using extensible Lua filters that process outgoing
-network traffic.
+bypassing DPI systems using extensible Lua filters that process outgoing network
+traffic.
 
 For details on which parameters are available and their usage, consult the
 [upstream documentation][1].
 
 ## Quick Start {#module-services-zapret2-quick-start}
 
-A simple, minimal setup that includes only a single profile that applies two
-Lua [instances][2] to TLS ClientHello packets can be defined as follows:
+A simple, minimal setup that includes only a single profile that applies two Lua
+[instances][2] to TLS ClientHello packets can be defined as follows:
 
 ```nix
 {
@@ -37,9 +37,9 @@ profiles to be defined across multiple modules and merged correctly.
 Each Zapret2 profile is defined under the {option}`services.zapret2.profiles`
 option. Multiple profiles can be defined at once, however it's important to
 ensure that each profile can only match one category of traffic by using
-`--filter-*` parameters, because otherwise a profile will match all traffic,
-and since first match wins, no other profile can match it, even if it has a
-more specific filter:
+`--filter-*` parameters, because otherwise a profile will match all traffic, and
+since first match wins, no other profile can match it, even if it has a more
+specific filter:
 
 ```nix
 {
@@ -65,8 +65,8 @@ more specific filter:
 
 Since profiles are matched on their order and first match wins, each profile
 also has a {option}`services.zapret2.profiles.‹name›.priority` option. Lower
-values will cause the profile to be ordered *before* others, higher values will
-cause the profile to be ordered *after* others. The default priority is `1000`.
+values will cause the profile to be ordered _before_ others, higher values will
+cause the profile to be ordered _after_ others. The default priority is `1000`.
 In other words, if you want to define a "fallback" profile that matches traffic
 not matched by any other profile, you should set the priority to a higher value
 such as `1500`.
@@ -119,17 +119,16 @@ a few options to make this more convenient:
 ```
 
 If either an IP/host include list is defined, or {option}`hosts.autodetect` is
-enabled, the profile will enter a whitelist mode, where traffic by default
-won't be matched (except the special connection tracking case of the auto
-mode). If an IP/host exclude list is defined, traffic not on the exclude list
-is still matched by default, unless an include list is also defined.
+enabled, the profile will enter a whitelist mode, where traffic by default won't
+be matched (except the special connection tracking case of the auto mode). If an
+IP/host exclude list is defined, traffic not on the exclude list is still
+matched by default, unless an include list is also defined.
 
 In addition to the options above, you may of course define `--ipset-*` or
 `--hostlist-*` options in the profile's parameters. This can be useful to e.g.
 maintain an externally updated list that is not hardcoded into the NixOS
-configuration. If you use these options, make sure the file paths are
-accessible by the user that Zapret2 runs as (by default, it runs as a dynamic
-user).
+configuration. If you use these options, make sure the file paths are accessible
+by the user that Zapret2 runs as (by default, it runs as a dynamic user).
 
 ### Lua Files {#module-services-zapret2-configuration-lua-files}
 
@@ -158,7 +157,7 @@ default, `zapret-lib` and `zapret-antidpi` are already included, so for the
 simple case of DPI bypass using the standard libraries, configuring this option
 isn't needed.
 
-However, note that if you *do* customise this option, it overrides the default
+However, note that if you _do_ customise this option, it overrides the default
 list of files completely. So, for example, if you are writing custom Lua desync
 functions, you will need to not only include your library's full path, but also
 any libraries that it depends on (typically `zapret-lib`).
@@ -167,13 +166,13 @@ any libraries that it depends on (typically `zapret-lib`).
 
 Options for the generated nftables firewall configuration can be customised
 under the {option}`services.zapret2.firewall` option. Since Zapret2 is a
-userspace program and all network traffic originates in the kernel, all
-matching network traffic has to be passed from kernel space to userspace. This
-is an expensive process that can slow down network traffic if too much traffic
-is processed. So, it is important to process as little traffic as possible to
-maintain high network throughput. The predefined firewall already excludes
-local IP ranges (as defined by RFC 1918), and the module includes a number of
-options to further reduce how much traffic is passed to Zapret2:
+userspace program and all network traffic originates in the kernel, all matching
+network traffic has to be passed from kernel space to userspace. This is an
+expensive process that can slow down network traffic if too much traffic is
+processed. So, it is important to process as little traffic as possible to
+maintain high network throughput. The predefined firewall already excludes local
+IP ranges (as defined by RFC 1918), and the module includes a number of options
+to further reduce how much traffic is passed to Zapret2:
 
 ```nix
 {
@@ -241,6 +240,6 @@ number and desync mark defined in the module's options, as they are passed as
 command-line arguments to Zapret2. None of the other firewall options are used.
 
 [1]: https://github.com/bol-van/zapret2/blob/master/docs/manual.en.md
-[2]: https://github.com/bol-van/zapret2/blob/master/docs/manual.en.md#traffic-processing-scheme
+[2]:
+  https://github.com/bol-van/zapret2/blob/master/docs/manual.en.md#traffic-processing-scheme
 [3]: https://github.com/bol-van/zapret2/tree/master/lua
-

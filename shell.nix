@@ -64,6 +64,8 @@ curPkgs
     pkgs.gh
     # treefmt wrapper
     fmt.pkg
+    # Markdown formatter used by treefmt and the repository config.
+    pkgs.prettier
   ];
 }
 // {

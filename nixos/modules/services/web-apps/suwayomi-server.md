@@ -1,6 +1,7 @@
 # Suwayomi-Server {#module-services-suwayomi-server}
 
-A free and open source manga reader server that runs extensions built for Tachiyomi.
+A free and open source manga reader server that runs extensions built for
+Tachiyomi.
 
 ## Basic usage {#module-services-suwayomi-server-basic-usage}
 
@@ -16,9 +17,11 @@ By default, the module will execute Suwayomi-Server backend and web UI:
 }
 ```
 
-It runs in the systemd service named `suwayomi-server` in the data directory `/var/lib/suwayomi-server`.
+It runs in the systemd service named `suwayomi-server` in the data directory
+`/var/lib/suwayomi-server`.
 
 You can change the default parameters with some other parameters:
+
 ```nix
 { ... }:
 
@@ -85,7 +88,8 @@ You can configure a basic authentication to the web interface with:
 
 ## Extra configuration {#module-services-suwayomi-server-extra-config}
 
-Not all the configuration options are available directly in this module, but you can add the other options of suwayomi-server with:
+Not all the configuration options are available directly in this module, but you
+can add the other options of suwayomi-server with:
 
 ```nix
 { ... }:

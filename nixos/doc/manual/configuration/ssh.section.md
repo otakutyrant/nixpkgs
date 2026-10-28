@@ -6,12 +6,11 @@ Secure shell (SSH) access to your machine can be enabled by setting:
 { services.openssh.enable = true; }
 ```
 
-By default, root logins using a password are disallowed. They can be
-disabled entirely by setting
-[](#opt-services.openssh.settings.PermitRootLogin) to `"no"`.
+By default, root logins using a password are disallowed. They can be disabled
+entirely by setting [](#opt-services.openssh.settings.PermitRootLogin) to
+`"no"`.
 
-You can declaratively specify authorised public keys for a user
-as follows:
+You can declaratively specify authorised public keys for a user as follows:
 
 ```nix
 {

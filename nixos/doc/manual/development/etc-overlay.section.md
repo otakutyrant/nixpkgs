@@ -1,9 +1,7 @@
 # `/etc` via overlay filesystem {#sec-etc-overlay}
 
-::: {.note}
-This is experimental and requires a kernel version >= 6.6 because it uses
-new overlay features and relies on the new mount API.
-:::
+::: {.note} This is experimental and requires a kernel version >= 6.6 because it
+uses new overlay features and relies on the new mount API. :::
 
 Instead of using a custom perl script to activate `/etc`, you activate it via an
 overlay filesystem:

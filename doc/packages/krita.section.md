@@ -4,22 +4,23 @@
 
 "pykrita" plugins should be installed following
 [Krita's manual](https://docs.krita.org/en/user_manual/python_scripting/install_custom_python_plugin.html).
-This generally involves extracting the extension to `~/.local/share/krita/pykrita/`.
+This generally involves extracting the extension to
+`~/.local/share/krita/pykrita/`.
 
 ## Binary plugins {#krita-binary-plugins}
 
 Binary plugins are Dynamically Linked Libraries to be loaded by Krita.
 
-_Note: You most likely won't need to deal with binary plugins,
-all known plugins are bundled and enabled by default._
+_Note: You most likely won't need to deal with binary plugins, all known plugins
+are bundled and enabled by default._
 
 ### Installing binary plugins {#krita-install-binary-plugins}
 
-You can choose what plugins are added to Krita by overriding the
-`binaryPlugins` attribute.
+You can choose what plugins are added to Krita by overriding the `binaryPlugins`
+attribute.
 
-If you want to add plugins instead of replacing, you can read the
-list of previous plugins via `pkgs.krita.binaryPlugins`:
+If you want to add plugins instead of replacing, you can read the list of
+previous plugins via `pkgs.krita.binaryPlugins`:
 
 ```nix
 (pkgs.krita.override (old: {

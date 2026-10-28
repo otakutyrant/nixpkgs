@@ -4,7 +4,11 @@ Urxvt, also known as rxvt-unicode, is a highly customizable terminal emulator.
 
 ## Configuring urxvt {#sec-urxvt-conf}
 
-In `nixpkgs`, urxvt is provided by the package `rxvt-unicode`. It can be configured to include your choice of plugins, reducing its closure size from the default configuration which includes all available plugins. To make use of this functionality, use an overlay or directly install an expression that overrides its configuration, such as:
+In `nixpkgs`, urxvt is provided by the package `rxvt-unicode`. It can be
+configured to include your choice of plugins, reducing its closure size from the
+default configuration which includes all available plugins. To make use of this
+functionality, use an overlay or directly install an expression that overrides
+its configuration, such as:
 
 ```nix
 rxvt-unicode.override {
@@ -20,9 +24,11 @@ rxvt-unicode.override {
 }
 ```
 
-If the `configure` function returns an attrset without the `plugins` attribute, `availablePlugins` will be used automatically.
+If the `configure` function returns an attrset without the `plugins` attribute,
+`availablePlugins` will be used automatically.
 
-To add plugins but also keep all default plugins installed, it is possible to use the following method:
+To add plugins but also keep all default plugins installed, it is possible to
+use the following method:
 
 ```nix
 rxvt-unicode.override {
@@ -42,9 +48,12 @@ $ nix repl
 map (p: p.name) pkgs.rxvt-unicode.plugins
 ```
 
-Alternatively, if your shell is bash or zsh and have completion enabled, type `nixpkgs.rxvt-unicode.plugins.<tab>`.
+Alternatively, if your shell is bash or zsh and have completion enabled, type
+`nixpkgs.rxvt-unicode.plugins.<tab>`.
 
-In addition to `plugins` the options `extraDeps` and `perlDeps` can be used to install extra packages. `extraDeps` can be used, for example, to provide `xsel` (a clipboard manager) to the clipboard plugin, without installing it globally:
+In addition to `plugins` the options `extraDeps` and `perlDeps` can be used to
+install extra packages. `extraDeps` can be used, for example, to provide `xsel`
+(a clipboard manager) to the clipboard plugin, without installing it globally:
 
 ```nix
 rxvt-unicode.override {
@@ -56,7 +65,8 @@ rxvt-unicode.override {
 }
 ```
 
-`perlDeps` is a handy way to provide Perl packages to your custom plugins (in `$HOME/.urxvt/ext`). For example, if you need `AnyEvent` you can do:
+`perlDeps` is a handy way to provide Perl packages to your custom plugins (in
+`$HOME/.urxvt/ext`). For example, if you need `AnyEvent` you can do:
 
 ```nix
 rxvt-unicode.override {
@@ -70,14 +80,20 @@ rxvt-unicode.override {
 
 ## Packaging urxvt plugins {#sec-urxvt-pkg}
 
-Urxvt plugins reside in `pkgs/applications/misc/rxvt-unicode-plugins`. To add a new plugin, create an expression in a subdirectory and add the package to the set in `pkgs/applications/misc/rxvt-unicode-plugins/default.nix`.
+Urxvt plugins reside in `pkgs/applications/misc/rxvt-unicode-plugins`. To add a
+new plugin, create an expression in a subdirectory and add the package to the
+set in `pkgs/applications/misc/rxvt-unicode-plugins/default.nix`.
 
-A plugin can be any kind of derivation; the only requirement is that it should always install perl scripts in `$out/lib/urxvt/perl`. Look for existing plugins for examples.
+A plugin can be any kind of derivation; the only requirement is that it should
+always install perl scripts in `$out/lib/urxvt/perl`. Look for existing plugins
+for examples.
 
-If the plugin is itself a Perl package that needs to be imported from other plugins or scripts, add the following passthrough:
+If the plugin is itself a Perl package that needs to be imported from other
+plugins or scripts, add the following passthrough:
 
 ```nix
 { passthru.perlPackages = [ "self" ]; }
 ```
 
-This will make the urxvt wrapper pick up the dependency and set up the Perl path accordingly.
+This will make the urxvt wrapper pick up the dependency and set up the Perl path
+accordingly.

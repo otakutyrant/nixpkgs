@@ -2,7 +2,8 @@
 
 [Waf](https://waf.io) is a Python-based software building system.
 
-In Nixpkgs, `wafHook` overrides the default configure, build, and install phases.
+In Nixpkgs, `wafHook` overrides the default configure, build, and install
+phases.
 
 ## Variables controlling wafHook {#waf-hook-variables-controlling}
 
@@ -12,13 +13,17 @@ The variables below are exclusive of `wafHook`.
 
 #### `wafPath` {#waf-path}
 
-Location of the `waf` tool. It defaults to `./waf`, to honor software projects that include it directly inside their source trees.
+Location of the `waf` tool. It defaults to `./waf`, to honor software projects
+that include it directly inside their source trees.
 
-If the file pointed by `wafPath` doesn't exist, then `waf` provided by Nixpkgs will be used.
+If the file pointed by `wafPath` doesn't exist, then `waf` provided by Nixpkgs
+will be used.
 
 #### `wafFlags` {#waf-flags}
 
-Controls the flags passed to waf tool during build and install phases. For settings specific to build or install phases, use `wafBuildFlags` or `wafInstallFlags`, respectively.
+Controls the flags passed to waf tool during build and install phases. For
+settings specific to build or install phases, use `wafBuildFlags` or
+`wafInstallFlags`, respectively.
 
 #### `dontUseWafConfigure` {#dont-use-waf-configure}
 
@@ -37,7 +42,7 @@ When set to true, don't use the predefined `wafInstallPhase`.
 The following variables are similar to their `stdenv.mkDerivation` counterparts.
 
 | `wafHook` Variable    | `stdenv.mkDerivation` Counterpart |
-|-----------------------|-----------------------------------|
+| --------------------- | --------------------------------- |
 | `wafConfigureFlags`   | `configureFlags`                  |
 | `wafConfigureTargets` | `configureTargets`                |
 | `wafBuildFlags`       | `buildFlags`                      |
@@ -47,7 +52,8 @@ The following variables are similar to their `stdenv.mkDerivation` counterparts.
 
 ### Honored variables {#waf-hook-honored-variables}
 
-The following variables commonly used by `stdenv.mkDerivation` are honored by `wafHook`.
+The following variables commonly used by `stdenv.mkDerivation` are honored by
+`wafHook`.
 
 - `prefixKey`
 - `enableParallelBuilding`

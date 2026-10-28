@@ -4,7 +4,8 @@ Packages which are not created by the redistributable builder.
 
 ## Conventions
 
-- All new packages should include the following lines as part of their arguments to `stdenv.mkDerivation`:
+- All new packages should include the following lines as part of their arguments
+  to `stdenv.mkDerivation`:
 
   ```nix
   finalAttrs: {
@@ -16,4 +17,7 @@ Packages which are not created by the redistributable builder.
   }
   ```
 
-  If the package does not require elements of the package set, then the `cudaNamePrefix` must be omitted: changing the name of a derivation yields a different hash and store path, so we would end up with multiple different store paths with the same content.
+  If the package does not require elements of the package set, then the
+  `cudaNamePrefix` must be omitted: changing the name of a derivation yields a
+  different hash and store path, so we would end up with multiple different
+  store paths with the same content.

@@ -1,17 +1,18 @@
 # pihole-FTL {#module-services-networking-pihole-ftl}
 
-*Upstream documentation*: <https://docs.pi-hole.net/ftldns/>
+_Upstream documentation_: <https://docs.pi-hole.net/ftldns/>
 
-pihole-FTL is a fork of [Dnsmasq](index.html#module-services-networking-dnsmasq),
-providing some additional features, including an API for analysis and
-statistics.
+pihole-FTL is a fork of
+[Dnsmasq](index.html#module-services-networking-dnsmasq), providing some
+additional features, including an API for analysis and statistics.
 
-Note that pihole-FTL and Dnsmasq cannot be enabled at
-the same time.
+Note that pihole-FTL and Dnsmasq cannot be enabled at the same time.
 
 ## Configuration {#module-services-networking-pihole-ftl-configuration}
 
-pihole-FTL can be configured with [{option}`services.pihole-ftl.settings`](options.html#opt-services.pihole-ftl.settings), which controls the content of `pihole.toml`.
+pihole-FTL can be configured with
+[{option}`services.pihole-ftl.settings`](options.html#opt-services.pihole-ftl.settings),
+which controls the content of `pihole.toml`.
 
 The template pihole.toml is provided in `pihole-ftl.passthru.settingsTemplate`,
 which describes all settings.
@@ -69,16 +70,20 @@ Example configuration:
 
 ### Inheriting configuration from Dnsmasq {#module-services-networking-pihole-ftl-configuration-inherit-dnsmasq}
 
-If [{option}`services.pihole-ftl.useDnsmasqConfig`](options.html#opt-services.pihole-ftl.useDnsmasqConfig) is enabled, the configuration [options of the Dnsmasq
-module](index.html#module-services-networking-dnsmasq) will be automatically
-used by pihole-FTL. Note that this may cause duplicate option errors
-depending on pihole-FTL settings.
+If
+[{option}`services.pihole-ftl.useDnsmasqConfig`](options.html#opt-services.pihole-ftl.useDnsmasqConfig)
+is enabled, the configuration
+[options of the Dnsmasq module](index.html#module-services-networking-dnsmasq)
+will be automatically used by pihole-FTL. Note that this may cause duplicate
+option errors depending on pihole-FTL settings.
 
-See the [Dnsmasq
-example](index.html#module-services-networking-dnsmasq-configuration-home) for
-an exemplar Dnsmasq configuration. Make sure to set
-[{option}`services.dnsmasq.enable`](options.html#opt-services.dnsmasq.enable) to false and
-[{option}`services.pihole-ftl.enable`](options.html#opt-services.pihole-ftl.enable) to true instead:
+See the
+[Dnsmasq example](index.html#module-services-networking-dnsmasq-configuration-home)
+for an exemplar Dnsmasq configuration. Make sure to set
+[{option}`services.dnsmasq.enable`](options.html#opt-services.dnsmasq.enable) to
+false and
+[{option}`services.pihole-ftl.enable`](options.html#opt-services.pihole-ftl.enable)
+to true instead:
 
 ```nix
 {
@@ -115,7 +120,7 @@ to configure additional interfaces with different configuration, use
 
 ## Administration {#module-services-networking-pihole-ftl-administration}
 
-*pihole command documentation*: <https://docs.pi-hole.net/main/pihole-command>
+_pihole command documentation_: <https://docs.pi-hole.net/main/pihole-command>
 
 Enabling pihole-FTL provides the `pihole` command, which can be used to control
 the daemon and some configuration.
@@ -124,5 +129,5 @@ Note that in NixOS the script has been patched to remove the reinstallation,
 update, and Dnsmasq configuration commands. In NixOS, Pi-hole's configuration is
 immutable and must be done with NixOS options.
 
-For more convenient administration and monitoring, see [Pi-hole
-Dashboard](#module-services-web-apps-pihole-web)
+For more convenient administration and monitoring, see
+[Pi-hole Dashboard](#module-services-web-apps-pihole-web)

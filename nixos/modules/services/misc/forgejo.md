@@ -1,45 +1,42 @@
 # Forgejo {#module-forgejo}
 
-Forgejo is a soft-fork of gitea, with strong community focus, as well
-as on self-hosting and federation. [Codeberg](https://codeberg.org) is
-deployed from it.
+Forgejo is a soft-fork of gitea, with strong community focus, as well as on
+self-hosting and federation. [Codeberg](https://codeberg.org) is deployed from
+it.
 
 See [upstream docs](https://forgejo.org/docs/latest/).
 
-The method of choice for running forgejo is using [`services.forgejo`](#opt-services.forgejo.enable).
+The method of choice for running forgejo is using
+[`services.forgejo`](#opt-services.forgejo.enable).
 
-::: {.warning}
-Running forgejo using `services.gitea.package = pkgs.forgejo` is no longer
-recommended.
-If you experience issues with your instance using `services.gitea`,
-**DO NOT** report them to the `services.gitea` module maintainers.
-**DO** report them to the `services.forgejo` module maintainers instead.
-:::
+::: {.warning} Running forgejo using `services.gitea.package = pkgs.forgejo` is
+no longer recommended. If you experience issues with your instance using
+`services.gitea`, **DO NOT** report them to the `services.gitea` module
+maintainers. **DO** report them to the `services.forgejo` module maintainers
+instead. :::
 
 ## Migration from Gitea {#module-forgejo-migration-gitea}
 
-::: {.note}
-Migrating is, while not strictly necessary at this point, highly recommended.
-Both modules and projects are likely to diverge further with each release.
-Which might lead to an even more involved migration.
-:::
+::: {.note} Migrating is, while not strictly necessary at this point, highly
+recommended. Both modules and projects are likely to diverge further with each
+release. Which might lead to an even more involved migration. :::
 
-::: {.warning}
-The last supported version of Forgejo which supports migration from Gitea is
-*10.0.x*. You should *NOT* try to migrate from Gitea to Forgejo `11.x` or
-higher without first migrating to `10.0.x`.
+::: {.warning} The last supported version of Forgejo which supports migration
+from Gitea is _10.0.x_. You should _NOT_ try to migrate from Gitea to Forgejo
+`11.x` or higher without first migrating to `10.0.x`.
 
-See [upstream migration guide](https://forgejo.org/docs/latest/admin/gitea-migration/)
+See
+[upstream migration guide](https://forgejo.org/docs/latest/admin/gitea-migration/)
 
-The last supported version of *Gitea* for this migration process is *1.22*. Do
-*NOT* try to directly migrate from Gitea *1.23* or higher, as it will likely
+The last supported version of _Gitea_ for this migration process is _1.22_. Do
+_NOT_ try to directly migrate from Gitea _1.23_ or higher, as it will likely
 result in data loss.
 
 See [upstream news article](https://forgejo.org/2024-12-gitea-compatibility/)
 :::
 
 In order to migrate, the version of Forgejo needs to be pinned to `10.0.x`
-*before* using the latest version. This means that nixpkgs commit
+_before_ using the latest version. This means that nixpkgs commit
 [`3bb45b041e7147e2fd2daf689e26a1f970a55d65`](https://github.com/NixOS/nixpkgs/commit/3bb45b041e7147e2fd2daf689e26a1f970a55d65)
 or earlier should be used.
 
@@ -65,10 +62,9 @@ in
 This will migrate the state directory (data), rename and chown the database and
 delete the gitea user.
 
-::: {.note}
-This will also change the git remote ssh-url user from `gitea@` to `forgejo@`,
-when using the host's openssh server (default) instead of the integrated one.
-:::
+::: {.note} This will also change the git remote ssh-url user from `gitea@` to
+`forgejo@`, when using the host's openssh server (default) instead of the
+integrated one. :::
 
 Instructions for PostgreSQL (default). Adapt accordingly for other databases:
 
@@ -91,8 +87,8 @@ Afterwards, the Forgejo version can be set back to a newer desired version.
 
 Alternatively, instead of renaming the database, copying the state folder and
 changing the user, the forgejo module can be set up to re-use the old storage
-locations and database, instead of having to copy or rename them.
-Make sure to disable `services.gitea`, when doing this.
+locations and database, instead of having to copy or rename them. Make sure to
+disable `services.gitea`, when doing this.
 
 ```nix
 {

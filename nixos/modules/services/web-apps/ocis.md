@@ -1,7 +1,8 @@
 # ownCloud Infinite Scale {#module-services-ocis}
 
 [ownCloud Infinite Scale](https://owncloud.dev/ocis/) (oCIS) is an open-source,
-modern file-sync and sharing platform. It is a ground-up rewrite of the well-known PHP based ownCloud server.
+modern file-sync and sharing platform. It is a ground-up rewrite of the
+well-known PHP based ownCloud server.
 
 The server setup can be automated using
 [services.ocis](#opt-services.ocis.enable). The desktop client is packaged at
@@ -16,11 +17,12 @@ oCIS is configured using a combination of yaml and environment variables. It is
 recommended to familiarize yourself with upstream's available configuration
 options and deployment instructions:
 
-* [Getting Started](https://owncloud.dev/ocis/getting-started/)
-* [Configuration](https://owncloud.dev/ocis/config/)
-* [Basic Setup](https://owncloud.dev/ocis/deployment/basic-remote-setup/)
+- [Getting Started](https://owncloud.dev/ocis/getting-started/)
+- [Configuration](https://owncloud.dev/ocis/config/)
+- [Basic Setup](https://owncloud.dev/ocis/deployment/basic-remote-setup/)
 
 A very basic configuration may look like this:
+
 ```
 { pkgs, ... }:
 {
@@ -31,10 +33,11 @@ A very basic configuration may look like this:
 }
 ```
 
-This will start the oCIS server and make it available at `https://localhost:9200`
+This will start the oCIS server and make it available at
+`https://localhost:9200`
 
-However, to make this configuration work, you will need to generate a configuration.
-You can do this with:
+However, to make this configuration work, you will need to generate a
+configuration. You can do this with:
 
 ```console
 $ nix-shell -p ocis_5-bin
@@ -53,61 +56,57 @@ encouraged to use a secrets manager like sops-nix or agenix.
 Be careful not to write files containing secrets to the globally readable nix
 store.
 
-Please note that current NixOS module for oCIS is configured to run in `fullstack`
-mode, which starts all the services for owncloud on single instance. This will
-start multiple ocis services and listen on multiple other ports.
+Please note that current NixOS module for oCIS is configured to run in
+`fullstack` mode, which starts all the services for owncloud on single instance.
+This will start multiple ocis services and listen on multiple other ports.
 
 Current known services and their ports are as below:
 
-| Service            | Group   |  Port |
-|--------------------|---------|-------|
-| gateway            | api     |  9142 |
-| sharing            | api     |  9150 |
-| app-registry       | api     |  9242 |
+| Service            | Group   | Port  |
+| ------------------ | ------- | ----- |
+| gateway            | api     | 9142  |
+| sharing            | api     | 9150  |
+| app-registry       | api     | 9242  |
 | ocdav              | web     | 45023 |
-| auth-machine       | api     |  9166 |
-| storage-system     | api     |  9215 |
-| webdav             | web     |  9115 |
+| auth-machine       | api     | 9166  |
+| storage-system     | api     | 9215  |
+| webdav             | web     | 9115  |
 | webfinger          | web     | 46871 |
-| storage-system     | web     |  9216 |
-| web                | web     |  9100 |
+| storage-system     | web     | 9216  |
+| web                | web     | 9100  |
 | eventhistory       | api     | 33177 |
-| ocs                | web     |  9110 |
-| storage-publiclink | api     |  9178 |
-| settings           | web     |  9190 |
-| ocm                | api     |  9282 |
-| settings           | api     |  9191 |
-| ocm                | web     |  9280 |
-| app-provider       | api     |  9164 |
-| storage-users      | api     |  9157 |
-| auth-service       | api     |  9199 |
-| thumbnails         | web     |  9186 |
-| thumbnails         | api     |  9185 |
-| storage-shares     | api     |  9154 |
+| ocs                | web     | 9110  |
+| storage-publiclink | api     | 9178  |
+| settings           | web     | 9190  |
+| ocm                | api     | 9282  |
+| settings           | api     | 9191  |
+| ocm                | web     | 9280  |
+| app-provider       | api     | 9164  |
+| storage-users      | api     | 9157  |
+| auth-service       | api     | 9199  |
+| thumbnails         | web     | 9186  |
+| thumbnails         | api     | 9185  |
+| storage-shares     | api     | 9154  |
 | sse                | sse     | 46833 |
 | userlog            | userlog | 45363 |
-| search             | api     |  9220 |
-| proxy              | web     |  9200 |
-| idp                | web     |  9130 |
-| frontend           | web     |  9140 |
-| groups             | api     |  9160 |
-| graph              | graph   |  9120 |
-| users              | api     |  9144 |
-| auth-basic         | api     |  9146 |
+| search             | api     | 9220  |
+| proxy              | web     | 9200  |
+| idp                | web     | 9130  |
+| frontend           | web     | 9140  |
+| groups             | api     | 9160  |
+| graph              | graph   | 9120  |
+| users              | api     | 9144  |
+| auth-basic         | api     | 9146  |
 
 ## Configuration via environment variables
 
 You can also eschew the config file entirely and pass everything to oCIS via
 environment variables. For this make use of
-[`services.ocis.environment`][mod-env] for non-sensitive
-values, and
-[`services.ocis.environmentFile`][mod-envFile] for
-sensitive values.
+[`services.ocis.environment`][mod-env] for non-sensitive values, and
+[`services.ocis.environmentFile`][mod-envFile] for sensitive values.
 
 Configuration in [`services.ocis.environment`][mod-env] overrides those from
-[`services.ocis.environmentFile`][mod-envFile] and will have highest
-precedence
-
+[`services.ocis.environmentFile`][mod-envFile] and will have highest precedence
 
 [mod-env]: #opt-services.ocis.environment
 [mod-envFile]: #opt-services.ocis.environmentFile

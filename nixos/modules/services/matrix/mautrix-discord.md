@@ -1,20 +1,25 @@
 # Mautrix-Discord {#module-services-mautrix-discord}
 
-*Source:* {file}`modules/services/matrix/mautrix-discord`
+_Source:_ {file}`modules/services/matrix/mautrix-discord`
 
-*Upstream documentation:* <https://docs.mau.fi/bridges/go/discord/index.html>
+_Upstream documentation:_ <https://docs.mau.fi/bridges/go/discord/index.html>
 
-[Mautrix-Discord](https://github.com/mautrix/discord) is a Matrix-Discord bridge.
+[Mautrix-Discord](https://github.com/mautrix/discord) is a Matrix-Discord
+bridge.
 
 ## Basic Usage {#module-services-mautrix-discord-basic-usage}
 
-The common setup is to enable the bridge, point it at your homeserver, and set the permissions you want to allow:
+The common setup is to enable the bridge, point it at your homeserver, and set
+the permissions you want to allow:
 
 1. Set `services.mautrix-discord.enable` to `true`.
-2. Set `services.mautrix-discord.settings.homeserver.address` and `services.mautrix-discord.settings.homeserver.domain`.
-3. Override `services.mautrix-discord.settings.bridge.permissions` if the default relay permissions do not fit your deployment.
+2. Set `services.mautrix-discord.settings.homeserver.address` and
+   `services.mautrix-discord.settings.homeserver.domain`.
+3. Override `services.mautrix-discord.settings.bridge.permissions` if the
+   default relay permissions do not fit your deployment.
 
-The module provides sensible defaults for the appservice listener, registration tokens, and relay permissions.
+The module provides sensible defaults for the appservice listener, registration
+tokens, and relay permissions.
 
 ### Basic Example {#module-services-mautrix-discord-basic-example}
 
@@ -39,11 +44,13 @@ The module provides sensible defaults for the appservice listener, registration 
 
 ### Server Defaults {#module-services-mautrix-discord-server-defaults}
 
-By default, the bridge listens on `http://localhost:29334` and generates its appservice tokens automatically.
+By default, the bridge listens on `http://localhost:29334` and generates its
+appservice tokens automatically.
 
 ## Authentication {#module-services-mautrix-discord-authentication}
 
-If you want to store the bridge database outside the default SQLite file, set `settings.appservice.database` to use PostgreSQL instead of SQLite:
+If you want to store the bridge database outside the default SQLite file, set
+`settings.appservice.database` to use PostgreSQL instead of SQLite:
 
 ```nix
 {
@@ -54,7 +61,8 @@ If you want to store the bridge database outside the default SQLite file, set `s
 }
 ```
 
-If the connection needs a password, combine it with `services.mautrix-discord.environmentFile`:
+If the connection needs a password, combine it with
+`services.mautrix-discord.environmentFile`:
 
 ```nix
 {
@@ -65,8 +73,9 @@ If the connection needs a password, combine it with `services.mautrix-discord.en
 }
 ```
 
-Use `services.mautrix-discord.environmentFile` for any secret you do not want in the Nix store.
-This includes database passwords, shared secrets, and similar values.
+Use `services.mautrix-discord.environmentFile` for any secret you do not want in
+the Nix store. This includes database passwords, shared secrets, and similar
+values.
 
 Example:
 
@@ -83,13 +92,17 @@ Example:
 
 ## Bridge Setup {#module-services-mautrix-discord-setup}
 
-After the service starts, open a chat with `@discordbot:example.com`, send `login`, and follow the instructions to link your Discord account.
+After the service starts, open a chat with `@discordbot:example.com`, send
+`login`, and follow the instructions to link your Discord account.
 
-For more detail, see the [Mautrix-Discord documentation](https://docs.mau.fi/bridges/go/discord/index.html).
+For more detail, see the
+[Mautrix-Discord documentation](https://docs.mau.fi/bridges/go/discord/index.html).
 
 ## Advanced Configuration {#module-services-mautrix-discord-advanced}
 
-The upstream default configuration is available at [example-config.yaml](https://github.com/mautrix/discord/blob/main/example-config.yaml). To print the generated default configuration from the package, run:
+The upstream default configuration is available at
+[example-config.yaml](https://github.com/mautrix/discord/blob/main/example-config.yaml).
+To print the generated default configuration from the package, run:
 
 ```bash
 nix-shell -p mautrix-discord --run "mautrix-discord -e"
@@ -107,7 +120,9 @@ nix-shell -p mautrix-discord --run "mautrix-discord -e"
 }
 ```
 
-Encryption needs additional bridge-side setup. See the [bridge encryption documentation](https://docs.mau.fi/bridges/general/end-to-bridge-encryption.html) for details.
+Encryption needs additional bridge-side setup. See the
+[bridge encryption documentation](https://docs.mau.fi/bridges/general/end-to-bridge-encryption.html)
+for details.
 
 ### Backfill {#module-services-mautrix-discord-backfill}
 
@@ -133,14 +148,17 @@ Encryption needs additional bridge-side setup. See the [bridge encryption docume
   };
 }
 ```
-where  `/run/secrets/mautrix-discord-env` contains
+
+where `/run/secrets/mautrix-discord-env` contains
+
 ```
 SHARED_SECRET=aProtectedSecret
 ```
 
 ## Synapse Integration {#module-services-mautrix-discord-synapse}
 
-When `services.mautrix-discord.registerToSynapse` is `true`, the bridge writes its registration file automatically and Synapse picks it up.
+When `services.mautrix-discord.registerToSynapse` is `true`, the bridge writes
+its registration file automatically and Synapse picks it up.
 
 If Synapse is enabled, this option defaults to `true`.
 
@@ -153,4 +171,5 @@ If Synapse is enabled, this option defaults to `true`.
 
 For more help, see the
 [Mautrix-Discord documentation](https://docs.mau.fi/bridges/go/discord/index.html)
-or the support room at [#discord:maunium.net](https://matrix.to/#/#discord:maunium.net).
+or the support room at
+[#discord:maunium.net](https://matrix.to/#/#discord:maunium.net).

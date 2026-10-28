@@ -2,7 +2,12 @@
 
 ## Configuring Emacs {#sec-emacs-config}
 
-The Emacs package comes with some extra helpers to make it easier to configure. `emacs.pkgs.withPackages` manages packages from ELPA. This means that you will not have to install those packages from within Emacs. For instance, if you wanted to use `company`, `counsel`, `flycheck`, `ivy`, `magit`, `projectile`, and `use-package`, you could use this as a `~/.config/nixpkgs/config.nix` override:
+The Emacs package comes with some extra helpers to make it easier to configure.
+`emacs.pkgs.withPackages` manages packages from ELPA. This means that you will
+not have to install those packages from within Emacs. For instance, if you
+wanted to use `company`, `counsel`, `flycheck`, `ivy`, `magit`, `projectile`,
+and `use-package`, you could use this as a `~/.config/nixpkgs/config.nix`
+override:
 
 ```nix
 {
@@ -24,7 +29,14 @@ The Emacs package comes with some extra helpers to make it easier to configure. 
 }
 ```
 
-You can install it like any other package via `nix-env -iA myEmacs`. However, this will only install those packages. It will not `configure` them for us. To do this, we need to provide a configuration file. Luckily, it is possible to do this from within Nix! By modifying the above example, we can make Emacs load a custom config file. The key is to create a package that provides a `default.el` file in `/share/emacs/site-start/`. Emacs knows to load this file automatically when it starts.  Similarly, for `early-init.el`, you can create a package that provides an `early-default.el` file in `/share/emacs/site-start/`.
+You can install it like any other package via `nix-env -iA myEmacs`. However,
+this will only install those packages. It will not `configure` them for us. To
+do this, we need to provide a configuration file. Luckily, it is possible to do
+this from within Nix! By modifying the above example, we can make Emacs load a
+custom config file. The key is to create a package that provides a `default.el`
+file in `/share/emacs/site-start/`. Emacs knows to load this file automatically
+when it starts. Similarly, for `early-init.el`, you can create a package that
+provides an `early-default.el` file in `/share/emacs/site-start/`.
 
 ```nix
 {
@@ -104,9 +116,19 @@ You can install it like any other package via `nix-env -iA myEmacs`. However, th
 }
 ```
 
-This provides a fairly full Emacs start file. It will load in addition to the user's personal config. You can always disable it by passing `-q` to the Emacs command.
+This provides a fairly full Emacs start file. It will load in addition to the
+user's personal config. You can always disable it by passing `-q` to the Emacs
+command.
 
-Sometimes `emacs.pkgs.withPackages` is not enough, as this package set has some priorities imposed on packages (with the lowest priority assigned to GNU-devel ELPA, and the highest for packages manually defined in `pkgs/applications/editors/emacs/elisp-packages/manual-packages`). But you can't control these priorities when some package is installed as a dependency. You can override it on a per-package-basis, providing all the required dependencies manually, but it's tedious and there is always a possibility that an unwanted dependency will sneak in through some other package. To completely override such a package, you can use `overrideScope`.
+Sometimes `emacs.pkgs.withPackages` is not enough, as this package set has some
+priorities imposed on packages (with the lowest priority assigned to GNU-devel
+ELPA, and the highest for packages manually defined in
+`pkgs/applications/editors/emacs/elisp-packages/manual-packages`). But you can't
+control these priorities when some package is installed as a dependency. You can
+override it on a per-package-basis, providing all the required dependencies
+manually, but it's tedious and there is always a possibility that an unwanted
+dependency will sneak in through some other package. To completely override such
+a package, you can use `overrideScope`.
 
 ```nix
 let
@@ -123,4 +145,5 @@ in
   ]
 )
 ```
+
 }

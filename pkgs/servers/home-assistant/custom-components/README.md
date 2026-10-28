@@ -2,19 +2,17 @@
 
 ## buildHomeAssistantComponent
 
-Custom components should be packaged using the
- `buildHomeAssistantComponent` function that is provided at top-level.
-It builds upon `buildPythonPackage` but uses a custom install and check
-phase.
+Custom components should be packaged using the `buildHomeAssistantComponent`
+function that is provided at top-level. It builds upon `buildPythonPackage` but
+uses a custom install and check phase.
 
-Python runtime dependencies can be directly consumed as unqualified
-function arguments. Pass them into `dependencies` for them to
-be available to Home Assistant.
+Python runtime dependencies can be directly consumed as unqualified function
+arguments. Pass them into `dependencies` for them to be available to Home
+Assistant.
 
 Out-of-tree components need to use Python packages from
 `home-assistant.python3Packages` as to not introduce conflicting package
 versions into the Python environment.
-
 
 **Example Boilerplate:**
 
@@ -44,16 +42,16 @@ buildHomeAssistantComponent (finalAttrs: {
 
 ## Package attribute
 
-The attribute name must reflect the domain as seen in the
-`manifest.json`, which in turn will match the python module name below
-in the `custom_components/` directory.
+The attribute name must reflect the domain as seen in the `manifest.json`, which
+in turn will match the python module name below in the `custom_components/`
+directory.
 
 **Example:**
 
-The project [mweinelt/ha-prometheus-sensor](https://github.com/mweinelt/ha-prometheus-sensor/blob/1.0.0/custom_components/prometheus_sensor/manifest.json#L2)
-would receive the attribute name `"prometheus_sensor"`, because both
-domain in the `manifest.json` as well as the module name are
-`prometheus_sensor`.
+The project
+[mweinelt/ha-prometheus-sensor](https://github.com/mweinelt/ha-prometheus-sensor/blob/1.0.0/custom_components/prometheus_sensor/manifest.json#L2)
+would receive the attribute name `"prometheus_sensor"`, because both domain in
+the `manifest.json` as well as the module name are `prometheus_sensor`.
 
 ## Package name
 
@@ -61,24 +59,24 @@ The `pname` attribute is a composition of both `owner` and `domain`.
 
 Don't set `pname`, set `owner` and `domain` instead.
 
-Exposing the `domain` attribute separately allows checking for
-conflicting components at eval time.
+Exposing the `domain` attribute separately allows checking for conflicting
+components at eval time.
 
 ## Manifest check
 
-The `buildHomeAssistantComponent` builder uses a hook to check whether
-the dependencies specified in the `manifest.json` are present and
-inside the specified version range. It also makes sure derivation
-and manifest agree about the domain name.
+The `buildHomeAssistantComponent` builder uses a hook to check whether the
+dependencies specified in the `manifest.json` are present and inside the
+specified version range. It also makes sure derivation and manifest agree about
+the domain name.
 
 There shouldn't be a need to disable this hook, but you can set
 `dontCheckManifest` to `true` in the derivation to achieve that.
 
 ### Too narrow version constraints
 
-Every once in a while a dependency constraint is more narrow than it
-needs to be. Instead of applying brittle substitutions the version constraint
-can be ignored on a per requirement basis.
+Every once in a while a dependency constraint is more narrow than it needs to
+be. Instead of applying brittle substitutions the version constraint can be
+ignored on a per requirement basis.
 
 ```nix
 {

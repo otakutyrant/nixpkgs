@@ -1,13 +1,15 @@
 # Qt {#sec-language-qt}
 
-Writing Nix expressions for Qt libraries and applications is largely similar to that for other C++ software.
-This section assumes some knowledge of the latter.
+Writing Nix expressions for Qt libraries and applications is largely similar to
+that for other C++ software. This section assumes some knowledge of the latter.
 
-The major caveat with Qt applications is that Qt uses a plugin system to load additional modules at runtime.
-In Nixpkgs, we wrap Qt applications to inject environment variables telling Qt where to discover the required plugins and QML modules.
+The major caveat with Qt applications is that Qt uses a plugin system to load
+additional modules at runtime. In Nixpkgs, we wrap Qt applications to inject
+environment variables telling Qt where to discover the required plugins and QML
+modules.
 
-This effectively makes the runtime dependencies pure and explicit at build-time, at the cost of introducing
-an extra indirection.
+This effectively makes the runtime dependencies pure and explicit at build-time,
+at the cost of introducing an extra indirection.
 
 ## Nix expression for a Qt package (default.nix) {#qt-default-nix}
 
@@ -25,11 +27,15 @@ stdenv.mkDerivation {
 
 The same goes for Qt 5 where libraries and tools are under `libsForQt5`.
 
-Any Qt package should include `wrapQtAppsHook` in `nativeBuildInputs`, or explicitly set `dontWrapQtApps` to bypass generating the wrappers.
+Any Qt package should include `wrapQtAppsHook` in `nativeBuildInputs`, or
+explicitly set `dontWrapQtApps` to bypass generating the wrappers.
 
 ## Packages supporting multiple Qt versions {#qt-versions}
 
-If your package is a library that can be built with multiple Qt versions, you may want to take Qt modules as separate arguments (`qtbase`, `qtdeclarative` etc.), and invoke the package from `pkgs/top-level/qt5-packages.nix` or `pkgs/top-level/qt6-packages.nix` using the respective `callPackage` functions.
+If your package is a library that can be built with multiple Qt versions, you
+may want to take Qt modules as separate arguments (`qtbase`, `qtdeclarative`
+etc.), and invoke the package from `pkgs/top-level/qt5-packages.nix` or
+`pkgs/top-level/qt6-packages.nix` using the respective `callPackage` functions.
 
 Applications should generally be built with upstream's preferred Qt version.
 
@@ -50,10 +56,13 @@ stdenv.mkDerivation {
 
 The entries are passed as arguments to [wrapProgram](#fun-wrapProgram).
 
-If you need more control over the wrapping process, set `dontWrapQtApps` to disable automatic wrapper generation,
-and then create wrappers manually in `fixupPhase`, using `wrapQtApp`, which itself is a small wrapper over [wrapProgram](#fun-wrapProgram):
+If you need more control over the wrapping process, set `dontWrapQtApps` to
+disable automatic wrapper generation, and then create wrappers manually in
+`fixupPhase`, using `wrapQtApp`, which itself is a small wrapper over
+[wrapProgram](#fun-wrapProgram):
 
-The `makeWrapper` arguments required for Qt are also exposed in the environment as `$qtWrapperArgs`.
+The `makeWrapper` arguments required for Qt are also exposed in the environment
+as `$qtWrapperArgs`.
 
 ```nix
 {
@@ -72,8 +81,7 @@ stdenv.mkDerivation {
 }
 ```
 
-::: {.note}
-`wrapQtAppsHook` ignores files that are non-ELF executables.
-This means that scripts won't be automatically wrapped so you'll need to manually wrap them as previously mentioned.
-An example of when you'd always need to do this is with Python applications that use PyQt.
-:::
+::: {.note} `wrapQtAppsHook` ignores files that are non-ELF executables. This
+means that scripts won't be automatically wrapped so you'll need to manually
+wrap them as previously mentioned. An example of when you'd always need to do
+this is with Python applications that use PyQt. :::

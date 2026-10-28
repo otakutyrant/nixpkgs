@@ -4,9 +4,11 @@ c2FmZQ is an application that can securely encrypt, store, and share files,
 including but not limited to pictures and videos.
 
 The service `c2fmzq-server` can be enabled by setting
+
 ```nix
 { services.c2fmzq-server.enable = true; }
 ```
+
 This will spin up an instance of the server which is API-compatible with
 [Stingle Photos](https://stingle.org) and an experimental Progressive Web App
 (PWA) to interact with the storage via the browser.

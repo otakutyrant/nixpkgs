@@ -11,21 +11,34 @@
 
 Cuelang schemas are similar to JSON, here is a quick cheatsheet:
 
-- Default types includes: `null`, `string`, `bool`, `bytes`, `number`, `int`, `float`, lists as `[...T]` where `T` is a type.
-- All structures, defined by: `myStructName: { <fields> }` are **open** -- they accept fields which are not specified.
-- Closed structures can be built by doing `myStructName: close({ <fields> })` -- they are strict in what they accept.
-- `#X` are **definitions**, referenced definitions are **recursively closed**, i.e. all its children structures are **closed**.
-- `&` operator is the [unification operator](https://cuelang.org/docs/references/spec/#unification) (similar to a type-level merging operator), `|` is the [disjunction operator](https://cuelang.org/docs/references/spec/#disjunction) (similar to a type-level union operator).
-- Values **are** types, i.e. `myStruct: { a: 3 }` is a valid type definition that only allows `3` as value.
+- Default types includes: `null`, `string`, `bool`, `bytes`, `number`, `int`,
+  `float`, lists as `[...T]` where `T` is a type.
+- All structures, defined by: `myStructName: { <fields> }` are **open** -- they
+  accept fields which are not specified.
+- Closed structures can be built by doing `myStructName: close({ <fields> })` --
+  they are strict in what they accept.
+- `#X` are **definitions**, referenced definitions are **recursively closed**,
+  i.e. all its children structures are **closed**.
+- `&` operator is the
+  [unification operator](https://cuelang.org/docs/references/spec/#unification)
+  (similar to a type-level merging operator), `|` is the
+  [disjunction operator](https://cuelang.org/docs/references/spec/#disjunction)
+  (similar to a type-level union operator).
+- Values **are** types, i.e. `myStruct: { a: 3 }` is a valid type definition
+  that only allows `3` as value.
 
-- Read <https://cuelang.org/docs/concepts/logic/> to learn more about the semantics.
-- Read <https://cuelang.org/docs/references/spec/> to learn about the language specification.
+- Read <https://cuelang.org/docs/concepts/logic/> to learn more about the
+  semantics.
+- Read <https://cuelang.org/docs/references/spec/> to learn about the language
+  specification.
 
 ## `writeCueValidator` {#cuelang-writeCueValidator}
 
-Nixpkgs provides a `pkgs.writeCueValidator` helper, which will write a validation script based on the provided Cuelang schema.
+Nixpkgs provides a `pkgs.writeCueValidator` helper, which will write a
+validation script based on the provided Cuelang schema.
 
 Here is an example:
+
 ```nix
 pkgs.writeCueValidator (pkgs.writeText "schema.cue" ''
   #Def1: {
@@ -35,11 +48,15 @@ pkgs.writeCueValidator (pkgs.writeText "schema.cue" ''
 ```
 
 - The first parameter is the Cue schema file.
-- The second parameter is an options parameter, currently, only: `document` can be passed.
+- The second parameter is an options parameter, currently, only: `document` can
+  be passed.
 
-`document` : match your input data against this fragment of structure or definition, e.g. you may use the same schema file but different documents based on the data you are validating.
+`document` : match your input data against this fragment of structure or
+definition, e.g. you may use the same schema file but different documents based
+on the data you are validating.
 
 Another example, given the following `validator.nix` :
+
 ```nix
 {
   pkgs ? import <nixpkgs> { },
@@ -61,11 +78,13 @@ in
 }
 ```
 
-The result is a script that will validate the file you pass as the first argument against the schema you provided `writeCueValidator`.
+The result is a script that will validate the file you pass as the first
+argument against the schema you provided `writeCueValidator`.
 
 It can be any format that `cue vet` supports, i.e. YAML or JSON for example.
 
 Here is an example, named `example.json`, given the following JSON:
+
 ```
 { "field1": "abc" }
 ```
@@ -88,4 +107,5 @@ field1: conflicting values 3 and string (mismatched types int and string):
 
 **Known limitations**
 
-* The script will enforce **concrete** values and will not accept lossy transformations (strictness). You can add these options if you need them.
+- The script will enforce **concrete** values and will not accept lossy
+  transformations (strictness). You can add these options if you need them.

@@ -37,10 +37,9 @@ To enable Mattermost using Postgres, use a config like this:
 }
 ```
 
-As of NixOS 25.05, Mattermost uses peer authentication with Postgres or
-MySQL by default. If you previously used password auth on localhost,
-this will automatically be configured if your `stateVersion` is set to at least
-`25.05`.
+As of NixOS 25.05, Mattermost uses peer authentication with Postgres or MySQL by
+default. If you previously used password auth on localhost, this will
+automatically be configured if your `stateVersion` is set to at least `25.05`.
 
 ## Using the Mattermost derivation {#sec-mattermost-derivation}
 
@@ -49,8 +48,8 @@ The nixpkgs `mattermost` derivation runs the entire test suite during the
 instance in the sandbox. If you are building Mattermost, this can take a while,
 especially if it is building on a resource-constrained system.
 
-The following passthrus are designed to assist with enabling or disabling
-the `checkPhase`:
+The following passthrus are designed to assist with enabling or disabling the
+`checkPhase`:
 
 - `mattermost.withTests`
 - `mattermost.withoutTests`
@@ -127,6 +126,6 @@ and runtime dependencies for a sandbox build.
 }
 ```
 
-See `pkgs/by-name/ma/mattermost/build-plugin.nix` for all the options.
-As in the previous example, once the plugin is installed and the config rebuilt,
-you can enable this plugin in the System Console.
+See `pkgs/by-name/ma/mattermost/build-plugin.nix` for all the options. As in the
+previous example, once the plugin is installed and the config rebuilt, you can
+enable this plugin in the System Console.

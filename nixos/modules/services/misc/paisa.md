@@ -1,8 +1,8 @@
 # Paisa {#module-services-paisa}
 
-*Source:* {file}`modules/services/misc/paisa.nix`
+_Source:_ {file}`modules/services/misc/paisa.nix`
 
-*Upstream documentation:* <https://paisa.fyi/>
+_Upstream documentation:_ <https://paisa.fyi/>
 
 [Paisa](https://github.com/ananthakumaran/paisa) is a personal finance manager
 built on top of the ledger plain-text-accounting tool.
@@ -24,9 +24,7 @@ access to the command at runtime.
 { systemd.services.paisa.path = [ pkgs.hledger ]; }
 ```
 
-::: {.note}
-Paisa needs to be configured to use the correct cli tool. This is possible in
-the web interface (make sure to enable [](#opt-services.paisa.mutableSettings)
-if you want to persist these settings between service restarts), or in
-[](#opt-services.paisa.settings).
-:::
+::: {.note} Paisa needs to be configured to use the correct cli tool. This is
+possible in the web interface (make sure to enable
+[](#opt-services.paisa.mutableSettings) if you want to persist these settings
+between service restarts), or in [](#opt-services.paisa.settings). :::

@@ -1,11 +1,11 @@
 # systemd-lock-handler {#module-services-systemd-lock-handler}
 
-The `systemd-lock-handler` module provides a service that bridges
-D-Bus events from `logind` to user-level systemd targets:
+The `systemd-lock-handler` module provides a service that bridges D-Bus events
+from `logind` to user-level systemd targets:
 
-  - `lock.target` started by `loginctl lock-session`,
-  - `unlock.target` started by `loginctl unlock-session` and
-  - `sleep.target` started by `systemctl suspend`.
+- `lock.target` started by `loginctl lock-session`,
+- `unlock.target` started by `loginctl unlock-session` and
+- `sleep.target` started by `systemctl suspend`.
 
 You can create a user service that starts with any of these targets.
 
@@ -44,4 +44,5 @@ For example, to create a service for `swaylock`:
 }
 ```
 
-See [upstream documentation](https://sr.ht/~whynothugo/systemd-lock-handler) for more information.
+See [upstream documentation](https://sr.ht/~whynothugo/systemd-lock-handler) for
+more information.

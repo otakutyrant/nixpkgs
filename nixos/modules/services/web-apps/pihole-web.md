@@ -16,4 +16,6 @@ Example configuration:
 }
 ```
 
-The dashboard can be configured using [{option}`services.pihole-ftl.settings`](options.html#opt-services.pihole-ftl.settings), in particular the `webserver` subsection.
+The dashboard can be configured using
+[{option}`services.pihole-ftl.settings`](options.html#opt-services.pihole-ftl.settings),
+in particular the `webserver` subsection.

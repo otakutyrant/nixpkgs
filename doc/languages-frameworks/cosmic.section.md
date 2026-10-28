@@ -1,8 +1,9 @@
 # COSMIC {#sec-language-cosmic}
 
-COSMIC (Computer Operating System Main Interface Components) is a desktop environment developed by
-System76, primarily for the Pop!_OS Linux distribution. Applications in the COSMIC ecosystem are
-written in Rust and use libcosmic, which builds on the Iced GUI framework.
+COSMIC (Computer Operating System Main Interface Components) is a desktop
+environment developed by System76, primarily for the Pop!_OS Linux distribution.
+Applications in the COSMIC ecosystem are written in Rust and use libcosmic,
+which builds on the Iced GUI framework.
 
 ## Packaging COSMIC applications {#ssec-cosmic-packaging}
 
@@ -33,18 +34,21 @@ rustPlatform.buildRustPackage (finalAttrs: {
 })
 ```
 
-The hook wraps every executable in the output, sets the search paths
-libcosmic reads at runtime, and links the libraries that libcosmic and Iced load with `dlopen`.
+The hook wraps every executable in the output, sets the search paths libcosmic
+reads at runtime, and links the libraries that libcosmic and Iced load with
+`dlopen`.
 
 ### Settings fallback {#ssec-cosmic-settings-fallback}
 
-COSMIC applications use libcosmic's UI components, which may need access to theme settings. The
-`cosmic-settings` package provides default theme settings as a fallback in its `share` directory.
-By default, `libcosmicAppHook` includes this fallback path in `XDG_DATA_DIRS`, ensuring that COSMIC
-applications will have access to theme settings even if they aren't available elsewhere in the
+COSMIC applications use libcosmic's UI components, which may need access to
+theme settings. The `cosmic-settings` package provides default theme settings as
+a fallback in its `share` directory. By default, `libcosmicAppHook` includes
+this fallback path in `XDG_DATA_DIRS`, ensuring that COSMIC applications will
+have access to theme settings even if they aren't available elsewhere in the
 system.
 
-This fallback behavior can be disabled by setting `includeSettings = false` when including the hook:
+This fallback behavior can be disabled by setting `includeSettings = false` when
+including the hook:
 
 ```nix
 {
@@ -65,38 +69,41 @@ rustPlatform.buildRustPackage {
 }
 ```
 
-> [!Note]
-> `cosmic-settings` is a separate application and not a part of the libcosmic settings
-> system itself. It's included by default in `libcosmicAppHook` only to provide these fallback theme
-settings.
+> [!Note] `cosmic-settings` is a separate application and not a part of the
+> libcosmic settings system itself. It's included by default in
+> `libcosmicAppHook` only to provide these fallback theme settings.
 
 ### Icons {#ssec-cosmic-icons}
 
-COSMIC applications can use icons from the COSMIC icon theme. While COSMIC applications can build
-and run without these icons, they would be missing visual elements. The `libcosmicAppHook`
-automatically includes `cosmic-icons` in the wrapped application's `XDG_DATA_DIRS` as a fallback,
-ensuring that the application has access to its required icons even if the system doesn't have the
+COSMIC applications can use icons from the COSMIC icon theme. While COSMIC
+applications can build and run without these icons, they would be missing visual
+elements. The `libcosmicAppHook` automatically includes `cosmic-icons` in the
+wrapped application's `XDG_DATA_DIRS` as a fallback, ensuring that the
+application has access to its required icons even if the system doesn't have the
 COSMIC icon theme installed globally.
 
-Unlike the `cosmic-settings` fallback, the `cosmic-icons` fallback cannot be removed or disabled, as
-it is essential for COSMIC applications to have access to these icons for proper visual rendering.
+Unlike the `cosmic-settings` fallback, the `cosmic-icons` fallback cannot be
+removed or disabled, as it is essential for COSMIC applications to have access
+to these icons for proper visual rendering.
 
 ### Runtime Libraries {#ssec-cosmic-runtime-libraries}
 
-COSMIC applications built on libcosmic and Iced require several runtime libraries that are dlopen'd
-rather than linked directly. The `libcosmicAppHook` ensures that these libraries are correctly
-linked by setting appropriate Rust linker flags. The libraries handled include:
+COSMIC applications built on libcosmic and Iced require several runtime
+libraries that are dlopen'd rather than linked directly. The `libcosmicAppHook`
+ensures that these libraries are correctly linked by setting appropriate Rust
+linker flags. The libraries handled include:
 
 - Graphics libraries (EGL, Vulkan)
 - Input libraries (xkbcommon)
 - Display server protocols (Wayland, X11)
 
-This ensures that the applications will work correctly at runtime, even though they use dynamic
-loading for these dependencies.
+This ensures that the applications will work correctly at runtime, even though
+they use dynamic loading for these dependencies.
 
 ### Adding custom wrapper arguments {#ssec-cosmic-custom-wrapper-args}
 
-You can pass additional arguments to the wrapper using `libcosmicAppWrapperArgs` in the `preFixup` hook:
+You can pass additional arguments to the wrapper using `libcosmicAppWrapperArgs`
+in the `preFixup` hook:
 
 ```nix
 {
@@ -117,12 +124,13 @@ rustPlatform.buildRustPackage {
 
 ### Setting up Vergen environment variables {#ssec-cosmic-common-issues-vergen}
 
-Many COSMIC applications use the Vergen Rust crate for build-time information. The `libcosmicAppHook`
-automatically sets up the `VERGEN_GIT_COMMIT_DATE` environment variable based on `SOURCE_DATE_EPOCH`
-to ensure reproducible builds.
+Many COSMIC applications use the Vergen Rust crate for build-time information.
+The `libcosmicAppHook` automatically sets up the `VERGEN_GIT_COMMIT_DATE`
+environment variable based on `SOURCE_DATE_EPOCH` to ensure reproducible builds.
 
-However, some applications may explicitly require additional Vergen environment variables.
-Without these properly set, you may encounter build failures with errors like:
+However, some applications may explicitly require additional Vergen environment
+variables. Without these properly set, you may encounter build failures with
+errors like:
 
 ```
 >   cargo:rerun-if-env-changed=VERGEN_GIT_COMMIT_DATE
@@ -133,9 +141,9 @@ Without these properly set, you may encounter build failures with errors like:
 > warning: build failed, waiting for other jobs to finish...
 ```
 
-While `libcosmicAppHook` handles `VERGEN_GIT_COMMIT_DATE`, you may need to explicitly set other
-variables. For applications that require these variables, you should set them directly in the
-package definition:
+While `libcosmicAppHook` handles `VERGEN_GIT_COMMIT_DATE`, you may need to
+explicitly set other variables. For applications that require these variables,
+you should set them directly in the package definition:
 
 ```nix
 {
@@ -153,5 +161,5 @@ rustPlatform.buildRustPackage {
 }
 ```
 
-Not all COSMIC applications require these variables, but for those that do, setting them explicitly
-will prevent build failures.
+Not all COSMIC applications require these variables, but for those that do,
+setting them explicitly will prevent build failures.

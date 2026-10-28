@@ -5,6 +5,6 @@ graphical installation CD.
 
 It sets [](#opt-services.xserver.enable),
 [](#opt-services.displayManager.sddm.enable),
-[](#opt-services.desktopManager.plasma6.enable),
-and [](#opt-services.libinput.enable) to true. It also
-includes glxinfo and firefox in the system packages list.
+[](#opt-services.desktopManager.plasma6.enable), and
+[](#opt-services.libinput.enable) to true. It also includes glxinfo and firefox
+in the system packages list.

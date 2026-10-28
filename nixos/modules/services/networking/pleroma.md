@@ -4,7 +4,9 @@
 
 ## Generating the Pleroma config {#module-services-pleroma-generate-config}
 
-The `pleroma_ctl` CLI utility will prompt you some questions and it will generate an initial config file. This is an example of usage
+The `pleroma_ctl` CLI utility will prompt you some questions and it will
+generate an initial config file. This is an example of usage
+
 ```ShellSession
 $ mkdir tmp-pleroma
 $ cd tmp-pleroma
@@ -12,11 +14,15 @@ $ nix-shell -p pleroma-otp
 $ pleroma_ctl instance gen --output config.exs --output-psql setup.psql
 ```
 
-The `config.exs` file can be further customized following the instructions on the [upstream documentation](https://docs-develop.pleroma.social/backend/configuration/cheatsheet/). Many refinements can be applied also after the service is running.
+The `config.exs` file can be further customized following the instructions on
+the
+[upstream documentation](https://docs-develop.pleroma.social/backend/configuration/cheatsheet/).
+Many refinements can be applied also after the service is running.
 
 ## Initializing the database {#module-services-pleroma-initialize-db}
 
 First, the Postgresql service must be enabled in the NixOS configuration
+
 ```nix
 {
   services.postgresql = {
@@ -25,21 +31,32 @@ First, the Postgresql service must be enabled in the NixOS configuration
   };
 }
 ```
+
 and activated with the usual
+
 ```ShellSession
 $ nixos-rebuild switch
 ```
 
-Then you can create and seed the database, using the `setup.psql` file that you generated in the previous section, by running
+Then you can create and seed the database, using the `setup.psql` file that you
+generated in the previous section, by running
+
 ```ShellSession
 $ sudo -u postgres psql -f setup.psql
 ```
 
 ## Enabling the Pleroma service locally {#module-services-pleroma-enable}
 
-In this section we will enable the Pleroma service only locally, so its configurations can be improved incrementally.
+In this section we will enable the Pleroma service only locally, so its
+configurations can be improved incrementally.
 
-This is an example of configuration, where [](#opt-services.pleroma.configs) option contains the content of the file `config.exs`, generated [in the first section](#module-services-pleroma-generate-config), but with the secrets (database password, endpoint secret key, salts, etc.) removed. Removing secrets is important, because otherwise they will be stored publicly in the Nix store.
+This is an example of configuration, where [](#opt-services.pleroma.configs)
+option contains the content of the file `config.exs`, generated
+[in the first section](#module-services-pleroma-generate-config), but with the
+secrets (database password, endpoint secret key, salts, etc.) removed. Removing
+secrets is important, because otherwise they will be stored publicly in the Nix
+store.
+
 ```nix
 {
   services.pleroma = {
@@ -81,7 +98,12 @@ This is an example of configuration, where [](#opt-services.pleroma.configs) opt
 }
 ```
 
-Secrets must be moved into a file pointed by [](#opt-services.pleroma.secretConfigFile), in our case `/var/lib/pleroma/secrets.exs`. This file can be created copying the previously generated `config.exs` file and then removing all the settings, except the secrets. This is an example
+Secrets must be moved into a file pointed by
+[](#opt-services.pleroma.secretConfigFile), in our case
+`/var/lib/pleroma/secrets.exs`. This file can be created copying the previously
+generated `config.exs` file and then removing all the settings, except the
+secrets. This is an example
+
 ```
 # Pleroma instance passwords
 
@@ -101,30 +123,43 @@ config :web_push_encryption, :vapid_details,
 
 # ... TO CONTINUE ...
 ```
-Note that the lines of the same configuration group are comma separated (i.e. all the lines end with a comma, except the last one), so when the lines with passwords are added or removed, commas must be adjusted accordingly.
+
+Note that the lines of the same configuration group are comma separated (i.e.
+all the lines end with a comma, except the last one), so when the lines with
+passwords are added or removed, commas must be adjusted accordingly.
 
 The service can be enabled with the usual
+
 ```ShellSession
 $ nixos-rebuild switch
 ```
 
-The service is accessible only from the local `127.0.0.1:4000` port. It can be tested using a port forwarding like this
+The service is accessible only from the local `127.0.0.1:4000` port. It can be
+tested using a port forwarding like this
+
 ```ShellSession
 $ ssh -L 4000:localhost:4000 myuser@example.net
 ```
+
 and then accessing <http://localhost:4000> from a web browser.
 
 ## Creating the admin user {#module-services-pleroma-admin-user}
 
-After Pleroma service is running, all [Pleroma administration utilities](https://docs-develop.pleroma.social/) can be used. In particular an admin user can be created with
+After Pleroma service is running, all
+[Pleroma administration utilities](https://docs-develop.pleroma.social/) can be
+used. In particular an admin user can be created with
+
 ```ShellSession
 $ pleroma_ctl user new <nickname> <email>  --admin --moderator --password <password>
 ```
 
 ## Configuring Nginx {#module-services-pleroma-nginx}
 
-In this configuration, Pleroma is listening only on the local port 4000. Nginx can be configured as a Reverse Proxy, for forwarding requests from public ports to the Pleroma service. This is an example of configuration, using
+In this configuration, Pleroma is listening only on the local port 4000. Nginx
+can be configured as a Reverse Proxy, for forwarding requests from public ports
+to the Pleroma service. This is an example of configuration, using
 [Let's Encrypt](https://letsencrypt.org/) for the TLS certificates
+
 ```nix
 {
   security.acme = {

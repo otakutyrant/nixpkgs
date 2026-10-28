@@ -1,7 +1,7 @@
 # Testing the Installer {#ch-testing-installer}
 
-Building, burning, and booting from an installation CD is rather
-tedious, so here is a quick way to see if the installer works properly:
+Building, burning, and booting from an installation CD is rather tedious, so
+here is a quick way to see if the installer works properly:
 
 ```ShellSession
 # mount -t tmpfs none /mnt

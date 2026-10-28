@@ -3,13 +3,13 @@
 ## How to install Cataclysm DDA {#how-to-install-cataclysm-dda}
 
 To install the latest stable release of Cataclysm DDA to your profile, execute
-`nix-env -f "<nixpkgs>" -iA cataclysm-dda`. For the curses build (build
-without tiles), install `cataclysmDDA.stable.curses`. Note: `cataclysm-dda` is
-an alias to `cataclysmDDA.stable.tiles`.
+`nix-env -f "<nixpkgs>" -iA cataclysm-dda`. For the curses build (build without
+tiles), install `cataclysmDDA.stable.curses`. Note: `cataclysm-dda` is an alias
+to `cataclysmDDA.stable.tiles`.
 
 If you like access to a development build of your favorite git revision,
-override `cataclysm-dda-git` (or `cataclysmDDA.git.curses` if you like the curses
-build):
+override `cataclysm-dda-git` (or `cataclysmDDA.git.curses` if you like the
+curses build):
 
 ```nix
 cataclysm-dda-git.override {
@@ -79,8 +79,8 @@ cataclysm-dda.withMods (mods: with mods; [ tileset.UndeadPeople ])
 All mods, soundpacks, and tilesets available in nixpkgs are found in
 `cataclysmDDA.pkgs`.
 
-Here is an example to modify existing mods and/or add more mods not available
-in nixpkgs:
+Here is an example to modify existing mods and/or add more mods not available in
+nixpkgs:
 
 ```nix
 let

@@ -1,13 +1,15 @@
 # Litestream {#module-services-litestream}
 
-[Litestream](https://litestream.io/) is a standalone streaming
-replication tool for SQLite.
+[Litestream](https://litestream.io/) is a standalone streaming replication tool
+for SQLite.
 
 ## Configuration {#module-services-litestream-configuration}
 
-Litestream service is managed by a dedicated user named `litestream`
-which needs permission to the database file. Here's an example config which gives
-required permissions to access [grafana database](#opt-services.grafana.settings.database.path):
+Litestream service is managed by a dedicated user named `litestream` which needs
+permission to the database file. Here's an example config which gives required
+permissions to access
+[grafana database](#opt-services.grafana.settings.database.path):
+
 ```nix
 { pkgs, ... }:
 {

@@ -1,21 +1,27 @@
 # Intel GPU Support in k3s
 
 This article makes the following assumptions:
+
 1. `services.k3s.enable` is already set to true
 2. The Linux kernel running is modern enough to support your GPU out of the box
 3. The desired driver is `i915` -- modify as needed for other drivers
 
-> Note: at the time of writing, the author was using an Intel Arc A770 in k3s. The majority of this guide should work on other Kubernetes distributions, and will likely work identically for integrated graphics capabilities.
+> Note: at the time of writing, the author was using an Intel Arc A770 in k3s.
+> The majority of this guide should work on other Kubernetes distributions, and
+> will likely work identically for integrated graphics capabilities.
 
 ### Enable the Intel driver in NixOS
 
-Add the following NixOS configuration to enable the Intel driver (necessary on headless deployments):
+Add the following NixOS configuration to enable the Intel driver (necessary on
+headless deployments):
 
 ```
 services.xserver.videoDrivers = [ "i915" ];
 ```
 
-After rebuilding the configuration, reboot the host for the driver to be assigned to the GPU. Use the following command to ensure the GPU is using the i915 kernel:
+After rebuilding the configuration, reboot the host for the driver to be
+assigned to the GPU. Use the following command to ensure the GPU is using the
+i915 kernel:
 
 ```
 sudo lspci -k
@@ -33,11 +39,15 @@ For example, the output looks like this on a host with the Intel Arc A770:
 
 ## Install Intel Node Feature Discovery (NFD) in k3s
 
-Intel's device plugin for kubernetes provides Node Feature Discovery (NFD). NFD allows for GPU capabilities on a node to be automatically discovered if a discrete GPU is installed and the Intel drivers have been properly assigned.
+Intel's device plugin for kubernetes provides Node Feature Discovery (NFD). NFD
+allows for GPU capabilities on a node to be automatically discovered if a
+discrete GPU is installed and the Intel drivers have been properly assigned.
 
-> Documentation for Intel NFD installation is here for reference: [Install with NFD](https://intel.github.io/intel-device-plugins-for-kubernetes/cmd/gpu_plugin/README.html#install-with-nfd)
+> Documentation for Intel NFD installation is here for reference:
+> [Install with NFD](https://intel.github.io/intel-device-plugins-for-kubernetes/cmd/gpu_plugin/README.html#install-with-nfd)
 
-The following commands will install NFD in the cluster (assumes `curl`, `jq` and `kubectl` are all installed/configured):
+The following commands will install NFD in the cluster (assumes `curl`, `jq` and
+`kubectl` are all installed/configured):
 
 ```
 # Use the latest release
@@ -49,7 +59,8 @@ kubectl apply -k "https://github.com/intel/intel-device-plugins-for-kubernetes/d
 kubectl apply -k "https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/gpu_plugin/overlays/nfd_labeled_nodes?ref=$LATEST_RELEASE"
 ```
 
-NFD should automatically apply relevant labels to your node. This can be verified with the following command:
+NFD should automatically apply relevant labels to your node. This can be
+verified with the following command:
 
 ```
 kubectl get nodes -o yaml | grep gpu.intel.com | sort -u
@@ -67,7 +78,8 @@ Output should look similar to the following:
       nfd.node.kubernetes.io/feature-labels: gpu.intel.com/device-id.0300-56a0.count,gpu.intel.com/device-id.0300-56a0.present,gpu.intel.com/family,intel.feature.node.kubernetes.io/gpu
 ```
 
-> Note: `gpu.intel.com/i915: "1"` indicates only one pod can use the GPU -- see below for a fix.
+> Note: `gpu.intel.com/i915: "1"` indicates only one pod can use the GPU -- see
+> below for a fix.
 
 Now, GPU-enabled pods can be run with this configuration:
 
@@ -83,7 +95,8 @@ spec:
 
 ### Allowing more than one pod to use the GPU
 
-In the default configuration, only one pod can use the GPU. To enable multiple pods to use the GPU, apply the following Kustomize patch:
+In the default configuration, only one pod can use the GPU. To enable multiple
+pods to use the GPU, apply the following Kustomize patch:
 
 ```
 patches:
@@ -97,7 +110,8 @@ patches:
         - -shared-dev-num=10
 ```
 
-Or, manually edit the `intel-gpu-plugin` DaemonSet to run with `-shared-dev-num=10` (or however many max pods can access the GPU), like so:
+Or, manually edit the `intel-gpu-plugin` DaemonSet to run with
+`-shared-dev-num=10` (or however many max pods can access the GPU), like so:
 
 ```
 apiVersion: apps/v1
@@ -148,7 +162,8 @@ spec:
         gpu.intel.com/i915: "1"
 ```
 
-Once the pod is running, use the following command to test that the GPU is available:
+Once the pod is running, use the following command to test that the GPU is
+available:
 
 ```
 kubectl exec -n default -it pod/intel-gpu-test -- ls /dev/dri

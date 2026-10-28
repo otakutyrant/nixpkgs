@@ -1,18 +1,26 @@
 # Languages and frameworks {#chap-language-support}
 
-The [standard build environment](#chap-stdenv) makes it easy to build typical Autotools-based packages with very little code. Any other kind of package can be accommodated by overriding the appropriate phases of `stdenv`. However, there are specialised functions in Nixpkgs to easily build packages for other programming languages, such as Perl or Haskell. These are described in this chapter.
+The [standard build environment](#chap-stdenv) makes it easy to build typical
+Autotools-based packages with very little code. Any other kind of package can be
+accommodated by overriding the appropriate phases of `stdenv`. However, there
+are specialised functions in Nixpkgs to easily build packages for other
+programming languages, such as Perl or Haskell. These are described in this
+chapter.
 
-::: {.tip}
-New to packaging? Start with [](#chap-first-package), then return here for the ecosystem you need.
-:::
+::: {.tip} New to packaging? Start with [](#chap-first-package), then return
+here for the ecosystem you need. :::
 
-Each supported language or software ecosystem has its own package set named `<language or ecosystem>Packages`, which can be explored in various ways:
+Each supported language or software ecosystem has its own package set named
+`<language or ecosystem>Packages`, which can be explored in various ways:
 
 - Search on [search.nixos.org](https://search.nixos.org/packages)
 
-  For example, search for [`haskellPackages`](https://search.nixos.org/packages?query=haskellPackages) or [`rubyPackages`](https://search.nixos.org/packages?query=rubyPackages).
+  For example, search for
+  [`haskellPackages`](https://search.nixos.org/packages?query=haskellPackages)
+  or [`rubyPackages`](https://search.nixos.org/packages?query=rubyPackages).
 
-- Navigate attribute sets with [`nix repl`](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-repl).
+- Navigate attribute sets with
+  [`nix repl`](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-repl).
 
   This technique is generally useful to inspect Nix language data structures.
 
@@ -28,17 +36,26 @@ Each supported language or software ecosystem has its own package set named `<la
   javaPackages.mavenfod               javaPackages.openjfx19              javaPackages.override
   javaPackages.openjfx11              javaPackages.openjfx20              javaPackages.overrideDerivation
   ```
+
   :::
 
-- List all derivations on the command line with [`nix-env --query`](https://nixos.org/manual/nix/stable/command-ref/nix-env/query).
+- List all derivations on the command line with
+  [`nix-env --query`](https://nixos.org/manual/nix/stable/command-ref/nix-env/query).
 
-  `nix-env` is the only convenient way to do that, as it will skip attributes that fail [assertions](https://nixos.org/manual/nix/stable/language/constructs#assertions), such as when a package is [marked as broken](#var-meta-broken), rather than failing the entire evaluation.
+  `nix-env` is the only convenient way to do that, as it will skip attributes
+  that fail
+  [assertions](https://nixos.org/manual/nix/stable/language/constructs#assertions),
+  such as when a package is [marked as broken](#var-meta-broken), rather than
+  failing the entire evaluation.
 
   :::{.example #example-list-haskellPackages}
 
   # List all Python packages in Nixpkgs
 
-  The following command lists all [derivations names](https://nixos.org/manual/nix/stable/language/derivations#attr-name) with their attribute path from the latest Nixpkgs rolling release (`nixpkgs-unstable`).
+  The following command lists all
+  [derivations names](https://nixos.org/manual/nix/stable/language/derivations#attr-name)
+  with their attribute path from the latest Nixpkgs rolling release
+  (`nixpkgs-unstable`).
 
   ```shell-session
   $ nix-env -qaP -f '<nixpkgs>' -A pythonPackages -I nixpkgs=channel:nixpkgs-unstable
@@ -52,4 +69,5 @@ Each supported language or software ecosystem has its own package set named `<la
   pythonPackages.cbeams                                                 cbeams-1.0.3
   …
   ```
+
   :::

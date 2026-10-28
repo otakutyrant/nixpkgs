@@ -2,24 +2,36 @@
 
 ## Introduction {#beam-introduction}
 
-In this document and related Nix expressions, we use the term, _BEAM_, to describe the environment. BEAM is the name of the Erlang Virtual Machine and, as far as we're concerned, from a packaging perspective, all languages that run on the BEAM are interchangeable. That which varies, like the build system, is transparent to users of any given BEAM package, so we make no distinction.
+In this document and related Nix expressions, we use the term, _BEAM_, to
+describe the environment. BEAM is the name of the Erlang Virtual Machine and, as
+far as we're concerned, from a packaging perspective, all languages that run on
+the BEAM are interchangeable. That which varies, like the build system, is
+transparent to users of any given BEAM package, so we make no distinction.
 
 ## Available versions and deprecations schedule {#available-versions-and-deprecations-schedule}
 
 ### Erlang OTP {#erlang}
 
-Nixpkgs follows upstream Erlang in their [support lifecycle](https://erlang.org/download/otp_versions_tree.html) and keeps up to the last 3 released versions of Erlang available. Due to upstream and NixOS release timings, this may mean removal of the oldest release prior to upstream fully dropping support.
+Nixpkgs follows upstream Erlang in their
+[support lifecycle](https://erlang.org/download/otp_versions_tree.html) and
+keeps up to the last 3 released versions of Erlang available. Due to upstream
+and NixOS release timings, this may mean removal of the oldest release prior to
+upstream fully dropping support.
 
 ### Elixir {#elixir}
 
-Nixpkgs follows the [official elixir deprecation schedule](https://hexdocs.pm/elixir/compatibility-and-deprecations.html) and keeps up to the last 5 released versions of Elixir available.
+Nixpkgs follows the
+[official elixir deprecation schedule](https://hexdocs.pm/elixir/compatibility-and-deprecations.html)
+and keeps up to the last 5 released versions of Elixir available.
 
 ## Structure {#beam-structure}
 
-All BEAM-related expressions are available via top-level package sets. It is recommended to work with a single package set to ensure consistent versions.
+All BEAM-related expressions are available via top-level package sets. It is
+recommended to work with a single package set to ensure consistent versions.
 
 - `beamPackages` - default OTP version
-- `beamMinimalPackages` - default OTP version, without wxwidgets, which saves ~1GB in closure size
+- `beamMinimalPackages` - default OTP version, without wxwidgets, which saves
+  ~1GB in closure size
 
 There are also OTP version specific package sets, e.g. for OTP 28:
 
@@ -34,9 +46,13 @@ Inside each package set are:
 - builders: mixRelease, buildRebar3, etc
 - hooks: for composing builders and packages
 
-The package set is the only place Erlang and Elixir versions are chosen. Builders such as `mixRelease`, `fetchMixDeps` and `buildMix` take them from the set they are called from, and do not accept `erlang`, `elixir` or `hex` arguments.
+The package set is the only place Erlang and Elixir versions are chosen.
+Builders such as `mixRelease`, `fetchMixDeps` and `buildMix` take them from the
+set they are called from, and do not accept `erlang`, `elixir` or `hex`
+arguments.
 
-To use a non-default Elixir, derive a new set with `overrideScope`. This keeps the rest of the set consistent, so every builder picks up the overridden Elixir:
+To use a non-default Elixir, derive a new set with `overrideScope`. This keeps
+the rest of the set consistent, so every builder picks up the overridden Elixir:
 
 ```nix
 let
@@ -47,41 +63,62 @@ beamPackages.mixRelease {
 }
 ```
 
-`erlang` can be replaced the same way, which is useful for a patched OTP. Every member of the set is built from the set's own `erlang`, so overriding it rebuilds Elixir, Rebar3 and the rest against it.
+`erlang` can be replaced the same way, which is useful for a patched OTP. Every
+member of the set is built from the set's own `erlang`, so overriding it
+rebuilds Elixir, Rebar3 and the rest against it.
 
 ## Build Tools {#beam-build-tools}
 
 ### Rebar3 {#beam-build-tools-rebar3}
 
-We provide a version of Rebar3, under `beamPackages.rebar3`. We also provide a helper to fetch Rebar3 dependencies from a lockfile under `beamPackages.fetchRebar3Deps`.
+We provide a version of Rebar3, under `beamPackages.rebar3`. We also provide a
+helper to fetch Rebar3 dependencies from a lockfile under
+`beamPackages.fetchRebar3Deps`.
 
-We also provide a version on Rebar3 with plugins included, under `beamPackages.rebar3WithPlugins`. This package is a function which takes two arguments: `plugins`, a list of nix derivations to include as plugins (loaded only when specified in `rebar.config`), and `globalPlugins`, which should always be loaded by rebar3. Example: `beamPackages.rebar3WithPlugins { globalPlugins = [beamPackages.pc]; }`.
+We also provide a version on Rebar3 with plugins included, under
+`beamPackages.rebar3WithPlugins`. This package is a function which takes two
+arguments: `plugins`, a list of nix derivations to include as plugins (loaded
+only when specified in `rebar.config`), and `globalPlugins`, which should always
+be loaded by rebar3. Example:
+`beamPackages.rebar3WithPlugins { globalPlugins = [beamPackages.pc]; }`.
 
-When adding a new plugin it is important that the `name` attribute is the same as the atom used by rebar3 to refer to the plugin.
+When adding a new plugin it is important that the `name` attribute is the same
+as the atom used by rebar3 to refer to the plugin.
 
 ### Erlang.mk {#beam-build-tools-erlangmk}
 
-Erlang.mk works exactly as expected. There is a bootstrap process that needs to be run, which is supported by the `buildErlangMk` derivation.
+Erlang.mk works exactly as expected. There is a bootstrap process that needs to
+be run, which is supported by the `buildErlangMk` derivation.
 
 ### Mix {#beam-build-tools-mix}
 
-For Elixir applications that use [mix release](https://hexdocs.pm/mix/Mix.Release.html), use the `mixRelease` builder to make a release. See examples for more details.
+For Elixir applications that use
+[mix release](https://hexdocs.pm/mix/Mix.Release.html), use the `mixRelease`
+builder to make a release. See examples for more details.
 
-There is also a `buildMix` helper, whose behavior is closer to that of `buildErlangMk` and `buildRebar3`. The primary difference is that `mixRelease` makes a release, while `buildMix` only builds the package, which is more useful for libraries and other dependencies.
+There is also a `buildMix` helper, whose behavior is closer to that of
+`buildErlangMk` and `buildRebar3`. The primary difference is that `mixRelease`
+makes a release, while `buildMix` only builds the package, which is more useful
+for libraries and other dependencies.
 
 ## How to Install BEAM Packages {#how-to-install-beam-packages}
 
-To use any of these builders in your environment, refer to them by their attribute path under `beamPackages` (or another BEAM package set), e.g. `beamPackages.rebar3`:
+To use any of these builders in your environment, refer to them by their
+attribute path under `beamPackages` (or another BEAM package set), e.g.
+`beamPackages.rebar3`:
 
 ::: {.example #ex-beam-ephemeral-shell}
+
 # Ephemeral shell
 
 ```ShellSession
 $ nix-shell -p beamPackages.rebar3
 ```
+
 :::
 
 ::: {.example #ex-beam-declarative-shell}
+
 # Declarative shell
 
 ```nix
@@ -93,6 +130,7 @@ let
 in
 pkgs.mkShell { packages = [ pkgs.beamPackages.rebar3 ]; }
 ```
+
 :::
 
 ## Packaging BEAM Applications {#packaging-beam-applications}
@@ -101,51 +139,76 @@ pkgs.mkShell { packages = [ pkgs.beamPackages.rebar3 ]; }
 
 #### Rebar3 Packages {#rebar3-packages}
 
-The builder `beamPackages.buildRebar3` can be used to build a derivation that understands how to build a Rebar3 project.
+The builder `beamPackages.buildRebar3` can be used to build a derivation that
+understands how to build a Rebar3 project.
 
 #### Erlang.mk Packages {#erlang-mk-packages}
 
-Erlang.mk functions similarly to Rebar3, except we use `beamPackages.buildErlangMk` instead of `beamPackages.buildRebar3`.
+Erlang.mk functions similarly to Rebar3, except we use
+`beamPackages.buildErlangMk` instead of `beamPackages.buildRebar3`.
 
-If a package needs to compile native code via Erlang.mk's port compilation mechanism, add `compilePorts = true;` to the derivation.
+If a package needs to compile native code via Erlang.mk's port compilation
+mechanism, add `compilePorts = true;` to the derivation.
 
 ### Elixir Applications {#packaging-elixir-applications}
 
 #### Mix Packages {#mix-packages}
 
-`beamPackages.mixRelease` is used to make a release in the mix sense. Dependencies will need to be fetched with `beamPackages.fetchMixDeps` and passed to it.
+`beamPackages.mixRelease` is used to make a release in the mix sense.
+Dependencies will need to be fetched with `beamPackages.fetchMixDeps` and passed
+to it.
 
 #### mixRelease - Elixir Phoenix example {#mix-release-elixir-phoenix-example}
 
-There are 3 steps: frontend dependencies (javascript), backend dependencies (elixir), and the final derivation that puts both of those together.
+There are 3 steps: frontend dependencies (javascript), backend dependencies
+(elixir), and the final derivation that puts both of those together.
 
 ##### mixRelease - Frontend dependencies (javascript) {#mix-release-javascript-deps}
 
-For phoenix projects, inside of Nixpkgs you can either use `fetchYarnDeps` or `buildNpmPackage`. An example with `buildNpmPackage` can be found [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pl/plausible/package.nix), and an example with `fetchYarnDeps` can be found [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pi/pinchflat/package.nix).
+For phoenix projects, inside of Nixpkgs you can either use `fetchYarnDeps` or
+`buildNpmPackage`. An example with `buildNpmPackage` can be found
+[here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pl/plausible/package.nix),
+and an example with `fetchYarnDeps` can be found
+[here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pi/pinchflat/package.nix).
 
 ##### mixRelease - backend dependencies (mix) {#mix-release-mix-deps}
 
-There are 2 ways to package backend dependencies: either per-dependency mix2nix or with a fixed-output-derivation (FOD).
+There are 2 ways to package backend dependencies: either per-dependency mix2nix
+or with a fixed-output-derivation (FOD).
 
-When writing an elixir project targeting `mixRelease`, you can also consider using [deps_nix](https://github.com/code-supply/deps_nix) with `mixNixDeps`. `deps_nix` supports git dependencies, but is intended to be added to the project's `mix.exs` directly.
+When writing an elixir project targeting `mixRelease`, you can also consider
+using [deps_nix](https://github.com/code-supply/deps_nix) with `mixNixDeps`.
+`deps_nix` supports git dependencies, but is intended to be added to the
+project's `mix.exs` directly.
 
 ##### mix2nix {#mix2nix}
 
-`mix2nix` is a cli tool available in Nixpkgs. It will generate a Nix expression from a `mix.lock` file. It is quite standard in the 2nix tool series.
+`mix2nix` is a cli tool available in Nixpkgs. It will generate a Nix expression
+from a `mix.lock` file. It is quite standard in the 2nix tool series.
 
-Note that currently mix2nix can't handle git dependencies inside the mix.lock file. If you have git dependencies, you can either add them manually (see [example](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pl/pleroma/package.nix)) or use the FOD method.
+Note that currently mix2nix can't handle git dependencies inside the mix.lock
+file. If you have git dependencies, you can either add them manually (see
+[example](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/pl/pleroma/package.nix))
+or use the FOD method.
 
-The advantage of using mix2nix is that nix will know your whole dependency graph. On a dependency update, this won't trigger a full rebuild and download of all the dependencies, where FOD will do so.
+The advantage of using mix2nix is that nix will know your whole dependency
+graph. On a dependency update, this won't trigger a full rebuild and download of
+all the dependencies, where FOD will do so.
 
 Practical steps:
 
 - run `mix2nix > mix_deps.nix` in the upstream repo.
-- pass `mixNixDeps = with pkgs; import ./mix_deps.nix { inherit lib beamPackages; };` as an argument to mixRelease.
+- pass
+  `mixNixDeps = with pkgs; import ./mix_deps.nix { inherit lib beamPackages; };`
+  as an argument to mixRelease.
 
 If there are git dependencies.
 
-- You'll need to fix the version artificially in mix.exs and regenerate the mix.lock with fixed version (on upstream). This will enable you to run `mix2nix > mix_deps.nix`.
-- From the mix_deps.nix file, remove the dependencies that had git versions and pass them as an override to the import function.
+- You'll need to fix the version artificially in mix.exs and regenerate the
+  mix.lock with fixed version (on upstream). This will enable you to run
+  `mix2nix > mix_deps.nix`.
+- From the mix_deps.nix file, remove the dependencies that had git versions and
+  pass them as an override to the import function.
 
 ```nix
 {
@@ -177,11 +240,17 @@ If there are git dependencies.
 }
 ```
 
-You will need to run the build process once to fix the hash to correspond to your new git src.
+You will need to run the build process once to fix the hash to correspond to
+your new git src.
 
 ##### FOD {#fixed-output-derivation}
 
-A fixed output derivation will download mix dependencies from the internet. To ensure reproducibility, a hash will be supplied. Note that mix is relatively reproducible. An FOD generating a different hash on each run hasn't been observed (as opposed to npm where the chances are relatively high). See [akkoma](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ak/akkoma/package.nix) for a usage example of FOD.
+A fixed output derivation will download mix dependencies from the internet. To
+ensure reproducibility, a hash will be supplied. Note that mix is relatively
+reproducible. An FOD generating a different hash on each run hasn't been
+observed (as opposed to npm where the chances are relatively high). See
+[akkoma](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ak/akkoma/package.nix)
+for a usage example of FOD.
 
 Practical steps
 
@@ -197,9 +266,12 @@ Practical steps
 }
 ```
 
-The first build will complain about the hash value, you can replace with the suggested value after that.
+The first build will complain about the hash value, you can replace with the
+suggested value after that.
 
-Note that if after you've replaced the value, nix suggests another hash, then mix is not fetching the dependencies reproducibly. An FOD will not work in that case and you will have to use mix2nix.
+Note that if after you've replaced the value, nix suggests another hash, then
+mix is not fetching the dependencies reproducibly. An FOD will not work in that
+case and you will have to use mix2nix.
 
 ##### mixRelease - example {#mix-release-example}
 
@@ -244,16 +316,24 @@ beamPackages.mixRelease (finalAttrs: {
 
 Setup will require the following steps:
 
-- Move your secrets to runtime environment variables. For more information refer to the [runtime.exs docs](https://hexdocs.pm/mix/Mix.Tasks.Release.html#module-runtime-configuration). On a fresh Phoenix build that would mean that both `DATABASE_URL` and `SECRET_KEY` need to be moved to `runtime.exs`.
-- Generate a Nix expression for your frontend dependencies using `fetchNpmDeps`/`buildNpmPackage` or `fetchYarnDeps`, depending on whether the project uses npm or yarn
+- Move your secrets to runtime environment variables. For more information refer
+  to the
+  [runtime.exs docs](https://hexdocs.pm/mix/Mix.Tasks.Release.html#module-runtime-configuration).
+  On a fresh Phoenix build that would mean that both `DATABASE_URL` and
+  `SECRET_KEY` need to be moved to `runtime.exs`.
+- Generate a Nix expression for your frontend dependencies using
+  `fetchNpmDeps`/`buildNpmPackage` or `fetchYarnDeps`, depending on whether the
+  project uses npm or yarn
 - commit and push those changes
 - you can now `nix-build .`
-- To run the release, set the `RELEASE_TMP` environment variable to a directory that your program has write access to. It will be used to store the BEAM settings.
+- To run the release, set the `RELEASE_TMP` environment variable to a directory
+  that your program has write access to. It will be used to store the BEAM
+  settings.
 
 #### Example of creating a service for an Elixir - Phoenix project {#example-of-creating-a-service-for-an-elixir---phoenix-project}
 
-To create a service with your release, you could add a `service.nix`
-in your project with the following
+To create a service with your release, you could add a `service.nix` in your
+project with the following
 
 ```nix
 {
@@ -327,7 +407,9 @@ in
 
 ### Creating a Shell {#creating-a-shell}
 
-Usually, we need to create a `shell.nix` file and do our development inside the environment specified therein. Just install your version of Erlang and any other interpreters, and then use your normal build tools. As an example, with Elixir:
+Usually, we need to create a `shell.nix` file and do our development inside the
+environment specified therein. Just install your version of Erlang and any other
+interpreters, and then use your normal build tools. As an example, with Elixir:
 
 ```nix
 {
@@ -344,7 +426,10 @@ mkShell { buildInputs = [ beamPackages.elixir ]; }
 
 ### Using an overlay {#beam-using-overlays}
 
-If you need to use an overlay to change some attributes of a derivation, e.g. if you need a bugfix from a version that is not yet available in Nixpkgs, you can override attributes such as `version` (and the corresponding `hash`) and then use this overlay in your development environment:
+If you need to use an overlay to change some attributes of a derivation, e.g. if
+you need a bugfix from a version that is not yet available in Nixpkgs, you can
+override attributes such as `version` (and the corresponding `hash`) and then
+use this overlay in your development environment:
 
 #### `shell.nix` {#beam-using-overlays-shell.nix}
 

@@ -56,8 +56,8 @@ The manpages must have a section suffix, and may optionally be compressed (with
 }
 ```
 
-The manpage may be the result of a piped input (e.g. `<(cmd)`), in which
-case the name must be provided before the pipe with the `--name` flag.
+The manpage may be the result of a piped input (e.g. `<(cmd)`), in which case
+the name must be provided before the pipe with the `--name` flag.
 
 ```nix
 {
@@ -95,9 +95,8 @@ shell flag is given). Each path may also have a custom installation name
 provided by providing a flag `--name NAME` before the path. If this flag is not
 provided, zsh completions will be renamed automatically such that `foobar.zsh`
 becomes `_foobar`. A root name may be provided for all paths using the flag
-`--cmd NAME`; this synthesizes the appropriate name depending on the shell
-(e.g. `--cmd foo` will synthesize the name `foo.bash` for bash and `_foo` for
-zsh).
+`--cmd NAME`; this synthesizes the appropriate name depending on the shell (e.g.
+`--cmd foo` will synthesize the name `foo.bash` for bash and `_foo` for zsh).
 
 ### Example Usage {#installshellfiles-installshellcompletion-exampleusage}
 
@@ -116,15 +115,15 @@ zsh).
 }
 ```
 
-The path may also be the result of process substitution (e.g. `<(cmd)`), in which
-case the shell and name must be provided (see below).
+The path may also be the result of process substitution (e.g. `<(cmd)`), in
+which case the shell and name must be provided (see below).
 
 If the destination shell completion file is not actually present or consists of
 zero bytes after calling `installShellCompletion` this is treated as a build
 failure. In particular, if completion files are not vendored but are generated
-by running an executable, this is likely to fail in cross compilation
-scenarios. The result will be a zero byte completion file and hence a build
-failure. To prevent this, guard the completion generation commands.
+by running an executable, this is likely to fail in cross compilation scenarios.
+The result will be a zero byte completion file and hence a build failure. To
+prevent this, guard the completion generation commands.
 
 ### Example Usage {#installshellfiles-installshellcompletion-exampleusage-guarded}
 

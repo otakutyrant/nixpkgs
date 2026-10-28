@@ -1,26 +1,32 @@
 # pkgs.appimageTools {#sec-pkgs-appimageTools}
 
-`pkgs.appimageTools` is a set of functions for extracting and wrapping [AppImage](https://appimage.org/) files.
-They are meant to be used if traditional packaging from source is infeasible, or if it would take too long.
+`pkgs.appimageTools` is a set of functions for extracting and wrapping
+[AppImage](https://appimage.org/) files. They are meant to be used if
+traditional packaging from source is infeasible, or if it would take too long.
 To quickly run an AppImage file, `pkgs.appimage-run` can be used as well.
 
-::: {.warning}
-The `appimageTools` API is unstable and may be subject to backwards-incompatible changes in the future.
-:::
+::: {.warning} The `appimageTools` API is unstable and may be subject to
+backwards-incompatible changes in the future. :::
 
 ## Wrapping {#ssec-pkgs-appimageTools-wrapping}
 
-Use `wrapType2` to wrap any AppImage.
-This will create a FHS environment with many packages [expected to exist](https://github.com/AppImage/pkg2appimage/blob/master/excludelist) for the AppImage to work.
-`wrapType2` expects an argument with the `src` attribute, and either a `name` attribute or `pname` and `version` attributes.
+Use `wrapType2` to wrap any AppImage. This will create a FHS environment with
+many packages
+[expected to exist](https://github.com/AppImage/pkg2appimage/blob/master/excludelist)
+for the AppImage to work. `wrapType2` expects an argument with the `src`
+attribute, and either a `name` attribute or `pname` and `version` attributes.
 
-It will eventually call into [`buildFHSEnv`](#sec-fhs-environments), and any extra attributes in the argument to `wrapType2` will be passed through to it.
-This means that you can pass the `extraInstallCommands` attribute, for example, and it will have the same effect as described in [`buildFHSEnv`](#sec-fhs-environments).
+It will eventually call into [`buildFHSEnv`](#sec-fhs-environments), and any
+extra attributes in the argument to `wrapType2` will be passed through to it.
+This means that you can pass the `extraInstallCommands` attribute, for example,
+and it will have the same effect as described in
+[`buildFHSEnv`](#sec-fhs-environments).
 
-::: {.note}
-In the past, `appimageTools` provided both `wrapType1` and `wrapType2`, to be used depending on the type of AppImage that was being wrapped.
-However, [those were unified early 2020](https://github.com/NixOS/nixpkgs/pull/81833), meaning that both `wrapType1` and `wrapType2` have the same behaviour now.
-:::
+::: {.note} In the past, `appimageTools` provided both `wrapType1` and
+`wrapType2`, to be used depending on the type of AppImage that was being
+wrapped. However,
+[those were unified early 2020](https://github.com/NixOS/nixpkgs/pull/81833),
+meaning that both `wrapType1` and `wrapType2` have the same behaviour now. :::
 
 :::{.example #ex-wrapping-appimage-from-github}
 
@@ -41,13 +47,16 @@ appimageTools.wrapType2 {
 
 :::
 
-The argument passed to `wrapType2` can also contain an `extraPkgs` attribute, which includes additional packages inside the FHS environment your AppImage is going to run in.
-`extraPkgs` must be a function that returns a list of packages.
+The argument passed to `wrapType2` can also contain an `extraPkgs` attribute,
+which includes additional packages inside the FHS environment your AppImage is
+going to run in. `extraPkgs` must be a function that returns a list of packages.
 There are a few ways to learn which dependencies an application needs:
 
-  - Looking through the extracted AppImage files, reading its scripts and running `patchelf` and `ldd` on its executables.
-    This can also be done in `appimage-run`, by setting `APPIMAGE_DEBUG_EXEC=bash`.
-  - Running `strace -vfefile` on the wrapped executable, looking for libraries that can't be found.
+- Looking through the extracted AppImage files, reading its scripts and running
+  `patchelf` and `ldd` on its executables. This can also be done in
+  `appimage-run`, by setting `APPIMAGE_DEBUG_EXEC=bash`.
+- Running `strace -vfefile` on the wrapped executable, looking for libraries
+  that can't be found.
 
 :::{.example #ex-wrapping-appimage-with-extrapkgs}
 
@@ -72,21 +81,27 @@ appimageTools.wrapType2 {
 
 ## Extracting {#ssec-pkgs-appimageTools-extracting}
 
-Use `extract` if you need to extract the contents of an AppImage.
-This is usually used in Nixpkgs to install extra files in addition to [wrapping](#ssec-pkgs-appimageTools-wrapping) the AppImage.
-`extract` expects an argument with the `src` attribute, and either a `name` attribute or `pname` and `version` attributes.
+Use `extract` if you need to extract the contents of an AppImage. This is
+usually used in Nixpkgs to install extra files in addition to
+[wrapping](#ssec-pkgs-appimageTools-wrapping) the AppImage. `extract` expects an
+argument with the `src` attribute, and either a `name` attribute or `pname` and
+`version` attributes.
 
-::: {.note}
-In the past, `appimageTools` provided both `extractType1` and `extractType2`, to be used depending on the type of AppImage that was being extracted.
-However, [those were unified early 2020](https://github.com/NixOS/nixpkgs/pull/81572), meaning that both `extractType1` and `extractType2` have the same behaviour as `extract` now.
-:::
+::: {.note} In the past, `appimageTools` provided both `extractType1` and
+`extractType2`, to be used depending on the type of AppImage that was being
+extracted. However,
+[those were unified early 2020](https://github.com/NixOS/nixpkgs/pull/81572),
+meaning that both `extractType1` and `extractType2` have the same behaviour as
+`extract` now. :::
 
 :::{.example #ex-extracting-appimage}
 
 # Extracting an AppImage to install extra files
 
-`wrapType2` automatically extracts the AppImage for you and makes it available via the `contents` attribute.
-Note how `finalAttrs.contents` is used in `extraInstallCommands` to install additional files that were extracted from the AppImage.
+`wrapType2` automatically extracts the AppImage for you and makes it available
+via the `contents` attribute. Note how `finalAttrs.contents` is used in
+`extraInstallCommands` to install additional files that were extracted from the
+AppImage.
 
 ```nix
 { appimageTools, fetchurl }:
@@ -114,21 +129,25 @@ appimageTools.wrapType2 (finalAttrs: {
 
 :::
 
-`appimageTools` also exposes the `extract` function should you need to do it manually, requiring `pname`, `version`, and `src` arguments (`src` being the AppImage file to extract).
+`appimageTools` also exposes the `extract` function should you need to do it
+manually, requiring `pname`, `version`, and `src` arguments (`src` being the
+AppImage file to extract).
 
-The arguments passed to `extract` can also contain a `postExtract` attribute, which executes additional commands after the files are extracted from the AppImage.
-`postExtract` must be a string with commands to run.
+The arguments passed to `extract` can also contain a `postExtract` attribute,
+which executes additional commands after the files are extracted from the
+AppImage. `postExtract` must be a string with commands to run.
 
-:::{.warning}
-When specifying `postExtract`, you should use `appimageTools.wrapAppImage` instead of `appimageTools.wrapType2`.
-Otherwise `wrapType2` will extract the AppImage contents without respecting the `postExtract` instructions.
-:::
+:::{.warning} When specifying `postExtract`, you should use
+`appimageTools.wrapAppImage` instead of `appimageTools.wrapType2`. Otherwise
+`wrapType2` will extract the AppImage contents without respecting the
+`postExtract` instructions. :::
 
 :::{.example #ex-extracting-appimage-with-postextract}
 
 # Extracting an AppImage to install extra files, using `postExtract`
 
-This is a rewrite of [](#ex-extracting-appimage) to use `postExtract` and `wrapAppImage`.
+This is a rewrite of [](#ex-extracting-appimage) to use `postExtract` and
+`wrapAppImage`.
 
 ```nix
 { appimageTools, fetchurl }:

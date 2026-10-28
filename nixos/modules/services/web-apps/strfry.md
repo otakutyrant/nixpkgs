@@ -1,6 +1,7 @@
 # strfry {#module-services-strfry}
 
-strfry is a relay for the [nostr protocol](https://github.com/nostr-protocol/nostr).
+strfry is a relay for the
+[nostr protocol](https://github.com/nostr-protocol/nostr).
 
 ## Basic usage {#module-services-strfry-basic-usage}
 
@@ -13,6 +14,7 @@ By default, the module will execute strfry:
   services.strfry.enable = true;
 }
 ```
+
 It runs in the systemd service named `strfry`.
 
 ## Reverse Proxy {#module-services-strfry-reverse-proxy}

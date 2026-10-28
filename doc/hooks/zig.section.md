@@ -1,6 +1,7 @@
 # Zig {#zig}
 
-[Zig](https://ziglang.org/) is a general-purpose programming language and toolchain for maintaining robust, optimal and reusable software.
+[Zig](https://ziglang.org/) is a general-purpose programming language and
+toolchain for maintaining robust, optimal and reusable software.
 
 In Nixpkgs, `zig` overrides the default build, check and install phases.
 
@@ -56,15 +57,16 @@ Disables using a set of default flags when performing zig builds.
 
 The following variables are similar to their `stdenv.mkDerivation` counterparts.
 
-| `zig` Variable | `stdenv.mkDerivation` Counterpart |
-|---------------------|-----------------------------------|
-| `zigBuildFlags`     | `buildFlags`                      |
-| `zigCheckFlags`     | `checkFlags`                      |
-| `zigInstallFlags`   | `installFlags`                    |
+| `zig` Variable    | `stdenv.mkDerivation` Counterpart |
+| ----------------- | --------------------------------- |
+| `zigBuildFlags`   | `buildFlags`                      |
+| `zigCheckFlags`   | `checkFlags`                      |
+| `zigInstallFlags` | `installFlags`                    |
 
 ### Variables honored by zig {#zig-variables-honored}
 
-The following variables commonly used by `stdenv.mkDerivation` are honored by `zig`.
+The following variables commonly used by `stdenv.mkDerivation` are honored by
+`zig`.
 
 - `prefixKey`
 - `dontAddPrefix`

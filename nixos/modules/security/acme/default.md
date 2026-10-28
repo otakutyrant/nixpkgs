@@ -1,49 +1,45 @@
 # SSL/TLS Certificates with ACME {#module-security-acme}
 
-NixOS supports automatic domain validation & certificate retrieval and
-renewal using the ACME protocol. Any provider can be used, but by default
-NixOS uses Let's Encrypt. The alternative ACME client
-[lego](https://go-acme.github.io/lego/) is used under
-the hood.
+NixOS supports automatic domain validation & certificate retrieval and renewal
+using the ACME protocol. Any provider can be used, but by default NixOS uses
+Let's Encrypt. The alternative ACME client
+[lego](https://go-acme.github.io/lego/) is used under the hood.
 
-Automatic cert validation and configuration for Apache and Nginx virtual
-hosts is included in NixOS, however if you would like to generate a wildcard
-cert or you are not using a web server you will have to configure DNS
-based validation.
+Automatic cert validation and configuration for Apache and Nginx virtual hosts
+is included in NixOS, however if you would like to generate a wildcard cert or
+you are not using a web server you will have to configure DNS based validation.
 
 ## Prerequisites {#module-security-acme-prerequisites}
 
-To use the ACME module, you must accept the provider's terms of service
-by setting [](#opt-security.acme.acceptTerms)
-to `true`. The Let's Encrypt ToS can be found
-[here](https://letsencrypt.org/repository/).
+To use the ACME module, you must accept the provider's terms of service by
+setting [](#opt-security.acme.acceptTerms) to `true`. The Let's Encrypt ToS can
+be found [here](https://letsencrypt.org/repository/).
 
-You must also set an email address to be used when creating accounts with
-Let's Encrypt. You can set this for all certs with
-[](#opt-security.acme.defaults.email)
-and/or on a per-cert basis with
-[](#opt-security.acme.certs._name_.email).
-This address is only used for registration and renewal reminders,
-and cannot be used to administer the certificates in any way.
+You must also set an email address to be used when creating accounts with Let's
+Encrypt. You can set this for all certs with
+[](#opt-security.acme.defaults.email) and/or on a per-cert basis with
+[](#opt-security.acme.certs._name_.email). This address is only used for
+registration and renewal reminders, and cannot be used to administer the
+certificates in any way.
 
 Alternatively, you can use a different ACME server by changing the
-[](#opt-security.acme.defaults.server) option
-to a provider of your choosing, or just change the server for one cert with
+[](#opt-security.acme.defaults.server) option to a provider of your choosing, or
+just change the server for one cert with
 [](#opt-security.acme.certs._name_.server).
 
-You will need an HTTP server or DNS server for verification. For HTTP,
-the server must have a webroot defined that can serve
-{file}`.well-known/acme-challenge`. This directory must be
-writeable by the user that will run the ACME client. For DNS, you must
-set up credentials with your provider/server for use with lego.
+You will need an HTTP server or DNS server for verification. For HTTP, the
+server must have a webroot defined that can serve
+{file}`.well-known/acme-challenge`. This directory must be writeable by the user
+that will run the ACME client. For DNS, you must set up credentials with your
+provider/server for use with lego.
 
 ## Using ACME certificates in Nginx {#module-security-acme-nginx}
 
 NixOS supports fetching ACME certificates for you by setting
 `enableACME = true;` in a virtualHost config. We first create self-signed
-placeholder certificates in place of the real ACME certs. The placeholder
-certs are overwritten when the ACME certs arrive. For
-`foo.example.com` the config would look like this:
+placeholder certificates in place of the real ACME certs. The placeholder certs
+are overwritten when the ACME certs arrive. For `foo.example.com` the config
+would look like this:
 
 ```nix
 {
@@ -79,16 +75,15 @@ certs are overwritten when the ACME certs arrive. For
 
 ## Using ACME certificates in Apache/httpd {#module-security-acme-httpd}
 
-Using ACME certificates with Apache virtual hosts is identical
-to using them with Nginx. The attribute names are all the same, just replace
-"nginx" with "httpd" where appropriate.
+Using ACME certificates with Apache virtual hosts is identical to using them
+with Nginx. The attribute names are all the same, just replace "nginx" with
+"httpd" where appropriate.
 
 ## Manual configuration of HTTP-01 validation {#module-security-acme-configuring}
 
-First off you will need to set up a virtual host to serve the challenges.
-This example uses a vhost called `certs.example.com`, with
-the intent that you will generate certs for all your vhosts and redirect
-everyone to HTTPS.
+First off you will need to set up a virtual host to serve the challenges. This
+example uses a vhost called `certs.example.com`, with the intent that you will
+generate certs for all your vhosts and redirect everyone to HTTPS.
 
 ```nix
 {
@@ -156,22 +151,20 @@ Now you need to configure ACME to generate a certificate.
 }
 ```
 
-The private key {file}`key.pem` and certificate
-{file}`fullchain.pem` will be put into
-{file}`/var/lib/acme/foo.example.com`.
+The private key {file}`key.pem` and certificate {file}`fullchain.pem` will be
+put into {file}`/var/lib/acme/foo.example.com`.
 
-Refer to [](#ch-options) for all available configuration
-options for the [security.acme](#opt-security.acme.certs)
-module.
+Refer to [](#ch-options) for all available configuration options for the
+[security.acme](#opt-security.acme.certs) module.
 
 ## Configuring ACME for DNS validation {#module-security-acme-config-dns}
 
-This is useful if you want to generate a wildcard certificate, since
-ACME servers will only hand out wildcard certs over DNS validation.
-There are a number of supported DNS providers and servers you can utilise,
-see the [lego docs](https://go-acme.github.io/lego/dns/)
-for provider/server specific configuration values. For the sake of these
-docs, we will provide a fully self-hosted example using bind.
+This is useful if you want to generate a wildcard certificate, since ACME
+servers will only hand out wildcard certs over DNS validation. There are a
+number of supported DNS providers and servers you can utilise, see the
+[lego docs](https://go-acme.github.io/lego/dns/) for provider/server specific
+configuration values. For the sake of these docs, we will provide a fully
+self-hosted example using bind.
 
 ```nix
 {
@@ -203,9 +196,9 @@ docs, we will provide a fully self-hosted example using bind.
 }
 ```
 
-The {file}`dnskeys.conf` and {file}`certs.secret`
-must be kept secure and thus you should not keep their contents in your
-Nix config. Instead, generate them one time with a systemd service:
+The {file}`dnskeys.conf` and {file}`certs.secret` must be kept secure and thus
+you should not keep their contents in your Nix config. Instead, generate them
+one time with a systemd service:
 
 ```nix
 {
@@ -248,22 +241,22 @@ Nix config. Instead, generate them one time with a systemd service:
 }
 ```
 
-Now you're all set to generate certs! You should monitor the first invocation
-by running `systemctl start acme-example.com.service &
-journalctl -fu acme-example.com.service` and watching its log output.
+Now you're all set to generate certs! You should monitor the first invocation by
+running
+`systemctl start acme-example.com.service & journalctl -fu acme-example.com.service`
+and watching its log output.
 
 ## Using DNS validation with web server virtual hosts {#module-security-acme-config-dns-with-vhosts}
 
-It is possible to use DNS-01 validation with all certificates,
-including those automatically configured via the Nginx/Apache
-[`enableACME`](#opt-services.nginx.virtualHosts._name_.enableACME)
-option. This configuration pattern is fully
-supported and part of the module's test suite for Nginx + Apache.
+It is possible to use DNS-01 validation with all certificates, including those
+automatically configured via the Nginx/Apache
+[`enableACME`](#opt-services.nginx.virtualHosts._name_.enableACME) option. This
+configuration pattern is fully supported and part of the module's test suite for
+Nginx + Apache.
 
-You must follow the guide above on configuring DNS-01 validation
-first, however instead of setting the options for one certificate
-(e.g. [](#opt-security.acme.certs._name_.dnsProvider))
-you will set them as defaults
+You must follow the guide above on configuring DNS-01 validation first, however
+instead of setting the options for one certificate (e.g.
+[](#opt-security.acme.certs._name_.dnsProvider)) you will set them as defaults
 (e.g. [](#opt-security.acme.defaults.dnsProvider)).
 
 ```nix
@@ -292,18 +285,17 @@ you will set them as defaults
 }
 ```
 
-And that's it! Next time your configuration is rebuilt, or when
-you add a new virtualHost, it will be DNS-01 validated.
+And that's it! Next time your configuration is rebuilt, or when you add a new
+virtualHost, it will be DNS-01 validated.
 
 ## Using ACME with services demanding root owned certificates {#module-security-acme-root-owned}
 
-Some services refuse to start if the configured certificate files
-are not owned by root. PostgreSQL and OpenSMTPD are examples of these.
-There is no way to change the user the ACME module uses (it will always be
-`acme`), however you can use systemd's
-`LoadCredential` feature to resolve this elegantly.
-Below is an example configuration for OpenSMTPD, but this pattern
-can be applied to any service.
+Some services refuse to start if the configured certificate files are not owned
+by root. PostgreSQL and OpenSMTPD are examples of these. There is no way to
+change the user the ACME module uses (it will always be `acme`), however you can
+use systemd's `LoadCredential` feature to resolve this elegantly. Below is an
+example configuration for OpenSMTPD, but this pattern can be applied to any
+service.
 
 ```nix
 {
@@ -349,20 +341,19 @@ can be applied to any service.
 
 ## Regenerating certificates {#module-security-acme-regenerate}
 
-Should you need to regenerate a particular certificate in a hurry, such
-as when a vulnerability is found in Let's Encrypt, there is now a convenient
-mechanism for doing so. Running
-`systemctl clean --what=state acme-example.com.service`
+Should you need to regenerate a particular certificate in a hurry, such as when
+a vulnerability is found in Let's Encrypt, there is now a convenient mechanism
+for doing so. Running `systemctl clean --what=state acme-example.com.service`
 will remove all certificate files and the account data for the given domain,
-allowing you to then `systemctl start acme-example.com.service`
-to generate fresh ones.
+allowing you to then `systemctl start acme-example.com.service` to generate
+fresh ones.
 
 ## Fixing JWS Verification error {#module-security-acme-fix-jws}
 
-It is possible that your account credentials file may become corrupt and need
-to be regenerated. In this scenario lego will produce the error `JWS verification error`.
-The solution is to simply delete the associated accounts file and
-re-run the affected service(s).
+It is possible that your account credentials file may become corrupt and need to
+be regenerated. In this scenario lego will produce the error
+`JWS verification error`. The solution is to simply delete the associated
+accounts file and re-run the affected service(s).
 
 ```shell
 # Find the accounts folder for the certificate
@@ -379,8 +370,13 @@ systemctl start acme-example.com.service
 
 ## Ensuring dependencies for services that need to be reloaded when a certificate changes {#module-security-acme-reload-dependencies}
 
-Services that depend on ACME certificates and need to be reloaded can use one of two approaches to reload upon successful certificate acquisition or renewal:
+Services that depend on ACME certificates and need to be reloaded can use one of
+two approaches to reload upon successful certificate acquisition or renewal:
 
-1. **Using the `security.acme.certs.<name>.reloadServices` option**: This will cause `systemctl try-reload-or-restart` to be run for the listed services.
+1. **Using the `security.acme.certs.<name>.reloadServices` option**: This will
+   cause `systemctl try-reload-or-restart` to be run for the listed services.
 
-2. **Using a separate reload unit**: if you need perform more complex actions you can implement a separate reload unit but need to ensure that it lists the `acme-renew-<name>.service` unit both as `wantedBy` AND `after`. See the nginx module implementation with its `nginx-config-reload` service.
+2. **Using a separate reload unit**: if you need perform more complex actions
+   you can implement a separate reload unit but need to ensure that it lists the
+   `acme-renew-<name>.service` unit both as `wantedBy` AND `after`. See the
+   nginx module implementation with its `nginx-config-reload` service.

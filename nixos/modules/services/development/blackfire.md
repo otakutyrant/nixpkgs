@@ -1,12 +1,19 @@
 # Blackfire profiler {#module-services-blackfire}
 
-*Source:* {file}`modules/services/development/blackfire.nix`
+_Source:_ {file}`modules/services/development/blackfire.nix`
 
-*Upstream documentation:* <https://blackfire.io/docs/introduction>
+_Upstream documentation:_ <https://blackfire.io/docs/introduction>
 
-[Blackfire](https://blackfire.io) is a proprietary tool for profiling applications. There are several languages supported by the product but currently only PHP support is packaged in Nixpkgs. The back-end consists of a module that is loaded into the language runtime (called *probe*) and a service (*agent*) that the probe connects to and that sends the profiles to the server.
+[Blackfire](https://blackfire.io) is a proprietary tool for profiling
+applications. There are several languages supported by the product but currently
+only PHP support is packaged in Nixpkgs. The back-end consists of a module that
+is loaded into the language runtime (called _probe_) and a service (_agent_)
+that the probe connects to and that sends the profiles to the server.
 
-To use it, you will need to enable the agent and the probe on your server. The exact method will depend on the way you use PHP but here is an example of NixOS configuration for PHP-FPM:
+To use it, you will need to enable the agent and the probe on your server. The
+exact method will depend on the way you use PHP but here is an example of NixOS
+configuration for PHP-FPM:
+
 ```nix
 let
   php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [ blackfire ]));
@@ -35,4 +42,7 @@ in
 }
 ```
 
-On your developer machine, you will also want to install [the client](https://blackfire.io/docs/up-and-running/installation#install-a-profiling-client) (see `blackfire` package) or the browser extension to actually trigger the profiling.
+On your developer machine, you will also want to install
+[the client](https://blackfire.io/docs/up-and-running/installation#install-a-profiling-client)
+(see `blackfire` package) or the browser extension to actually trigger the
+profiling.

@@ -1,5 +1,3 @@
-
-
 catch_conflicts.py
 ==================
 

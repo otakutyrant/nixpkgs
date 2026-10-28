@@ -3,8 +3,10 @@
 [Inkscape](https://inkscape.org) is a powerful vector graphics editor.
 
 ## Plugins {#inkscape-plugins}
-Inkscape plugins are collected in the [`inkscape-extensions`](https://search.nixos.org/packages?channel=unstable&type=packages&query=cudaPackages) package set.
-To enable them, use an override on `inkscape-with-extensions`:
+
+Inkscape plugins are collected in the
+[`inkscape-extensions`](https://search.nixos.org/packages?channel=unstable&type=packages&query=cudaPackages)
+package set. To enable them, use an override on `inkscape-with-extensions`:
 
 ```nix
 inkscape-with-extensions.override {
@@ -22,6 +24,5 @@ $ nix-shell -p 'inkscape-with-extensions.override { inkscapeExtensions = with in
 
 All available extensions can be enabled by passing `inkscapeExtensions = null;`.
 
-::: {.note}
-Loading the Inkscape extensions stand-alone (without using `override`) does not affect Inkscape at all.
-:::
+::: {.note} Loading the Inkscape extensions stand-alone (without using
+`override`) does not affect Inkscape at all. :::

@@ -1,9 +1,21 @@
 # Generators {#sec-generators}
-Generators are functions that create file formats from Nix data structures, e.g. for configuration files. There are generators available for: `INI`, `JSON` and `YAML`.
 
-All generators follow a similar call interface: `generatorName configFunctions data`, where `configFunctions` is an attrset of user-defined functions that format nested parts of the content. They each have common defaults, so often they do not need to be set manually. An example is `mkSectionName` from the `INI` generator, which defaults to `(name: libStr.escape [ "[" "]" ] name)`. It receives the name of a section and sanitizes it. The default `mkSectionName` escapes `[` and `]` with a backslash.
+Generators are functions that create file formats from Nix data structures, e.g.
+for configuration files. There are generators available for: `INI`, `JSON` and
+`YAML`.
 
-Generators can be fine-tuned to produce exactly the file format required by your application/service. One example is an INI file format that uses `: ` as a separator, the strings `"yes"` and `"no"` as boolean values, and requires all string values to be quoted:
+All generators follow a similar call interface:
+`generatorName configFunctions data`, where `configFunctions` is an attrset of
+user-defined functions that format nested parts of the content. They each have
+common defaults, so often they do not need to be set manually. An example is
+`mkSectionName` from the `INI` generator, which defaults to
+`(name: libStr.escape [ "[" "]" ] name)`. It receives the name of a section and
+sanitizes it. The default `mkSectionName` escapes `[` and `]` with a backslash.
+
+Generators can be fine-tuned to produce exactly the file format required by your
+application/service. One example is an INI file format that uses `: ` as a
+separator, the strings `"yes"` and `"no"` as boolean values, and requires all
+string values to be quoted:
 
 ```nix
 let
@@ -56,8 +68,8 @@ str\:ange:"very::strange"
 merge:"diff3"
 ```
 
-::: {.note}
-Nix store paths can be converted to strings by enclosing a derivation attribute like so: `"${drv}"`.
-:::
+::: {.note} Nix store paths can be converted to strings by enclosing a
+derivation attribute like so: `"${drv}"`. :::
 
-Detailed documentation for each generator can be found [here](#sec-functions-library-generators)
+Detailed documentation for each generator can be found
+[here](#sec-functions-library-generators)

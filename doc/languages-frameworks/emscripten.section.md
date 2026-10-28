@@ -1,8 +1,10 @@
 # Emscripten {#emscripten}
 
-[Emscripten](https://github.com/kripken/emscripten): An LLVM-to-JavaScript Compiler
+[Emscripten](https://github.com/kripken/emscripten): An LLVM-to-JavaScript
+Compiler
 
-If you want to work with `emcc`, `emconfigure` and `emmake` as you are used to from Ubuntu and similar distributions,
+If you want to work with `emcc`, `emconfigure` and `emmake` as you are used to
+from Ubuntu and similar distributions,
 
 ```console
 nix-shell -p emscripten
@@ -10,32 +12,37 @@ nix-shell -p emscripten
 
 A few things to note:
 
-* `export EMCC_DEBUG=2` is nice for debugging
-* The build artifact cache in `~/.emscripten` sometimes creates issues and needs to be removed from time to time
+- `export EMCC_DEBUG=2` is nice for debugging
+- The build artifact cache in `~/.emscripten` sometimes creates issues and needs
+  to be removed from time to time
 
 ## Examples {#declarative-usage}
 
 Let's see two different examples from `pkgs/top-level/emscripten-packages.nix`:
 
-* `pkgs.zlib.override`
-* `pkgs.buildEmscriptenPackage`
+- `pkgs.zlib.override`
+- `pkgs.buildEmscriptenPackage`
 
-A special requirement of the `pkgs.buildEmscriptenPackage` is the `doCheck = true`.
-This means each Emscripten package requires that a [`checkPhase`](#ssec-check-phase) is implemented.
+A special requirement of the `pkgs.buildEmscriptenPackage` is the
+`doCheck = true`. This means each Emscripten package requires that a
+[`checkPhase`](#ssec-check-phase) is implemented.
 
-* Use `export EMCC_DEBUG=2` from within a phase to get more detailed debug output what is going wrong.
-* The cache at `~/.emscripten` requires to set `HOME=$TMPDIR` in individual phases.
-  This makes compilation slower but also more deterministic.
+- Use `export EMCC_DEBUG=2` from within a phase to get more detailed debug
+  output what is going wrong.
+- The cache at `~/.emscripten` requires to set `HOME=$TMPDIR` in individual
+  phases. This makes compilation slower but also more deterministic.
 
 ::: {.example #usage-1-pkgs.zlib.override}
 
 # Using `pkgs.zlib.override {}`
 
-This example uses `zlib` from Nixpkgs, but instead of compiling **C** to **ELF** it compiles **C** to **JavaScript** since we were using `pkgs.zlib.override` and changed `stdenv` to `pkgs.emscriptenStdenv`.
+This example uses `zlib` from Nixpkgs, but instead of compiling **C** to **ELF**
+it compiles **C** to **JavaScript** since we were using `pkgs.zlib.override` and
+changed `stdenv` to `pkgs.emscriptenStdenv`.
 
-A few adaptions and hacks were put in place to make it work.
-One advantage is that when `pkgs.zlib` is updated, it will automatically update this package as well.
-
+A few adaptions and hacks were put in place to make it work. One advantage is
+that when `pkgs.zlib` is updated, it will automatically update this package as
+well.
 
 ```nix
 (pkgs.zlib.override { stdenv = pkgs.emscriptenStdenv; }).overrideAttrs (old: {
@@ -113,7 +120,8 @@ One advantage is that when `pkgs.zlib` is updated, it will automatically update 
 
 # Using `pkgs.buildEmscriptenPackage {}`
 
-This `xmlmirror` example features an Emscripten package that is defined completely from this context and no `pkgs.zlib.override` is used.
+This `xmlmirror` example features an Emscripten package that is defined
+completely from this context and no `pkgs.zlib.override` is used.
 
 ```nix
 pkgs.buildEmscriptenPackage {
@@ -205,7 +213,9 @@ pkgs.buildEmscriptenPackage {
 
 ## Debugging {#declarative-debugging}
 
-Use `nix-shell -I nixpkgs=/some/dir/nixpkgs -A emscriptenPackages.libz` and from there you can go through the individual steps. This makes it easy to build a good `unit test` or list the files of the project.
+Use `nix-shell -I nixpkgs=/some/dir/nixpkgs -A emscriptenPackages.libz` and from
+there you can go through the individual steps. This makes it easy to build a
+good `unit test` or list the files of the project.
 
 1. `nix-shell -I nixpkgs=/some/dir/nixpkgs -A emscriptenPackages.libz`
 2. `cd /tmp/`

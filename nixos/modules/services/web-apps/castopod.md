@@ -1,11 +1,14 @@
 # Castopod {#module-services-castopod}
 
-Castopod is an open-source hosting platform made for podcasters who want to engage and interact with their audience.
+Castopod is an open-source hosting platform made for podcasters who want to
+engage and interact with their audience.
 
 ## Quickstart {#module-services-castopod-quickstart}
 
-Configure ACME (<https://nixos.org/manual/nixos/unstable/#module-security-acme>).
-Use the following configuration to start a public instance of Castopod on `castopod.example.com` domain:
+Configure ACME
+(<https://nixos.org/manual/nixos/unstable/#module-security-acme>). Use the
+following configuration to start a public instance of Castopod on
+`castopod.example.com` domain:
 
 ```nix
 {
@@ -25,4 +28,5 @@ Use the following configuration to start a public instance of Castopod on `casto
 }
 ```
 
-Go to `https://castopod.example.com/cp-install` to create superadmin account after applying the above configuration.
+Go to `https://castopod.example.com/cp-install` to create superadmin account
+after applying the above configuration.

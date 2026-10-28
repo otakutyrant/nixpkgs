@@ -2,19 +2,20 @@
 
 ## Upgrading `texlive.bin`
 
-`texlive` contains a few binaries, defined in `bin.nix` and released once a year.
+`texlive` contains a few binaries, defined in `bin.nix` and released once a
+year.
 
-In order to reduce closure size for users who just need a few of them, we split it into
-packages such as `core`, `core-big`, `xdvi`, etc. This requires making assumptions
-about dependencies between the projects that may change between releases; if
-you upgrade you may have to do some work here.
+In order to reduce closure size for users who just need a few of them, we split
+it into packages such as `core`, `core-big`, `xdvi`, etc. This requires making
+assumptions about dependencies between the projects that may change between
+releases; if you upgrade you may have to do some work here.
 
 ## Updating the package set
 
 `texlive` contains several thousand packages from CTAN, defined in `tlpdb.nix`.
 
-The CTAN mirrors are not version-controlled and continuously moving,
-with more than 100 updates per month.
+The CTAN mirrors are not version-controlled and continuously moving, with more
+than 100 updates per month.
 
 To create a consistent and reproducible package set in nixpkgs, we generate nix
 expressions for all packages in TeX Live at a certain day.
@@ -36,12 +37,12 @@ package database `texlive.tlpdb.xz` and extract the relevant package info
 (including version numbers and sha512 hashes) for the selected upstream
 distribution.
 
-Finally, replace `tlpdb.nix` with the generated file. Note that if the
-`version` info does not match the metadata of `tlpdb.nix` (as found in the
+Finally, replace `tlpdb.nix` with the generated file. Note that if the `version`
+info does not match the metadata of `tlpdb.nix` (as found in the
 `00texlive.config` package), TeX Live packages will not evaluate.
 
-The test `pkgs.tests.texlive.tlpdbNix` verifies that the file `tlpdb.nix`
-in Nixpkgs matches the one generated from `texlive.tlpdb.xz`.
+The test `pkgs.tests.texlive.tlpdbNix` verifies that the file `tlpdb.nix` in
+Nixpkgs matches the one generated from `texlive.tlpdb.xz`.
 
 ### Build packages locally and generate fix hashes
 
@@ -65,12 +66,12 @@ nix-build generate-fixed-hashes.nix -A fixedHashesNix
 
 Finally, copy the result to `fixed-hashes.nix`.
 
-**Warning.** The expression `fixedHashesNix` reuses the *previous* fixed hashes
+**Warning.** The expression `fixedHashesNix` reuses the _previous_ fixed hashes
 when possible. This is based on two assumptions: that `.tar.xz` archives with
-the same names remain identical in time (which is the intended behaviour of
-CTAN and the various mirrors) and that the build recipe continues to produce
-the same output. Should those assumptions not hold, remove the previous fixed
-hashes for the relevant package, or for all packages.
+the same names remain identical in time (which is the intended behaviour of CTAN
+and the various mirrors) and that the build recipe continues to produce the same
+output. Should those assumptions not hold, remove the previous fixed hashes for
+the relevant package, or for all packages.
 
 ### Upgrading the ConTeXt binaries
 
@@ -85,26 +86,28 @@ update this in `texlive.bin.context`, when updating TeX Live.
 The license of each package in texlive is automatically extracted from texlive's
 texlive.tlpdb into tlpdb.nix. The combined licenses of the schemes is stored
 separately in `default.nix` and must be kept in sync with the licenses of the
-actual contents of these schemes. Whether this is the case can be verified with the
-`pkgs.tests.texlive.licenses` test. In case of a mismatch, copy the “correct”
-license lists reported by the test into `default.nix`.
+actual contents of these schemes. Whether this is the case can be verified with
+the `pkgs.tests.texlive.licenses` test. In case of a mismatch, copy the
+“correct” license lists reported by the test into `default.nix`.
 
 ### Running the testsuite
 
-There are some other useful tests that haven't been mentioned before. Build them with
+There are some other useful tests that haven't been mentioned before. Build them
+with
+
 ```
 nix-build ../../../../.. -A tests.texlive --no-out-link
 ```
 
-
 ### Commit changes
 
-Commit the updated `tlpdb.nix` and `fixed-hashes.nix` to the repository with
-a message like
+Commit the updated `tlpdb.nix` and `fixed-hashes.nix` to the repository with a
+message like
 
 > texlive: 2022-final -> 2023.20230401
 
-Please make sure to follow the [CONTRIBUTING](https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md)
+Please make sure to follow the
+[CONTRIBUTING](https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md)
 guidelines.
 
 ## Reviewing the bin containers
@@ -122,6 +125,7 @@ Please review manually all binaries in the `broken` and `ignored` lists of
 Since the tests cannot catch all runtime dependencies, you should grep the
 `$TEXMFDIST/scripts` folder for common cases, for instance (where `$scripts`
 points to the relevant folder of `scheme-full`):
+
 - Calls to `exec $interpreter`
   ```
   grep -IRS 'exec ' "$TEXMFDIST/scripts" | cut -d: -f2 | sort -u | less -S

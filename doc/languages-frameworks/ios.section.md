@@ -5,9 +5,9 @@ expose an Xcode installation as a Nix package by means of symlinking to the
 relevant executables on the host system.
 
 Since Xcode can't be packaged with Nix, nor we can publish it as a Nix package
-(because of its license) this is basically the only integration strategy
-making it possible to do iOS application builds that integrate with other
-components of the Nix ecosystem
+(because of its license) this is basically the only integration strategy making
+it possible to do iOS application builds that integrate with other components of
+the Nix ecosystem
 
 The primary objective of this project is to use the Nix expression language to
 specify how iOS apps can be built from source code, and to automatically spawn
@@ -22,9 +22,9 @@ The Xcode build environment implements a number of features.
 
 ## Deploying a proxy component wrapper exposing Xcode {#deploying-a-proxy-component-wrapper-exposing-xcode}
 
-The first use case is deploying a Nix package that provides symlinks to the Xcode
-installation on the host system. This package can be used as a build input to
-any build function implemented in the Nix expression language that requires
+The first use case is deploying a Nix package that provides symlinks to the
+Xcode installation on the host system. This package can be used as a build input
+to any build function implemented in the Nix expression language that requires
 Xcode.
 
 ```nix
@@ -96,37 +96,38 @@ xcodeenv.buildApp {
 
 The above function takes a variety of parameters:
 
-* The `name` and `src` parameters are mandatory and specify the name of the app
+- The `name` and `src` parameters are mandatory and specify the name of the app
   and the location where the source code resides
-* `sdkVersion` specifies which version of the iOS SDK to use.
+- `sdkVersion` specifies which version of the iOS SDK to use.
 
 It also possible to adjust the `xcodebuild` parameters. This is only needed in
 rare circumstances. In most cases the default values should suffice:
 
-* `target` specifies which `xcodebuild` target to build. By default it takes the target
-  that has the same name as the app.
-* The `configuration` parameter can be overridden if desired. By default, it
+- `target` specifies which `xcodebuild` target to build. By default it takes the
+  target that has the same name as the app.
+- The `configuration` parameter can be overridden if desired. By default, it
   will do a debug build for the simulator and a release build for real devices.
-* The `scheme` parameter specifies which `-scheme` parameter to propagate to
+- The `scheme` parameter specifies which `-scheme` parameter to propagate to
   `xcodebuild`. By default, it corresponds to the app name.
-* The `sdk` parameter specifies which SDK to use. By default, it picks
+- The `sdk` parameter specifies which SDK to use. By default, it picks
   `iphonesimulator` for simulator builds and `iphoneos` for release builds.
-* The `xcodeFlags` parameter specifies arbitrary command line parameters that
+- The `xcodeFlags` parameter specifies arbitrary command line parameters that
   should be propagated to `xcodebuild`.
 
 By default, builds are carried out for the iOS simulator. To do release builds
 (builds for real iOS devices), you must set the `release` parameter to `true`.
 In addition, you need to set the following parameters:
 
-* `certificateFile` refers to a P12 certificate file.
-* `certificatePassword` specifies the password of the P12 certificate.
-* `provisioningProfile` refers to the provisioning profile needed to sign the app
-* `signMethod` should refer to `ad-hoc` for signing the app with an ad-hoc
+- `certificateFile` refers to a P12 certificate file.
+- `certificatePassword` specifies the password of the P12 certificate.
+- `provisioningProfile` refers to the provisioning profile needed to sign the
+  app
+- `signMethod` should refer to `ad-hoc` for signing the app with an ad-hoc
   certificate, `enterprise` for enterprise certificates and `app-store` for App
   store certificates.
-* `generateIPA` specifies that we want to produce an IPA file (this is probably
+- `generateIPA` specifies that we want to produce an IPA file (this is probably
   what you want)
-* `generateXCArchive` specifies that we want to produce an xcarchive file.
+- `generateXCArchive` specifies that we want to produce an xcarchive file.
 
 When building IPA files on Hydra and when it is desired to allow iOS devices to
 install IPAs by browsing to the Hydra build products page, you can enable the
@@ -134,14 +135,14 @@ install IPAs by browsing to the Hydra build products page, you can enable the
 
 When enabled, you need to configure the following options:
 
-* The `installURL` parameter refers to the URL of a PHP script that composes the
+- The `installURL` parameter refers to the URL of a PHP script that composes the
   `itms-services://` URL allowing iOS devices to install the IPA file.
-* `bundleId` refers to the bundle ID value of the app
-* `appVersion` refers to the app's version number
+- `bundleId` refers to the bundle ID value of the app
+- `appVersion` refers to the app's version number
 
-To use wireless adhoc distributions, you must also install the corresponding
-PHP script on a web server (see section: 'Installing the PHP script for wireless
-ad hoc installations from Hydra' for more information).
+To use wireless adhoc distributions, you must also install the corresponding PHP
+script on a web server (see section: 'Installing the PHP script for wireless ad
+hoc installations from Hydra' for more information).
 
 In addition to the build parameters, you can also specify any parameters that
 the `xcodeenv.composeXcodeWrapper {}` function takes. For example, the
@@ -209,8 +210,8 @@ app bundle id, the app gets deployed automatically and started.
 ## Troubleshooting {#troubleshooting}
 
 In some rare cases, it may happen that after a failure, changes are not picked
-up. Most likely, this is caused by a derived data cache that Xcode maintains.
-To wipe it you can run:
+up. Most likely, this is caused by a derived data cache that Xcode maintains. To
+wipe it you can run:
 
 ```bash
 $ rm -rf ~/Library/Developer/Xcode/DerivedData

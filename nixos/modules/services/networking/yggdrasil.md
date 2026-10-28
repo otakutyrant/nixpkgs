@@ -1,8 +1,8 @@
 # Yggdrasil {#module-services-networking-yggdrasil}
 
-*Source:* {file}`modules/services/networking/yggdrasil/default.nix`
+_Source:_ {file}`modules/services/networking/yggdrasil/default.nix`
 
-*Upstream documentation:* <https://yggdrasil-network.github.io/>
+_Upstream documentation:_ <https://yggdrasil-network.github.io/>
 
 Yggdrasil is an early-stage implementation of a fully end-to-end encrypted,
 self-arranging IPv6 network.
@@ -12,6 +12,7 @@ self-arranging IPv6 network.
 ### Simple ephemeral node {#module-services-networking-yggdrasil-configuration-simple}
 
 An annotated example of a simple configuration:
+
 ```nix
 {
   services.yggdrasil = {
@@ -39,6 +40,7 @@ An annotated example of a simple configuration:
 ### Persistent node with prefix {#module-services-networking-yggdrasil-configuration-prefix}
 
 A node with a fixed address that announces a prefix:
+
 ```nix
 let
   address = "210:5217:69c0:9afc:1b95:b9f:8718:c3d2";
@@ -96,6 +98,7 @@ in
 
 A NixOS container attached to the Yggdrasil network via a node running on the
 host:
+
 ```nix
 let
   yggPrefix64 = "310:5217:69c0:9afc";

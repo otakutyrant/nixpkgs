@@ -1,49 +1,46 @@
 # Linux Kernel {#sec-kernel-config}
 
-You can override the Linux kernel and associated packages using the
-option `boot.kernelPackages`. For instance, this selects the Linux 3.10
-kernel:
+You can override the Linux kernel and associated packages using the option
+`boot.kernelPackages`. For instance, this selects the Linux 3.10 kernel:
 
 ```nix
 { boot.kernelPackages = pkgs.linuxKernel.packages.linux_3_10; }
 ```
 
-Note that this not only replaces the kernel, but also packages that are
-specific to the kernel version, such as the NVIDIA video drivers. This
-ensures that driver packages are consistent with the kernel.
+Note that this not only replaces the kernel, but also packages that are specific
+to the kernel version, such as the NVIDIA video drivers. This ensures that
+driver packages are consistent with the kernel.
 
-While `pkgs.linuxKernel.packages` contains all available kernel packages,
-you may want to use one of the unversioned `pkgs.linuxPackages_*` aliases
-such as `pkgs.linuxPackages_latest`, that are kept up to date with new
-versions.
+While `pkgs.linuxKernel.packages` contains all available kernel packages, you
+may want to use one of the unversioned `pkgs.linuxPackages_*` aliases such as
+`pkgs.linuxPackages_latest`, that are kept up to date with new versions.
 
 Please note that the current convention in NixOS is to only keep actively
 maintained kernel versions on both unstable and the currently supported stable
-release(s) of NixOS. This means that a non-longterm kernel will be removed after it's
-abandoned by the kernel developers, even on stable NixOS versions. If you
+release(s) of NixOS. This means that a non-longterm kernel will be removed after
+it's abandoned by the kernel developers, even on stable NixOS versions. If you
 pin your kernel onto a non-longterm version, expect your evaluation to fail as
 soon as the version is out of maintenance.
 
 A kernel will be removed from nixpkgs when the first batch of stable kernels
 _after_ the final release is published. E.g. when 6.15.11 is the final release
 of the 6.15 series and is released together with 6.16.3 and 6.12.43, it will be
-removed on the release of 6.16.4 and 6.12.44. Custom kernel variants such
-as linux-hardened are also affected by this.
+removed on the release of 6.16.4 and 6.12.44. Custom kernel variants such as
+linux-hardened are also affected by this.
 
-Longterm versions of kernels will be removed before the next stable NixOS that will
-exceed the maintenance period of the kernel version.
+Longterm versions of kernels will be removed before the next stable NixOS that
+will exceed the maintenance period of the kernel version.
 
-The default Linux kernel configuration should be fine for most users.
-You can see the configuration of your current kernel with the following
-command:
+The default Linux kernel configuration should be fine for most users. You can
+see the configuration of your current kernel with the following command:
 
 ```ShellSession
 zcat /proc/config.gz
 ```
 
 If you want to change the kernel configuration, you can use the
-`packageOverrides` feature (see [](#sec-customising-packages)). For
-instance, to enable support for the kernel debugger KGDB:
+`packageOverrides` feature (see [](#sec-customising-packages)). For instance, to
+enable support for the kernel debugger KGDB:
 
 ```nix
 {
@@ -59,14 +56,13 @@ instance, to enable support for the kernel debugger KGDB:
 }
 ```
 
-`extraConfig` takes a list of Linux kernel configuration options, one
-per line. The name of the option should not include the prefix
-`CONFIG_`. The option value is typically `y`, `n` or `m` (to build
-something as a kernel module).
+`extraConfig` takes a list of Linux kernel configuration options, one per line.
+The name of the option should not include the prefix `CONFIG_`. The option value
+is typically `y`, `n` or `m` (to build something as a kernel module).
 
-Kernel modules for hardware devices are generally loaded automatically
-by `udev`. You can force a module to be loaded via
-[](#opt-boot.kernelModules), e.g.
+Kernel modules for hardware devices are generally loaded automatically by
+`udev`. You can force a module to be loaded via [](#opt-boot.kernelModules),
+e.g.
 
 ```nix
 {
@@ -78,29 +74,29 @@ by `udev`. You can force a module to be loaded via
 }
 ```
 
-If the module is required early during the boot (e.g. to mount the root
-file system), you can use [](#opt-boot.initrd.kernelModules):
+If the module is required early during the boot (e.g. to mount the root file
+system), you can use [](#opt-boot.initrd.kernelModules):
 
 ```nix
 { boot.initrd.kernelModules = [ "cifs" ]; }
 ```
 
-This causes the specified modules and their dependencies to be added to
-the initial ramdisk.
+This causes the specified modules and their dependencies to be added to the
+initial ramdisk.
 
-Kernel runtime parameters can be set through
-[](#opt-boot.kernel.sysctl), e.g.
+Kernel runtime parameters can be set through [](#opt-boot.kernel.sysctl), e.g.
 
 ```nix
 { boot.kernel.sysctl."net.ipv4.tcp_keepalive_time" = 120; }
 ```
 
-sets the kernel's TCP keepalive time to 120 seconds. To see the
-available parameters, run `sysctl -a`.
+sets the kernel's TCP keepalive time to 120 seconds. To see the available
+parameters, run `sysctl -a`.
 
 ## Building a custom kernel {#sec-linux-config-customizing}
 
-Please refer to the Nixpkgs manual for the various ways of [building a custom kernel](https://nixos.org/nixpkgs/manual#sec-linux-kernel).
+Please refer to the Nixpkgs manual for the various ways of
+[building a custom kernel](https://nixos.org/nixpkgs/manual#sec-linux-kernel).
 
 To use your custom kernel package in your NixOS configuration, set
 
@@ -110,9 +106,9 @@ To use your custom kernel package in your NixOS configuration, set
 
 ## Rust {#sec-linux-rust}
 
-The Linux kernel does not have Rust language support enabled by
-default. For kernel versions 6.7 or newer, experimental Rust support
-can be enabled. In a NixOS configuration, set:
+The Linux kernel does not have Rust language support enabled by default. For
+kernel versions 6.7 or newer, experimental Rust support can be enabled. In a
+NixOS configuration, set:
 
 ```nix
 {
@@ -130,10 +126,12 @@ can be enabled. In a NixOS configuration, set:
 
 ## Developing kernel modules {#sec-linux-config-developing-modules}
 
-This section was moved to the [Nixpkgs manual](https://nixos.org/nixpkgs/manual#sec-linux-kernel-developing-modules).
+This section was moved to the
+[Nixpkgs manual](https://nixos.org/nixpkgs/manual#sec-linux-kernel-developing-modules).
 
 ## ZFS {#sec-linux-zfs}
 
-It's a common issue that the latest stable version of ZFS doesn't support the latest
-available Linux kernel. It is recommended to use the latest available LTS that's compatible
-with ZFS. Usually this is the default kernel provided by nixpkgs (i.e. `pkgs.linuxPackages`).
+It's a common issue that the latest stable version of ZFS doesn't support the
+latest available Linux kernel. It is recommended to use the latest available LTS
+that's compatible with ZFS. Usually this is the default kernel provided by
+nixpkgs (i.e. `pkgs.linuxPackages`).

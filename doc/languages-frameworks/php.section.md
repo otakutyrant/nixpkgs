@@ -4,52 +4,48 @@
 
 ### Overview {#ssec-php-user-guide-overview}
 
-Several versions of PHP are available on Nix, each of which having a
-wide variety of extensions and libraries available.
+Several versions of PHP are available on Nix, each of which having a wide
+variety of extensions and libraries available.
 
-The different versions of PHP that nixpkgs provides are located under
-attributes named based on major and minor version number; e.g.,
-`php84` is PHP 8.4.
+The different versions of PHP that nixpkgs provides are located under attributes
+named based on major and minor version number; e.g., `php84` is PHP 8.4.
 
-Only versions of PHP that are supported by upstream for the entirety
-of a given NixOS release will be included in that release of
-NixOS. See [PHP Supported
-Versions](https://www.php.net/supported-versions.php).
+Only versions of PHP that are supported by upstream for the entirety of a given
+NixOS release will be included in that release of NixOS. See
+[PHP Supported Versions](https://www.php.net/supported-versions.php).
 
-The attribute `php` refers to the version of PHP considered most
-stable and thoroughly tested in nixpkgs for any given release of
-NixOS - not necessarily the latest major release from upstream.
+The attribute `php` refers to the version of PHP considered most stable and
+thoroughly tested in nixpkgs for any given release of NixOS - not necessarily
+the latest major release from upstream.
 
-All available PHP attributes are wrappers around their respective
-binary PHP package and provide commonly used extensions this way. The
-real PHP 8.4 package, i.e. the unwrapped one, is available as
-`php84.unwrapped`; see the next section for more details.
+All available PHP attributes are wrappers around their respective binary PHP
+package and provide commonly used extensions this way. The real PHP 8.4 package,
+i.e. the unwrapped one, is available as `php84.unwrapped`; see the next section
+for more details.
 
-Interactive tools built on PHP are put in `php.packages`; composer is
-for example available at `php.packages.composer`.
+Interactive tools built on PHP are put in `php.packages`; composer is for
+example available at `php.packages.composer`.
 
-Most extensions that come with PHP, as well as some popular
-third-party ones, are available in `php.extensions`; for example, the
-opcache extension shipped with PHP is available at
-`php.extensions.opcache` and the third-party ImageMagick extension at
-`php.extensions.imagick`.
+Most extensions that come with PHP, as well as some popular third-party ones,
+are available in `php.extensions`; for example, the opcache extension shipped
+with PHP is available at `php.extensions.opcache` and the third-party
+ImageMagick extension at `php.extensions.imagick`.
 
 ### Installing PHP with extensions {#ssec-php-user-guide-installing-with-extensions}
 
 A PHP package with specific extensions enabled can be built using
-`php.withExtensions`. This is a function which accepts an anonymous
-function as its only argument; the function should accept two named
-parameters: `enabled` - a list of currently enabled extensions and
-`all` - the set of all extensions, and return a list of wanted
-extensions. For example, a PHP package with all default extensions and
-ImageMagick enabled:
+`php.withExtensions`. This is a function which accepts an anonymous function as
+its only argument; the function should accept two named parameters: `enabled` -
+a list of currently enabled extensions and `all` - the set of all extensions,
+and return a list of wanted extensions. For example, a PHP package with all
+default extensions and ImageMagick enabled:
 
 ```nix
 php.withExtensions ({ enabled, all }: enabled ++ [ all.imagick ])
 ```
 
-To exclude some, but not all, of the default extensions, you can
-filter the `enabled` list like this:
+To exclude some, but not all, of the default extensions, you can filter the
+`enabled` list like this:
 
 ```nix
 php.withExtensions (
@@ -57,8 +53,7 @@ php.withExtensions (
 )
 ```
 
-To build your list of extensions from the ground up, you can
-ignore `enabled`:
+To build your list of extensions from the ground up, you can ignore `enabled`:
 
 ```nix
 php.withExtensions (
@@ -71,19 +66,17 @@ php.withExtensions (
 )
 ```
 
-`php.withExtensions` provides extensions by wrapping a minimal php
-base package, providing a `php.ini` file listing all extensions to be
-loaded. You can access this package through the `php.unwrapped`
-attribute; useful if you, for example, need access to the `dev`
-output. The generated `php.ini` file can be accessed through the
-`php.phpIni` attribute.
+`php.withExtensions` provides extensions by wrapping a minimal php base package,
+providing a `php.ini` file listing all extensions to be loaded. You can access
+this package through the `php.unwrapped` attribute; useful if you, for example,
+need access to the `dev` output. The generated `php.ini` file can be accessed
+through the `php.phpIni` attribute.
 
-If you want a PHP build with extra configuration in the `php.ini`
-file, you can use `php.buildEnv`. This function takes two named and
-optional parameters: `extensions` and `extraConfig`. `extensions`
-takes an extension specification equivalent to that of
-`php.withExtensions`, `extraConfig` a string of additional `php.ini`
-configuration parameters. For example, a PHP package with the opcache
+If you want a PHP build with extra configuration in the `php.ini` file, you can
+use `php.buildEnv`. This function takes two named and optional parameters:
+`extensions` and `extraConfig`. `extensions` takes an extension specification
+equivalent to that of `php.withExtensions`, `extraConfig` a string of additional
+`php.ini` configuration parameters. For example, a PHP package with the opcache
 and ImageMagick extensions enabled, and `memory_limit` set to `256M`:
 
 ```nix
@@ -101,8 +94,7 @@ php.buildEnv {
 
 #### Example setup for `phpfpm` {#ssec-php-user-guide-installing-with-extensions-phpfpm}
 
-You can use the previous examples in a `phpfpm` pool called `foo` as
-follows:
+You can use the previous examples in a `phpfpm` pool called `foo` as follows:
 
 ```nix
 let
@@ -140,8 +132,8 @@ in
 
 #### Example usage with `nix-shell` {#ssec-php-user-guide-installing-with-extensions-nix-shell}
 
-This brings up a temporary environment that contains a PHP interpreter
-with the extensions `imagick` and `opcache` enabled:
+This brings up a temporary environment that contains a PHP interpreter with the
+extensions `imagick` and `opcache` enabled:
 
 ```sh
 nix-shell -p 'php.withExtensions ({ all, ... }: with all; [ imagick opcache ])'
@@ -149,12 +141,12 @@ nix-shell -p 'php.withExtensions ({ all, ... }: with all; [ imagick opcache ])'
 
 ### Installing PHP packages with extensions {#ssec-php-user-guide-installing-packages-with-extensions}
 
-All interactive tools use the PHP package you get them from, so all
-packages at `php.packages.*` use the `php` package with its default
-extensions. Sometimes this default set of extensions isn't enough and
-you may want to extend it. A common case of this is the `composer`
-package: a project may depend on certain extensions and `composer`
-won't work with that project unless those extensions are loaded.
+All interactive tools use the PHP package you get them from, so all packages at
+`php.packages.*` use the `php` package with its default extensions. Sometimes
+this default set of extensions isn't enough and you may want to extend it. A
+common case of this is the `composer` package: a project may depend on certain
+extensions and `composer` won't work with that project unless those extensions
+are loaded.
 
 Example of building `composer` with additional extensions:
 
@@ -172,8 +164,8 @@ Example of building `composer` with additional extensions:
 ### Overriding PHP packages {#ssec-php-user-guide-overriding-packages}
 
 `php-packages.nix` form a scope, allowing us to override the packages defined
-within. For example, to apply a patch to a `mysqlnd` extension, you can
-pass an overlay-style function to `php`’s `packageOverrides` argument:
+within. For example, to apply a patch to a `mysqlnd` extension, you can pass an
+overlay-style function to `php`’s `packageOverrides` argument:
 
 ```nix
 php.override {
@@ -207,8 +199,8 @@ Currently, there is no other PHP tool that offers the same functionality as
 Composer. Consequently, incorporating a helper in Nix to facilitate building
 such applications is a logical choice.
 
-In a Composer project, dependencies are defined in a `composer.json` file,
-while their specific versions are locked in a `composer.lock` file. Some
+In a Composer project, dependencies are defined in a `composer.json` file, while
+their specific versions are locked in a `composer.lock` file. Some
 Composer-based projects opt to include this `composer.lock` file in their source
 code, while others choose not to.
 
@@ -223,19 +215,18 @@ using the `bin` attribute in `composer.json`, these binaries will be
 automatically linked and made accessible in the derivation. In this context,
 "binaries" refer to PHP scripts that are intended to be executable.
 
-To use the helper effectively, add the `vendorHash` attribute, which
-enables the wrapper to handle the heavy lifting.
+To use the helper effectively, add the `vendorHash` attribute, which enables the
+wrapper to handle the heavy lifting.
 
 Internally, the helper operates in three stages:
 
 1. It constructs a `composerRepository` attribute derivation by creating a
    composer repository on the filesystem containing dependencies specified in
-   `composer.json`. This process uses the function
-   `php.mkComposerRepository` which in turn uses the
-   `php.composerHooks.composerRepositoryHook` hook. Internally this function uses
-   a custom
-   [Composer plugin](https://github.com/nix-community/composer-local-repo-plugin) to
-   generate the repository.
+   `composer.json`. This process uses the function `php.mkComposerRepository`
+   which in turn uses the `php.composerHooks.composerRepositoryHook` hook.
+   Internally this function uses a custom
+   [Composer plugin](https://github.com/nix-community/composer-local-repo-plugin)
+   to generate the repository.
 2. The resulting `composerRepository` derivation is then used by the
    `php.composerHooks.composerInstallHook` hook, which is responsible for
    creating the final `vendor` directory.

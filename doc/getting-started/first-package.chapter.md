@@ -1,9 +1,10 @@
 # Package your first application {#chap-first-package}
 
-Package an application with Nixpkgs by picking the build helper for its language and setting a few attributes.
+Package an application with Nixpkgs by picking the build helper for its language
+and setting a few attributes.
 
-Each language ecosystem has its own build helper.
-See [](#chap-language-support) for the full set.
+Each language ecosystem has its own build helper. See [](#chap-language-support)
+for the full set.
 
 ## Package a Go application {#first-package-go}
 
@@ -74,8 +75,7 @@ $ ./result/bin/pet --help
 pet - Simple command-line snippet manager.
 ```
 
-`vendorHash` pins the fetched dependencies.
-To find its value:
+`vendorHash` pins the fetched dependencies. To find its value:
 
 1. Set `vendorHash` to an empty string `""`.
 2. Run `nix-build`.

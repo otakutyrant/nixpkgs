@@ -1,6 +1,7 @@
 # Style guide
 
-Use this page as a reference and style guide for our internal and external documentation.
+Use this page as a reference and style guide for our internal and external
+documentation.
 
 ## Assumptions about the reader
 
@@ -24,8 +25,8 @@ If specific knowledge is required, mention it at the start of the page.
 
 ### Show, don't tell
 
-The fastest path to understanding is a working example.
-People learn by doing, not by reading about doing.
+The fastest path to understanding is a working example. People learn by doing,
+not by reading about doing.
 
 **Recommended structure:**
 
@@ -44,11 +45,13 @@ People learn by doing, not by reading about doing.
 
 **Bad:**
 
-> The following command, which utilizes nixos-generate-config to produce a comprehensive hardware configuration, will write the results back into the respective configuration directory located on your local machine.
+> The following command, which utilizes nixos-generate-config to produce a
+> comprehensive hardware configuration, will write the results back into the
+> respective configuration directory located on your local machine.
 
-What the user does is hidden in the middle.
-`nixos-generate-config` is a leaked implementation detail.
-Users care about *detecting hardware*, not *the tool that does it*.
+What the user does is hidden in the middle. `nixos-generate-config` is a leaked
+implementation detail. Users care about _detecting hardware_, not _the tool that
+does it_.
 
 **Good:**
 
@@ -60,7 +63,9 @@ Lead with value. State what the reader will accomplish before explaining how.
 
 **Bad:**
 
-> To create a new NixOS configuration that you can later use as a webserver, first navigate to your project directory, then add a new host configuration file with the desired machine name.
+> To create a new NixOS configuration that you can later use as a webserver,
+> first navigate to your project directory, then add a new host configuration
+> file with the desired machine name.
 
 **Good:**
 
@@ -109,8 +114,8 @@ Don't describe what the documentation does. Just do it.
 
 **Minimal comments**
 
-Let the code speak for itself.
-Paste code examples directly and without further alteration.
+Let the code speak for itself. Paste code examples directly and without further
+alteration.
 
 **Bad:**
 
@@ -134,15 +139,17 @@ Paste code examples directly and without further alteration.
 
 ### Lead with practical examples
 
-Don't front-load theory. Readers want to accomplish something first, then understand why it works.
+Don't front-load theory. Readers want to accomplish something first, then
+understand why it works.
 
-- Show configuration as *what you want*, not *how the module system works*
+- Show configuration as _what you want_, not _how the module system works_
 - Introduce Nix-specific concepts only when they are needed to complete the task
 - Defer language mechanics to reference pages or `nix.dev`
 
 **Bad:**
 
-> Before adding a service, you need to understand the NixOS module system and attribute set merging.
+> Before adding a service, you need to understand the NixOS module system and
+> attribute set merging.
 
 **Good:**
 
@@ -160,7 +167,6 @@ sudo nixos-rebuild switch
 
 ### Teach Nix through examples, not theory
 
-
 Users learn the NixOS module system by seeing patterns first.
 
 - Start with a working example
@@ -175,7 +181,8 @@ Users learn the NixOS module system by seeing patterns first.
 - Variables are capitalized and start with `$`, e.g. `$YOUR_HOSTNAME`
 - Variables should be directly usable during copy-paste
 - Do **not** describe missing code parts (`#elided`, `#omitted`)
-- **Machine vs Host**: use "machine" for the NixOS system identity, "host" for the physical or virtual hardware
+- **Machine vs Host**: use "machine" for the NixOS system identity, "host" for
+  the physical or virtual hardware
 
 ### Capitalization
 
@@ -208,7 +215,8 @@ Use sentence case. A reader scanning only headings should understand the page.
 
 ### Imperative mood, voice, and person
 
-Use imperative mood for instructions. Address the reader as "you", not "the user". Use active voice; in other words, make the subject do the action.
+Use imperative mood for instructions. Address the reader as "you", not "the
+user". Use active voice; in other words, make the subject do the action.
 
 **Don't:**
 
@@ -228,7 +236,8 @@ Use imperative mood for instructions. Address the reader as "you", not "the user
 
 ### Tense
 
-Use present tense for descriptions. Future tense makes documentation feel tentative.
+Use present tense for descriptions. Future tense makes documentation feel
+tentative.
 
 **Don't:**
 
@@ -244,7 +253,8 @@ Use present tense for descriptions. Future tense makes documentation feel tentat
 
 ### Be confident
 
-State facts. Don't hedge with "should," "might," "typically," or "usually" unless the behavior genuinely varies.
+State facts. Don't hedge with "should," "might," "typically," or "usually"
+unless the behavior genuinely varies.
 
 **Don't:**
 
@@ -260,7 +270,9 @@ State facts. Don't hedge with "should," "might," "typically," or "usually" unles
 
 ### Avoid nominalizations
 
-A nominalization is a verb turned into a noun, often by adding *-tion*, *-meant*, or *-ance* (e.g. "explanation", "selection"). The fix: find the hidden verb and use it directly.
+A nominalization is a verb turned into a noun, often by adding _-tion_,
+_-meant_, or _-ance_ (e.g. "explanation", "selection"). The fix: find the hidden
+verb and use it directly.
 
 **Don't:**
 
@@ -302,7 +314,8 @@ Delete on sight:
 
 > Simply run `nixos-rebuild switch`.
 >
-> In order to deploy, you first need to run the command, which allows you to push the config.
+> In order to deploy, you first need to run the command, which allows you to
+> push the config.
 >
 > It's worth noting that this requires root access.
 
@@ -330,11 +343,13 @@ One instruction per sentence. Don't pack multiple actions into one sentence.
 2. Run the command.
 3. Check the output.
 
-Don't bury the negative. Key limitations should be prominent, not a footnote after a positive description.
+Don't bury the negative. Key limitations should be prominent, not a footnote
+after a positive description.
 
 **Don't:**
 
-> This service supports multiple roles, integrates with existing modules, and works great for most setups (note that multiple instances are not supported).
+> This service supports multiple roles, integrates with existing modules, and
+> works great for most setups (note that multiple instances are not supported).
 
 **Do:**
 
@@ -342,7 +357,8 @@ Don't bury the negative. Key limitations should be prominent, not a footnote aft
 
 ### Consistent terminology
 
-Pick a term and stick to it. Don't swap synonyms to avoid repetition. In technical documentation, repetition is clarity.
+Pick a term and stick to it. Don't swap synonyms to avoid repetition. In
+technical documentation, repetition is clarity.
 
 **Don't:**
 
@@ -368,14 +384,20 @@ Use descriptive link text. Never use "click here" or "this link."
 >
 > Read the `[NixOS module system guide](url)`.
 
-Only link when the destination is directly relevant, not for generic background context (sometimes known as "Wikipedia-style links"). Readers feel obligated to click links, fearing they'll miss something important. Don't send them to a generic article about a technology when they're looking for how *your* system uses it.
+Only link when the destination is directly relevant, not for generic background
+context (sometimes known as "Wikipedia-style links"). Readers feel obligated to
+click links, fearing they'll miss something important. Don't send them to a
+generic article about a technology when they're looking for how _your_ system
+uses it.
 
 **Don't:**
 
 > Our software uses [SQLite](https://sqlite.org/) for storage.\
-> *(Reader clicks expecting schema details — finds a generic product page instead.)*
+> _(Reader clicks expecting schema details — finds a generic product page
+> instead.)_
 
-(Note that in the above example, the SQLite link is the SQLite home page, which is likely not pertinent.)
+(Note that in the above example, the SQLite link is the SQLite home page, which
+is likely not pertinent.)
 
 **Do:**
 
@@ -383,7 +405,8 @@ Only link when the destination is directly relevant, not for generic background 
 
 ### UI language
 
-Match UI element names exactly: wording, casing, and spacing (even if a label seems oddly worded).
+Match UI element names exactly: wording, casing, and spacing (even if a label
+seems oddly worded).
 
 **Don't:**
 
@@ -397,21 +420,25 @@ Match UI element names exactly: wording, casing, and spacing (even if a label se
 >
 > Click **Save Changes**.
 
-Someone will go looking for a button labeled "generator." They will not find it. They will be frustrated.
+Someone will go looking for a button labeled "generator." They will not find it.
+They will be frustrated.
 
-Consistency between documentation and interface builds confidence. Words are part of the interface.
+Consistency between documentation and interface builds confidence. Words are
+part of the interface.
 
-:::{.tip}
-This can be tricky as UI changes; we don't yet have a policy in place for how to handle this. We welcome comments and suggestions.
-:::
+:::{.tip} This can be tricky as UI changes; we don't yet have a policy in place
+for how to handle this. We welcome comments and suggestions. :::
 
 ### Clean system discipline
 
-Your machine has things new users don't: cached credentials, installed tools, environment variables, existing configuration. When writing or updating documentation:
+Your machine has things new users don't: cached credentials, installed tools,
+environment variables, existing configuration. When writing or updating
+documentation:
 
 **Don't:**
 
-> Write steps from memory on your development machine, assuming what works there will work everywhere.
+> Write steps from memory on your development machine, assuming what works there
+> will work everywhere.
 
 **Do:**
 
@@ -419,11 +446,14 @@ Your machine has things new users don't: cached credentials, installed tools, en
 > - Take notes in real time as you work through the steps
 > - Document every warning, prompt, or unexpected output the system shows
 
-Also think in combinations: WSL vs native Linux, with and without existing keys. You don't need to test every matrix square — but you need to know which ones diverge.
+Also think in combinations: WSL vs native Linux, with and without existing keys.
+You don't need to test every matrix square — but you need to know which ones
+diverge.
 
 ### Never type code — always copy-paste
 
-Always copy commands and code from a terminal where you just ran them successfully. Never retype from memory.
+Always copy commands and code from a terminal where you just ran them
+successfully. Never retype from memory.
 
 **Don't:**
 
@@ -435,8 +465,11 @@ Always copy commands and code from a terminal where you just ran them successful
 
 > Paste commands directly from the shell or IDE.
 >
-> Paste code that has been successfully validated with nix-instantiate or nix-build
+> Paste code that has been successfully validated with nix-instantiate or
+> nix-build
 
-Replace sensitive values with placeholders: `<YOUR-KEY>`, `<YOUR-HOST>`, `<YOUR-TOKEN>`.
+Replace sensitive values with placeholders: `<YOUR-KEY>`, `<YOUR-HOST>`,
+`<YOUR-TOKEN>`.
 
-Typed-from-memory commands introduce subtle errors. Even the most experienced software developers have occasional typos.
+Typed-from-memory commands introduce subtle errors. Even the most experienced
+software developers have occasional typos.

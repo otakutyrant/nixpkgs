@@ -1,24 +1,24 @@
 # Freeform modules {#sec-freeform-modules}
 
-Freeform modules allow you to define values for option paths that have
-not been declared explicitly. This can be used to add attribute-specific
-types to what would otherwise have to be `attrsOf` options in order to
-accept all attribute names.
+Freeform modules allow you to define values for option paths that have not been
+declared explicitly. This can be used to add attribute-specific types to what
+would otherwise have to be `attrsOf` options in order to accept all attribute
+names.
 
-This feature can be enabled by using the attribute `freeformType` to
-define a freeform type. By doing this, all assignments without an
-associated option will be merged using the freeform type and combined
-into the resulting `config` set. Since this feature nullifies name
-checking for entire option trees, it is only recommended for use in
-submodules.
+This feature can be enabled by using the attribute `freeformType` to define a
+freeform type. By doing this, all assignments without an associated option will
+be merged using the freeform type and combined into the resulting `config` set.
+Since this feature nullifies name checking for entire option trees, it is only
+recommended for use in submodules.
 
 ::: {#ex-freeform-module .example}
+
 ### Freeform submodule
 
-The following shows a submodule assigning a freeform type that allows
-arbitrary attributes with `str` values below `settings`, but also
-declares an option for the `settings.port` attribute to have it
-type-checked and assign a default value. See
+The following shows a submodule assigning a freeform type that allows arbitrary
+attributes with `str` values below `settings`, but also declares an option for
+the `settings.port` attribute to have it type-checked and assign a default
+value. See
 [Example: Declaring a type-checked `settings` attribute](#ex-settings-typed-attrs)
 for a more complete example.
 
@@ -60,11 +60,11 @@ And the following shows what such a module then allows
   # settings.port = "443";
 }
 ```
+
 :::
 
-::: {.note}
-Freeform attributes cannot depend on other attributes of the same set
-without infinite recursion:
+::: {.note} Freeform attributes cannot depend on other attributes of the same
+set without infinite recursion:
 
 ```nix
 {
@@ -73,7 +73,5 @@ without infinite recursion:
 }
 ```
 
-To prevent this, declare options for all attributes that need to depend
-on others. For above example this means to declare `logLevel` to be an
-option.
-:::
+To prevent this, declare options for all attributes that need to depend on
+others. For above example this means to declare `logLevel` to be an option. :::

@@ -1,6 +1,7 @@
 # npmHooks.npmBuildHook {#npm-build-hook}
 
-Hook for building packages that use npm. Can be used in multi-language environments.
+Hook for building packages that use npm. Can be used in multi-language
+environments.
 
 ## Examples {#npm-build-hook-snippet}
 
@@ -66,6 +67,7 @@ stdenv.mkDerivation (finalAttrs: {
   };
 })
 ```
+
 :::
 
 ## Variables controlling `npmBuildHook` {#npm-build-hook-variables}

@@ -2,8 +2,9 @@
 
 [GARM](https://github.com/cloudbase/garm) manages pools of self-hosted runners
 for GitHub Actions and Gitea Actions. Runners are created on demand through
-pluggable providers, for example [garm-provider-incus](https://github.com/cloudbase/garm-provider-incus),
-which runs them as Incus containers or virtual machines.
+pluggable providers, for example
+[garm-provider-incus](https://github.com/cloudbase/garm-provider-incus), which
+runs them as Incus containers or virtual machines.
 
 This module configures the GARM daemon. Everything GARM manages (forge
 credentials, repositories and runner pools) lives in its database, and for now
@@ -25,10 +26,9 @@ commands below generate a 48 character secret and a 32 character passphrase.
 # chmod 0400 /var/lib/secrets/garm-*
 ```
 
-::: {.warning}
-Changing `database.passphrase` invalidates all secrets already encrypted in the
-database, changing `jwt_auth.secret` invalidates all tokens issued to runners.
-Keep both stable and back them up together with the database.
+::: {.warning} Changing `database.passphrase` invalidates all secrets already
+encrypted in the database, changing `jwt_auth.secret` invalidates all tokens
+issued to runners. Keep both stable and back them up together with the database.
 :::
 
 GARM reads its configuration from a single file and cannot pick up secrets from
@@ -51,9 +51,8 @@ they only need to be readable by root:
 
 ## Providers {#module-garm-providers}
 
-Providers are external executables that GARM calls to create and delete
-runners. They are declared in `settings.provider` and take their own
-configuration file:
+Providers are external executables that GARM calls to create and delete runners.
+They are declared in `settings.provider` and take their own configuration file:
 
 ```nix
 {
@@ -101,9 +100,9 @@ suffixed `/cloud` include `cloud-init`.
 ## Reachability {#module-garm-reachability}
 
 Runners fetch their configuration from GARM and report back to it, so the
-address GARM is initialized with must be reachable from the runners.
-With runners on an Incus bridge, bind GARM to all interfaces
-and keep the port closed on the public ones:
+address GARM is initialized with must be reachable from the runners. With
+runners on an Incus bridge, bind GARM to all interfaces and keep the port closed
+on the public ones:
 
 ```nix
 {
@@ -112,17 +111,16 @@ and keep the port closed on the public ones:
 }
 ```
 
-::: {.note}
-GARM serves its API, the runner metadata endpoints and, if enabled with
-`settings.apiserver.webui.enable`, a web UI on the same port. Do not open that
-port to untrusted networks without putting a reverse proxy in front of it.
+::: {.note} GARM serves its API, the runner metadata endpoints and, if enabled
+with `settings.apiserver.webui.enable`, a web UI on the same port. Do not open
+that port to untrusted networks without putting a reverse proxy in front of it.
 :::
 
 ## Initial setup {#module-garm-setup}
 
 Once the service runs, initialize the controller and add credentials, an entity
-and a pool as described in the [upstream
-documentation](https://github.com/cloudbase/garm/blob/main/doc/first-steps.md).
+and a pool as described in the
+[upstream documentation](https://github.com/cloudbase/garm/blob/main/doc/first-steps.md).
 Pass `garm-cli init` the address the runners use, not `localhost`:
 
 ```ShellSession

@@ -1,10 +1,17 @@
 # Python Tree Sitter {#python-tree-sitter}
 
-[Tree Sitter](https://tree-sitter.github.io/tree-sitter/) is a framework for building grammars for programming languages. It generates and uses syntax trees from source files, which are useful for code analysis, tooling, and syntax highlighting.
+[Tree Sitter](https://tree-sitter.github.io/tree-sitter/) is a framework for
+building grammars for programming languages. It generates and uses syntax trees
+from source files, which are useful for code analysis, tooling, and syntax
+highlighting.
 
-Python bindings for Tree Sitter grammars are provided through the [py-tree-sitter](https://github.com/tree-sitter/py-tree-sitter) module. The Nix package `python3Packages.tree-sitter-grammars` provides pre-built grammars for various languages.
+Python bindings for Tree Sitter grammars are provided through the
+[py-tree-sitter](https://github.com/tree-sitter/py-tree-sitter) module. The Nix
+package `python3Packages.tree-sitter-grammars` provides pre-built grammars for
+various languages.
 
-For example, to experiment with the Rust grammar, you can create a shell environment with the following configuration:
+For example, to experiment with the Rust grammar, you can create a shell
+environment with the following configuration:
 
 ```nix
 {
@@ -25,7 +32,8 @@ pkgs.mkShell {
 }
 ```
 
-Once inside the shell, the following Python code demonstrates how to parse a Rust code snippet:
+Once inside the shell, the following Python code demonstrates how to parse a
+Rust code snippet:
 
 ```python
 # Import the Tree Sitter library and Rust grammar
@@ -52,5 +60,6 @@ tree = parser.parse(
 print(tree.root_node)
 ```
 
-The `tree_sitter_rust.language()` function references the Rust grammar loaded in the Nix shell. Use the resulting tree to inspect the structure of the code programmatically.
-
+The `tree_sitter_rust.language()` function references the Rust grammar loaded in
+the Nix shell. Use the resulting tree to inspect the structure of the code
+programmatically.

@@ -5,7 +5,8 @@
 Let `$major` be the major version number, e.g. `5.9`.
 
 1. Change the version number in the `$major/fetch.sh`.
-2. Run `./maintainers/scripts/fetch-kde-qt.sh pkgs/development/libraries/qt-5/$major`
+2. Run
+   `./maintainers/scripts/fetch-kde-qt.sh pkgs/development/libraries/qt-5/$major`
    from the top of the Nixpkgs tree.
 
 See below if it is necessary to update any patches.
@@ -16,20 +17,22 @@ Let `$major` be the new major version number, e.g. `5.10`.
 
 1. Copy the subdirectory from the previous major version to `$major`.
 2. Change the version number in `$major/fetch.sh`.
-3. Run `./maintainers/scripts/fetch-kde-qt.sh pkgs/development/libraries/qt-5/$major`
+3. Run
+   `./maintainers/scripts/fetch-kde-qt.sh pkgs/development/libraries/qt-5/$major`
    from the top of the Nixpkgs tree.
 4. Add a top-level attribute in `pkgs/top-level/all-packages.nix` for the new
    major version.
 5. Change the `qt5` top-level attribute to point to the new major version.
-6. If the previous major version is _not_ a long-term support release,
-   remove it from Nixpkgs.
+6. If the previous major version is _not_ a long-term support release, remove it
+   from Nixpkgs.
 
 See below if it is necessary to update any patches.
 
 ## Patches
 
 Nixpkgs maintains several patches for Qt which cannot be submitted upstream. To
-facilitate maintenance, a fork of the upstream repository is created for each patched module:
+facilitate maintenance, a fork of the upstream repository is created for each
+patched module:
 
 - [qtbase](https://github.com/ttuegel/qtbase)
 - [qtwebkit](https://github.com/ttuegel/qtwebkit)
@@ -60,8 +63,7 @@ same branch `$major`,
 
 1. Clone the fork for `$module` from the list above.
 2. Checkout the active branch, `git checkout nixpkgs/$major`.
-3. Merge the new version into the active branch,
-   `git merge --no-ff v$version`.
+3. Merge the new version into the active branch, `git merge --no-ff v$version`.
 4. Fix any conflicts.
 5. Open a pull request for the changes.
 6. Follow the instructions above to recreate the module patch in Nixpkgs.

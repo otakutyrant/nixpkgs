@@ -4,6 +4,7 @@
 
 Each navidrome plugin is a `.zip` file named `${pname}.ndp`. Inside this zip is
 two files named exactly:
+
 - `manifest.json` which defines permissions and configuration
 - `plugin.wasm` which is the output of the plugin build
 
@@ -27,5 +28,5 @@ wasi arch's `callPackage`).
 
 ### `buildNavidromeRustPlugin`
 
-This builder uses the standard `buildRustPackage` under the hood (from within the
-wasi arch's `callPackage`).
+This builder uses the standard `buildRustPackage` under the hood (from within
+the wasi arch's `callPackage`).

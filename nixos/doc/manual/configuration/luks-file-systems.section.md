@@ -1,9 +1,8 @@
 # LUKS-Encrypted File Systems {#sec-luks-file-systems}
 
-NixOS supports file systems that are encrypted using *LUKS* (Linux
-Unified Key Setup). For example, here is how you create an encrypted
-Ext4 file system on the device
-`/dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d`:
+NixOS supports file systems that are encrypted using _LUKS_ (Linux Unified Key
+Setup). For example, here is how you create an encrypted Ext4 file system on the
+device `/dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d`:
 
 ```ShellSession
 # cryptsetup luksFormat /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d
@@ -22,11 +21,10 @@ Enter passphrase for /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d: ***
 # mkfs.ext4 /dev/mapper/crypted
 ```
 
-The LUKS volume should be automatically picked up by
-`nixos-generate-config`, but you might want to verify that your
-`hardware-configuration.nix` looks correct. To manually ensure that the
-system is automatically mounted at boot time as `/`, add the following
-to `configuration.nix`:
+The LUKS volume should be automatically picked up by `nixos-generate-config`,
+but you might want to verify that your `hardware-configuration.nix` looks
+correct. To manually ensure that the system is automatically mounted at boot
+time as `/`, add the following to `configuration.nix`:
 
 ```nix
 {
@@ -35,8 +33,8 @@ to `configuration.nix`:
 }
 ```
 
-Should grub be used as bootloader, and `/boot` is located on an
-encrypted partition, it is necessary to add the following grub option:
+Should grub be used as bootloader, and `/boot` is located on an encrypted
+partition, it is necessary to add the following grub option:
 
 ```nix
 { boot.loader.grub.enableCryptodisk = true; }
@@ -49,9 +47,8 @@ compatible token.
 
 ### Without systemd in initrd {#sec-luks-file-systems-fido2-legacy}
 
-In the following example, we will create a new
-FIDO2 credential and add it as a new key to our existing device
-`/dev/sda2`:
+In the following example, we will create a new FIDO2 credential and add it as a
+new key to our existing device `/dev/sda2`:
 
 ```ShellSession
 # export FIDO2_LABEL="/dev/sda2 @ $HOSTNAME"
@@ -66,8 +63,8 @@ Old password (again):
 Added to key to device /dev/sda2, slot: 2
 ```
 
-To ensure that this file system is decrypted using the FIDO2 compatible
-key, add the following to `configuration.nix`:
+To ensure that this file system is decrypted using the FIDO2 compatible key, add
+the following to `configuration.nix`:
 
 ```nix
 {
@@ -77,9 +74,9 @@ key, add the following to `configuration.nix`:
 }
 ```
 
-You can also use the FIDO2 passwordless setup, but for security reasons,
-you might want to enable it only when your device is PIN protected, such
-as [Trezor](https://trezor.io/).
+You can also use the FIDO2 passwordless setup, but for security reasons, you
+might want to enable it only when your device is PIN protected, such as
+[Trezor](https://trezor.io/).
 
 ```nix
 { boot.initrd.luks.devices."/dev/sda2".fido2.passwordLess = true; }
@@ -105,9 +102,10 @@ tokens.
 ```
 
 All tokens that should be used for unlocking the LUKS2-encrypted volume must
-first be enrolled using [systemd-cryptenroll](https://www.freedesktop.org/software/systemd/man/systemd-cryptenroll.html).
-In the following example, a new key slot for the first discovered token is
-added to the LUKS volume.
+first be enrolled using
+[systemd-cryptenroll](https://www.freedesktop.org/software/systemd/man/systemd-cryptenroll.html).
+In the following example, a new key slot for the first discovered token is added
+to the LUKS volume.
 
 ```ShellSession
 # systemd-cryptenroll --fido2-device=auto /dev/sda2

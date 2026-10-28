@@ -2,13 +2,16 @@
 
 ## Installing Idris {#installing-idris}
 
-The easiest way to get a working idris version is to install the `idris` attribute:
+The easiest way to get a working idris version is to install the `idris`
+attribute:
 
 ```ShellSession
 $ nix-env -f "<nixpkgs>" -iA idris
 ```
 
-This however only provides the `prelude` and `base` libraries. To install idris with additional libraries, you can use the `idrisPackages.with-packages` function, e.g. in an overlay in `~/.config/nixpkgs/overlays/my-idris.nix`:
+This however only provides the `prelude` and `base` libraries. To install idris
+with additional libraries, you can use the `idrisPackages.with-packages`
+function, e.g. in an overlay in `~/.config/nixpkgs/overlays/my-idris.nix`:
 
 ```nix
 self: super: {
@@ -47,14 +50,16 @@ $ nix-shell -p 'idrisPackages.with-packages (with idrisPackages; [ contrib pruvi
 
 ## Starting Idris with library support {#starting-idris-with-library-support}
 
-To have access to these libraries in idris, call it with an argument `-p <library name>` for each library:
+To have access to these libraries in idris, call it with an argument
+`-p <library name>` for each library:
 
 ```ShellSession
 $ nix-shell -p 'idrisPackages.with-packages (with idrisPackages; [ contrib pruviloj ])'
 [nix-shell:~]$ idris -p contrib -p pruviloj
 ```
 
-A listing of all available packages the Idris binary has access to is available via `--listlibs`:
+A listing of all available packages the Idris binary has access to is available
+via `--listlibs`:
 
 ```ShellSession
 $ idris --listlibs
@@ -70,7 +75,8 @@ prelude
 
 ## Building an Idris project with Nix {#building-an-idris-project-with-nix}
 
-As an example of how a Nix expression for an Idris package can be created, here is the one for `idrisPackages.yaml`:
+As an example of how a Nix expression for an Idris package can be created, here
+is the one for `idrisPackages.yaml`:
 
 ```nix
 {
@@ -135,9 +141,13 @@ $ nix-build -A yaml
 
 ## Passing options to `idris` commands {#passing-options-to-idris-commands}
 
-The `build-idris-package` function provides also optional input values to set additional options for the used `idris` commands.
+The `build-idris-package` function provides also optional input values to set
+additional options for the used `idris` commands.
 
-Specifically, you can set `idrisBuildOptions`, `idrisTestOptions`, `idrisInstallOptions` and `idrisDocOptions` to provide additional options to the `idris` command respectively when building, testing, installing and generating docs for your package.
+Specifically, you can set `idrisBuildOptions`, `idrisTestOptions`,
+`idrisInstallOptions` and `idrisDocOptions` to provide additional options to the
+`idris` command respectively when building, testing, installing and generating
+docs for your package.
 
 For example you could set
 

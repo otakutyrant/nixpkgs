@@ -1,6 +1,7 @@
 # Abstractions {#sec-module-abstractions}
 
-If you find yourself repeating yourself over and over, it’s time to abstract. Take, for instance, this Apache HTTP Server configuration:
+If you find yourself repeating yourself over and over, it’s time to abstract.
+Take, for instance, this Apache HTTP Server configuration:
 
 ```nix
 {
@@ -21,7 +22,10 @@ If you find yourself repeating yourself over and over, it’s time to abstract. 
 }
 ```
 
-It defines two virtual hosts with nearly identical configuration; the only difference is the document root directories. To prevent this duplication, we can use a `let`:
+It defines two virtual hosts with nearly identical configuration; the only
+difference is the document root directories. To prevent this duplication, we can
+use a `let`:
+
 ```nix
 let
   commonConfig = {
@@ -38,9 +42,12 @@ in
 }
 ```
 
-The `let commonConfig = ...` defines a variable named `commonConfig`. The `//` operator merges two attribute sets, so the configuration of the second virtual host is the set `commonConfig` extended with the document root option.
+The `let commonConfig = ...` defines a variable named `commonConfig`. The `//`
+operator merges two attribute sets, so the configuration of the second virtual
+host is the set `commonConfig` extended with the document root option.
 
-You can write a `let` wherever an expression is allowed. Thus, you also could have written:
+You can write a `let` wherever an expression is allowed. Thus, you also could
+have written:
 
 ```nix
 {
@@ -67,9 +74,12 @@ You can write a `let` wherever an expression is allowed. Thus, you also could ha
 }
 ```
 
-but not `{ let commonConfig = ...; in ...; }` since attributes (as opposed to attribute values) are not expressions.
+but not `{ let commonConfig = ...; in ...; }` since attributes (as opposed to
+attribute values) are not expressions.
 
-**Functions** provide another method of abstraction. For instance, suppose that we want to generate lots of different virtual hosts, all with identical configuration except for the document root. This can be done as follows:
+**Functions** provide another method of abstraction. For instance, suppose that
+we want to generate lots of different virtual hosts, all with identical
+configuration except for the document root. This can be done as follows:
 
 ```nix
 {
@@ -91,4 +101,6 @@ but not `{ let commonConfig = ...; in ...; }` since attributes (as opposed to at
 }
 ```
 
-Here, `makeVirtualHost` is a function that takes a single argument `webroot` and returns the configuration for a virtual host. That function is then called for several names to produce the list of virtual host configurations.
+Here, `makeVirtualHost` is a function that takes a single argument `webroot` and
+returns the configuration for a virtual host. That function is then called for
+several names to produce the list of virtual host configurations.

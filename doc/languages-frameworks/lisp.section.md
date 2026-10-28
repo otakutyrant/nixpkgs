@@ -7,9 +7,9 @@ Definition Facility). It lives in `pkgs/development/lisp-modules`.
 ## Overview {#lisp-overview}
 
 The main entry point of the API are the Common Lisp implementation packages
-themselves (e.g. `abcl`, `ccl`, `clasp-common-lisp`, `clisp`, `ecl`,
-`sbcl`). They have the `pkgs` and `withPackages` attributes, which can be used
-to discover available packages and to build wrappers, respectively.
+themselves (e.g. `abcl`, `ccl`, `clasp-common-lisp`, `clisp`, `ecl`, `sbcl`).
+They have the `pkgs` and `withPackages` attributes, which can be used to
+discover available packages and to build wrappers, respectively.
 
 The `pkgs` attribute set contains packages that were automatically
 [imported](#lisp-importing-packages-from-quicklisp) from Quicklisp, and any
@@ -73,9 +73,9 @@ the packages distributed by Quicklisp into `imported.nix`. This works by parsing
 its `releases.txt` and `systems.txt` files, which are published every couple of
 months on [quicklisp.org](https://beta.quicklisp.org/dist/quicklisp.txt).
 
-The import process is implemented in the `import` directory as Common Lisp
-code in the `org.lispbuilds.nix` ASDF system. To run the script, one can
-execute `ql-import.lisp`:
+The import process is implemented in the `import` directory as Common Lisp code
+in the `org.lispbuilds.nix` ASDF system. To run the script, one can execute
+`ql-import.lisp`:
 
 ```
 cd pkgs/development/lisp-modules
@@ -94,8 +94,10 @@ each time the script runs.)
 The maintainer's job is to:
 
 1. Re-run the `ql-import.lisp` script when there is a new Quicklisp release
-2. [Add any missing native dependencies](#lisp-quicklisp-adding-native-dependencies) in `ql.nix`
-3. For packages that still don't build, [package them manually](#lisp-defining-packages-inside) in `packages.nix`
+2. [Add any missing native dependencies](#lisp-quicklisp-adding-native-dependencies)
+   in `ql.nix`
+3. For packages that still don't build,
+   [package them manually](#lisp-defining-packages-inside) in `packages.nix`
 
 Also, the `imported.nix` file **must not be edited manually**! It should only be
 generated as described in this section (by running `ql-import.lisp`).
@@ -132,9 +134,11 @@ replace the `systems` attribute of the affected packages. (See the definition of
 
 During Quicklisp import:
 
-- `+` in names is converted to `_plus{_,}`: `cl+ssl`->`cl_plus_ssl`, `alexandria+`->`alexandria_plus`
+- `+` in names is converted to `_plus{_,}`: `cl+ssl`->`cl_plus_ssl`,
+  `alexandria+`->`alexandria_plus`
 - `.` in names is converted to `_dot_`: `iolib.base`->`iolib_dot_base`
-- names starting with a number have a `_` prepended (`3d-vectors`->`_3d-vectors`)
+- names starting with a number have a `_` prepended
+  (`3d-vectors`->`_3d-vectors`)
 - `_` in names is converted to `__` for reversibility
 
 ## Defining packages manually inside Nixpkgs {#lisp-defining-packages-inside}
@@ -239,8 +243,8 @@ See the [respective section](#lisp-including-external-pkg-in-scope) on using
 `withOverrides` for how to weave it back into `ecl.pkgs`.
 
 Note that sometimes the slashy systems might not only have more dependencies
-than the main one, but create a circular dependency between `.asd`
-files. Unfortunately, in this case an ad-hoc solution becomes necessary.
+than the main one, but create a circular dependency between `.asd` files.
+Unfortunately, in this case an ad-hoc solution becomes necessary.
 
 ## Building Wrappers {#lisp-building-wrappers}
 
@@ -271,10 +275,9 @@ getting an environment variable for `ext:getenv`. This will load the
 
 ### Loading systems {#lisp-loading-systems}
 
-There, you can use `asdf:load-system`. This works by setting the right
-values for the `CL_SOURCE_REGISTRY`/`ASDF_OUTPUT_TRANSLATIONS` environment
-variables, so that systems are found in the Nix store and pre-compiled FASLs are
-loaded.
+There, you can use `asdf:load-system`. This works by setting the right values
+for the `CL_SOURCE_REGISTRY`/`ASDF_OUTPUT_TRANSLATIONS` environment variables,
+so that systems are found in the Nix store and pre-compiled FASLs are loaded.
 
 ## Adding a new Lisp {#lisp-adding-a-new-lisp}
 

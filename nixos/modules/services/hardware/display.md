@@ -1,10 +1,12 @@
 # Customizing display configuration {#module-hardware-display}
 
 This section describes how to customize display configuration using:
+
 - kernel modes
 - EDID files
 
 Example situations it can help you with:
+
 - display controllers (external hardware) not advertising EDID at all,
 - misbehaving graphics drivers,
 - loading custom display configuration before the Display Manager is running,
@@ -13,8 +15,9 @@ Example situations it can help you with:
 
 In case of very wrong monitor controller and/or video driver combination you can
 [force the display to be enabled](https://mjmwired.net/kernel/Documentation/fb/modedb.txt#41)
-and skip some driver-side checks by adding `video=<OUTPUT>:e` to `boot.kernelParams`.
-This is exactly the case with [`amdgpu` drivers](https://gitlab.freedesktop.org/drm/amd/-/issues/615#note_1987392)
+and skip some driver-side checks by adding `video=<OUTPUT>:e` to
+`boot.kernelParams`. This is exactly the case with
+[`amdgpu` drivers](https://gitlab.freedesktop.org/drm/amd/-/issues/615#note_1987392)
 
 ```nix
 {
@@ -32,8 +35,9 @@ This is exactly the case with [`amdgpu` drivers](https://gitlab.freedesktop.org/
 
 ## Crafting custom EDID files {#module-hardware-display-edid-custom}
 
-To make custom EDID binaries discoverable you should first create a derivation storing them at
-`$out/lib/firmware/edid/` and secondly add that derivation to `hardware.display.edid.packages` NixOS option:
+To make custom EDID binaries discoverable you should first create a derivation
+storing them at `$out/lib/firmware/edid/` and secondly add that derivation to
+`hardware.display.edid.packages` NixOS option:
 
 ```nix
 {
@@ -52,13 +56,16 @@ To make custom EDID binaries discoverable you should first create a derivation s
 ```
 
 There are 2 options significantly easing preparation of EDID files:
+
 - `hardware.display.edid.linuxhw`
 - `hardware.display.edid.modelines`
 
 ## Assigning EDID files to displays {#module-hardware-display-edid-assign}
 
-To assign available custom EDID binaries to your monitor (video output) use `hardware.display.outputs."<NAME>".edid` option.
-Under the hood it adds `drm.edid_firmware` entry to `boot.kernelParams` NixOS option for each configured output:
+To assign available custom EDID binaries to your monitor (video output) use
+`hardware.display.outputs."<NAME>".edid` option. Under the hood it adds
+`drm.edid_firmware` entry to `boot.kernelParams` NixOS option for each
+configured output:
 
 ```nix
 {
@@ -73,8 +80,9 @@ Under the hood it adds `drm.edid_firmware` entry to `boot.kernelParams` NixOS op
 
 ## Pulling files from linuxhw/EDID database {#module-hardware-display-edid-linuxhw}
 
-`hardware.display.edid.linuxhw` utilizes `pkgs.linuxhw-edid-fetcher` to extract EDID files
-from <https://github.com/linuxhw/EDID> based on simple string/regexp search identifying exact entries:
+`hardware.display.edid.linuxhw` utilizes `pkgs.linuxhw-edid-fetcher` to extract
+EDID files from <https://github.com/linuxhw/EDID> based on simple string/regexp
+search identifying exact entries:
 
 ```nix
 {
@@ -96,11 +104,12 @@ from <https://github.com/linuxhw/EDID> based on simple string/regexp search iden
 }
 ```
 
-
 ## Using XFree86 Modeline definitions {#module-hardware-display-edid-modelines}
 
-`hardware.display.edid.modelines` utilizes `pkgs.edid-generator` package allowing you to
-conveniently use [`XFree86 Modeline`](https://en.wikipedia.org/wiki/XFree86_Modeline) entries as EDID binaries:
+`hardware.display.edid.modelines` utilizes `pkgs.edid-generator` package
+allowing you to conveniently use
+[`XFree86 Modeline`](https://en.wikipedia.org/wiki/XFree86_Modeline) entries as
+EDID binaries:
 
 ```nix
 {
@@ -126,7 +135,8 @@ conveniently use [`XFree86 Modeline`](https://en.wikipedia.org/wiki/XFree86_Mode
 
 ## Complete example for Asus PG278Q {#module-hardware-display-pg278q}
 
-And finally this is a complete working example for a 2014 (first) batch of [Asus PG278Q monitor with `amdgpu` drivers](https://gitlab.freedesktop.org/drm/amd/-/issues/615#note_1987392):
+And finally this is a complete working example for a 2014 (first) batch of
+[Asus PG278Q monitor with `amdgpu` drivers](https://gitlab.freedesktop.org/drm/amd/-/issues/615#note_1987392):
 
 ```nix
 {

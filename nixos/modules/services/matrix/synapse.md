@@ -1,29 +1,27 @@
 # Matrix {#module-services-matrix}
 
-[Matrix](https://matrix.org/) is an open standard for
-interoperable, decentralised, real-time communication over IP. It can be used
-to power Instant Messaging, VoIP/WebRTC signalling, Internet of Things
-communication - or anywhere you need a standard HTTP API for publishing and
-subscribing to data whilst tracking the conversation history.
+[Matrix](https://matrix.org/) is an open standard for interoperable,
+decentralised, real-time communication over IP. It can be used to power Instant
+Messaging, VoIP/WebRTC signalling, Internet of Things communication - or
+anywhere you need a standard HTTP API for publishing and subscribing to data
+whilst tracking the conversation history.
 
-This chapter will show you how to set up your own, self-hosted Matrix
-homeserver using the Synapse reference homeserver, and how to serve your own
-copy of the Element web client. See the
-[Try Matrix Now!](https://matrix.org/docs/projects/try-matrix-now.html)
-overview page for links to Element Apps for Android and iOS,
-desktop clients, as well as bridges to other networks and other projects
-around Matrix.
+This chapter will show you how to set up your own, self-hosted Matrix homeserver
+using the Synapse reference homeserver, and how to serve your own copy of the
+Element web client. See the
+[Try Matrix Now!](https://matrix.org/docs/projects/try-matrix-now.html) overview
+page for links to Element Apps for Android and iOS, desktop clients, as well as
+bridges to other networks and other projects around Matrix.
 
 ## Synapse Homeserver {#module-services-matrix-synapse}
 
-[Synapse](https://github.com/element-hq/synapse) is
-the reference homeserver implementation of Matrix from the core development
-team at matrix.org.
+[Synapse](https://github.com/element-hq/synapse) is the reference homeserver
+implementation of Matrix from the core development team at matrix.org.
 
-Before deploying synapse server, a postgresql database must be set up.
-For that, please make sure that postgresql is running and the following
-SQL statements to create a user & database called `matrix-synapse` were
-executed before synapse starts up:
+Before deploying synapse server, a postgresql database must be set up. For that,
+please make sure that postgresql is running and the following SQL statements to
+create a user & database called `matrix-synapse` were executed before synapse
+starts up:
 
 ```sql
 CREATE ROLE "matrix-synapse";
@@ -33,16 +31,17 @@ CREATE DATABASE "matrix-synapse" WITH OWNER "matrix-synapse"
   LC_CTYPE = "C";
 ```
 
-Usually, it's sufficient to do this once manually before
-continuing with the installation.
+Usually, it's sufficient to do this once manually before continuing with the
+installation.
 
 Please make sure to set a different password.
 
-The following configuration example will set up a
-synapse server for the `example.org` domain, served from
-the host `myhostname.example.org`. For more information,
-please refer to the
-[installation instructions of Synapse](https://element-hq.github.io/synapse/latest/setup/installation.html) .
+The following configuration example will set up a synapse server for the
+`example.org` domain, served from the host `myhostname.example.org`. For more
+information, please refer to the
+[installation instructions of Synapse](https://element-hq.github.io/synapse/latest/setup/installation.html)
+.
+
 ```nix
 {
   pkgs,
@@ -149,14 +148,15 @@ in
 
 ## Registering Matrix users {#module-services-matrix-register-users}
 
-If you want to run a server with public registration by anybody, you can
-then enable `services.matrix-synapse.settings.enable_registration = true;`.
+If you want to run a server with public registration by anybody, you can then
+enable `services.matrix-synapse.settings.enable_registration = true;`.
 Otherwise, or you can generate a registration secret with
 {command}`pwgen -s 64 1` and set it with
-[](#opt-services.matrix-synapse.settings.registration_shared_secret).
-To create a new user or admin from the terminal your client listener
-must be configured to use TCP sockets. Then you can run the following
-after you have set the secret and have rebuilt NixOS:
+[](#opt-services.matrix-synapse.settings.registration_shared_secret). To create
+a new user or admin from the terminal your client listener must be configured to
+use TCP sockets. Then you can run the following after you have set the secret
+and have rebuilt NixOS:
+
 ```ShellSession
 $ nix-shell -p matrix-synapse
 $ register_new_matrix_user -k your-registration-shared-secret http://localhost:8008
@@ -166,56 +166,57 @@ Confirm password:
 Make admin [no]:
 Success!
 ```
+
 In the example, this would create a user with the Matrix Identifier
 `@your-username:example.org`.
 
-::: {.warning}
-When using [](#opt-services.matrix-synapse.settings.registration_shared_secret), the secret
-will end up in the world-readable store. Instead it's recommended to deploy the secret
-in an additional file like this:
+::: {.warning} When using
+[](#opt-services.matrix-synapse.settings.registration_shared_secret), the secret
+will end up in the world-readable store. Instead it's recommended to deploy the
+secret in an additional file like this:
 
-  - Create a file with the following contents:
+- Create a file with the following contents:
 
-    ```
-    registration_shared_secret: your-very-secret-secret
-    ```
-  - Deploy the file with a secret-manager such as
-    [{option}`deployment.keys`](https://nixops.readthedocs.io/en/latest/overview.html#managing-keys)
-    from {manpage}`nixops(1)` or [sops-nix](https://github.com/Mic92/sops-nix/) to
-    e.g. {file}`/run/secrets/matrix-shared-secret` and ensure that it's readable
-    by `matrix-synapse`.
-  - Include the file like this in your configuration:
+  ```
+  registration_shared_secret: your-very-secret-secret
+  ```
 
-    ```nix
-    {
-      services.matrix-synapse.extraConfigFiles = [ "/run/secrets/matrix-shared-secret" ];
-    }
-    ```
+- Deploy the file with a secret-manager such as
+  [{option}`deployment.keys`](https://nixops.readthedocs.io/en/latest/overview.html#managing-keys)
+  from {manpage}`nixops(1)` or [sops-nix](https://github.com/Mic92/sops-nix/) to
+  e.g. {file}`/run/secrets/matrix-shared-secret` and ensure that it's readable
+  by `matrix-synapse`.
+- Include the file like this in your configuration:
+
+  ```nix
+  {
+    services.matrix-synapse.extraConfigFiles = [ "/run/secrets/matrix-shared-secret" ];
+  }
+  ```
+
 :::
 
-::: {.note}
-It's also possible to user alternative authentication mechanism such as
+::: {.note} It's also possible to user alternative authentication mechanism such
+as
 [LDAP (via `matrix-synapse-ldap3`)](https://github.com/matrix-org/matrix-synapse-ldap3)
-or [OpenID](https://element-hq.github.io/synapse/latest/openid.html).
-:::
+or [OpenID](https://element-hq.github.io/synapse/latest/openid.html). :::
 
 ## Element (formerly known as Riot) Web Client {#module-services-matrix-element-web}
 
-[Element Web](https://github.com/element-hq/element-web) is
-the reference web client for Matrix and developed by the core team at
-matrix.org. Element was formerly known as Riot.im, see the
+[Element Web](https://github.com/element-hq/element-web) is the reference web
+client for Matrix and developed by the core team at matrix.org. Element was
+formerly known as Riot.im, see the
 [Element introductory blog post](https://element.io/blog/welcome-to-element/)
-for more information. The following snippet can be optionally added to the code before
-to complete the synapse installation with a web client served at
-`https://element.myhostname.example.org` and
-`https://element.example.org`. Alternatively, you can use the hosted
-copy at <https://app.element.io/>,
-or use other web clients or native client applications. Due to the
-`/.well-known` urls set up done above, many clients should
-fill in the required connection details automatically when you enter your
-Matrix Identifier. See
-[Try Matrix Now!](https://matrix.org/docs/projects/try-matrix-now.html)
-for a list of existing clients and their supported featureset.
+for more information. The following snippet can be optionally added to the code
+before to complete the synapse installation with a web client served at
+`https://element.myhostname.example.org` and `https://element.example.org`.
+Alternatively, you can use the hosted copy at <https://app.element.io/>, or use
+other web clients or native client applications. Due to the `/.well-known` urls
+set up done above, many clients should fill in the required connection details
+automatically when you enter your Matrix Identifier. See
+[Try Matrix Now!](https://matrix.org/docs/projects/try-matrix-now.html) for a
+list of existing clients and their supported featureset.
+
 ```nix
 {
   services.nginx.virtualHosts."element.${fqdn}" = {
@@ -232,13 +233,10 @@ for a list of existing clients and their supported featureset.
 }
 ```
 
-::: {.note}
-The Element developers do not recommend running Element and your Matrix
-homeserver on the same fully-qualified domain name for security reasons. In
-the example, this means that you should not reuse the
-`myhostname.example.org` virtualHost to also serve Element,
-but instead serve it on a different subdomain, like
-`element.example.org` in the example. See the
+::: {.note} The Element developers do not recommend running Element and your
+Matrix homeserver on the same fully-qualified domain name for security reasons.
+In the example, this means that you should not reuse the
+`myhostname.example.org` virtualHost to also serve Element, but instead serve it
+on a different subdomain, like `element.example.org` in the example. See the
 [Element Important Security Notes](https://github.com/element-hq/element-web/tree/v1.10.0#important-security-notes)
-for more information on this subject.
-:::
+for more information on this subject. :::

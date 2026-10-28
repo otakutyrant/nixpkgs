@@ -1,6 +1,7 @@
 # pkgs.makeSetupHook {#sec-pkgs.makeSetupHook}
 
-`pkgs.makeSetupHook` is a build helper that produces hooks that go into `nativeBuildInputs`
+`pkgs.makeSetupHook` is a build helper that produces hooks that go into
+`nativeBuildInputs`
 
 ## Usage {#sec-pkgs.makeSetupHook-usage}
 
@@ -47,9 +48,9 @@ pkgs.makeSetupHook
 
 ## Attributes {#sec-pkgs.makeSetupHook-attributes}
 
-* `name` Set the name of the hook.
-* `propagatedBuildInputs` Runtime dependencies (such as binaries) of the hook.
-* `depsTargetTargetPropagated` Non-binary dependencies.
-* `meta`
-* `passthru`
-* `substitutions` Variables for `substituteAll`
+- `name` Set the name of the hook.
+- `propagatedBuildInputs` Runtime dependencies (such as binaries) of the hook.
+- `depsTargetTargetPropagated` Non-binary dependencies.
+- `meta`
+- `passthru`
+- `substitutions` Variables for `substituteAll`

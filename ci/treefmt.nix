@@ -147,6 +147,11 @@
         includes = [ "*.nix" ];
       };
 
+      prettier = {
+        command = lib.getExe pkgs.prettier;
+        includes = [ "*.md" ];
+      };
+
       yamlfmt = {
         command = lib.getExe pkgs.yamlfmt;
         excludes = [

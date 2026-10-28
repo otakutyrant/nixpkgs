@@ -1,12 +1,17 @@
 # tensorrt
 
-Requirements: <https://docs.nvidia.com/deeplearning/tensorrt/latest/getting-started/support-matrix.html#support-matrix>
+Requirements:
+<https://docs.nvidia.com/deeplearning/tensorrt/latest/getting-started/support-matrix.html#support-matrix>
 
-These redistributable manifests are made by hand to allow TensorRT to be packaged with the same functionality the other NVIDIA redistributable libraries are packaged with.
+These redistributable manifests are made by hand to allow TensorRT to be
+packaged with the same functionality the other NVIDIA redistributable libraries
+are packaged with.
 
-Only available from 10.0.0 and onwards, which is when NVIDIA stopped putting them behind a login wall.
+Only available from 10.0.0 and onwards, which is when NVIDIA stopped putting
+them behind a login wall.
 
-You can find them at: <https://github.com/NVIDIA/TensorRT?tab=readme-ov-file#optional---if-not-using-tensorrt-container-specify-the-tensorrt-ga-release-build-path>.
+You can find them at:
+<https://github.com/NVIDIA/TensorRT?tab=readme-ov-file#optional---if-not-using-tensorrt-container-specify-the-tensorrt-ga-release-build-path>.
 
 Construct entries using the provider `helper.bash` script.
 
@@ -27,11 +32,15 @@ main: storePath: /nix/store/l2hq83ihj3bcm4z836cz2dw3ilkhwrpy-TensorRT-10.2.0.19.
 }
 ```
 
-I set the `release_date` to the date of the corresponding release on their GitHub: <https://github.com/NVIDIA/TensorRT/releases>.
+I set the `release_date` to the date of the corresponding release on their
+GitHub: <https://github.com/NVIDIA/TensorRT/releases>.
 
-TensorRT 11.x has no linux-sbsa build for CUDA 12 and dropped JetPack support with 11.2.1. 11.1.0 is the latest release
-which supports Jetson Orin and Thor (with CUDA 13.2 Update 1 and later); NVIDIA provides only a linux-sbsa build made
-with CUDA 13.3 for it, which the support matrix lists for both Linux SBSA (CUDA 13.3) and JetPack (CUDA 13.2).
+TensorRT 11.x has no linux-sbsa build for CUDA 12 and dropped JetPack support
+with 11.2.1. 11.1.0 is the latest release which supports Jetson Orin and Thor
+(with CUDA 13.2 Update 1 and later); NVIDIA provides only a linux-sbsa build
+made with CUDA 13.3 for it, which the support matrix lists for both Linux SBSA
+(CUDA 13.3) and JetPack (CUDA 13.2).
 
-The 11.x Linux SBSA tarballs are not listed in the GitHub README, but follow the same naming convention as the x86_64
-tarballs, with `aarch64` in place of `x86_64` (e.g., `Linux-aarch64-cuda-13.4`).
+The 11.x Linux SBSA tarballs are not listed in the GitHub README, but follow the
+same naming convention as the x86_64 tarballs, with `aarch64` in place of
+`x86_64` (e.g., `Linux-aarch64-cuda-13.4`).

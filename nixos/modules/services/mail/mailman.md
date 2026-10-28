@@ -1,14 +1,16 @@
 # Mailman {#module-services-mailman}
 
-[Mailman](https://www.list.org) is free
-software for managing electronic mail discussion and e-newsletter
-lists. Mailman and its web interface can be configured using the
-corresponding NixOS module. Note that this service is best used with
-an existing, securely configured Postfix setup, as it does not automatically configure this.
+[Mailman](https://www.list.org) is free software for managing electronic mail
+discussion and e-newsletter lists. Mailman and its web interface can be
+configured using the corresponding NixOS module. Note that this service is best
+used with an existing, securely configured Postfix setup, as it does not
+automatically configure this.
 
 ## Basic usage with Postfix {#module-services-mailman-basic-usage}
 
-For a basic configuration with Postfix as the MTA, the following settings are suggested:
+For a basic configuration with Postfix as the MTA, the following settings are
+suggested:
+
 ```nix
 { config, ... }:
 {
@@ -42,21 +44,25 @@ For a basic configuration with Postfix as the MTA, the following settings are su
 
 DNS records will also be required:
 
-  - `AAAA` and `A` records pointing to the host in question, in order for browsers to be able to discover the address of the web server;
-  - An `MX` record pointing to a domain name at which the host is reachable, in order for other mail servers to be able to deliver emails to the mailing lists it hosts.
+- `AAAA` and `A` records pointing to the host in question, in order for browsers
+  to be able to discover the address of the web server;
+- An `MX` record pointing to a domain name at which the host is reachable, in
+  order for other mail servers to be able to deliver emails to the mailing lists
+  it hosts.
 
-After this has been done and appropriate DNS records have been
-set up, the Postorius mailing list manager and the Hyperkitty
-archive browser will be available at
-`https://lists.example.org/`. Note that this setup is not
-sufficient to deliver emails to most email providers nor to
-avoid spam -- a number of additional measures for authenticating
-incoming and outgoing mails, such as SPF, DMARC and DKIM are
-necessary, but outside the scope of the Mailman module.
+After this has been done and appropriate DNS records have been set up, the
+Postorius mailing list manager and the Hyperkitty archive browser will be
+available at `https://lists.example.org/`. Note that this setup is not
+sufficient to deliver emails to most email providers nor to avoid spam -- a
+number of additional measures for authenticating incoming and outgoing mails,
+such as SPF, DMARC and DKIM are necessary, but outside the scope of the Mailman
+module.
 
 ## Using with other MTAs {#module-services-mailman-other-mtas}
 
-Mailman also supports other MTA, though with a little bit more configuration. For example, to use Mailman with Exim, you can use the following settings:
+Mailman also supports other MTA, though with a little bit more configuration.
+For example, to use Mailman with Exim, you can use the following settings:
+
 ```nix
 { config, ... }:
 {

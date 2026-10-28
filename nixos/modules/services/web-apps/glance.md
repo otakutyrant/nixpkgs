@@ -7,8 +7,10 @@ more about it.
 
 ## Quickstart {#module-services-glance-quickstart}
 
-Check out the [configuration docs](https://github.com/glanceapp/glance/blob/main/docs/configuration.md) to learn more.
-Use the following configuration to start a public instance of Glance locally:
+Check out the
+[configuration docs](https://github.com/glanceapp/glance/blob/main/docs/configuration.md)
+to learn more. Use the following configuration to start a public instance of
+Glance locally:
 
 ```nix
 {

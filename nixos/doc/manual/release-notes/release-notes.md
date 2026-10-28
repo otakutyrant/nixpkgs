@@ -1,6 +1,7 @@
 # Release Notes {#ch-release-notes}
 
-This section lists the release notes for each stable version of NixOS and current unstable revision.
+This section lists the release notes for each stable version of NixOS and
+current unstable revision.
 
 ```{=include=} sections
 rl-2611.section.md

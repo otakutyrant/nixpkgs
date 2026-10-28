@@ -1,7 +1,7 @@
 # nodejsInstallExecutables {#nodejs-install-executables}
 
-Hook for wrapping Node.js executables.
-Primarily created for a multi-language environment.
+Hook for wrapping Node.js executables. Primarily created for a multi-language
+environment.
 
 ## Examples {#nodejs-install-executables-example}
 
@@ -13,8 +13,8 @@ Primarily created for a multi-language environment.
 
 #### `makeWrapperArgs` {#nodejs-install-executables-wrapper-args}
 
-Flags to pass to the call to [`makeWrapper`](#fun-makeWrapper).
-To avoid double-wrapping, this flag can also be accessed in Bash.
+Flags to pass to the call to [`makeWrapper`](#fun-makeWrapper). To avoid
+double-wrapping, this flag can also be accessed in Bash.
 
 ```nix
 stdenv.mkDerivation (finalAttrs: {

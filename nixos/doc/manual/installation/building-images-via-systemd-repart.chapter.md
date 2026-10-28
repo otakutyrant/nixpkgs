@@ -4,7 +4,8 @@ You can build disk images in NixOS with the `image.repart` option provided by
 the module [image/repart.nix][]. This module uses `systemd-repart` to build the
 images and exposes it's entire interface via the `repartConfig` option.
 
-[image/repart.nix]: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/image/repart.nix
+[image/repart.nix]:
+  https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/image/repart.nix
 
 An example of how to build an image:
 
@@ -44,15 +45,15 @@ An example of how to build an image:
 ## Nix Store Paths {#sec-image-repart-store-paths}
 
 If you want to rewrite Nix store paths, e.g., to remove the `/nix/store` prefix
-or to nest it below a parent path, you can do that through the
-`nixStorePrefix` option.
+or to nest it below a parent path, you can do that through the `nixStorePrefix`
+option.
 
 ### Nix Store Partition {#sec-image-repart-store-partition}
 
 You can define a partition that only contains the Nix store and then mount it
 under `/nix/store`. Because the `/nix/store` part of the paths is already
-determined by the mount point, you have to set `nixStorePrefix = "/"` so
-that `/nix/store` is stripped from the paths before copying them into the image.
+determined by the mount point, you have to set `nixStorePrefix = "/"` so that
+`/nix/store` is stripped from the paths before copying them into the image.
 
 ```nix
 {
@@ -74,8 +75,8 @@ that `/nix/store` is stripped from the paths before copying them into the image.
 
 ### Nix Store Subvolume {#sec-image-repart-store-subvolume}
 
-Alternatively, you can create a Btrfs subvolume `/@nix-store` containing the
-Nix store and mount it on `/nix/store`:
+Alternatively, you can create a Btrfs subvolume `/@nix-store` containing the Nix
+store and mount it on `/nix/store`:
 
 ```nix
 {
@@ -116,15 +117,18 @@ appliances][].
 [software appliances]: https://en.wikipedia.org/wiki/Software_appliance
 
 The generation based update mechanism of NixOS is not suited for appliances.
-Updates of appliances are usually either performed by replacing the entire
-image with a new one or by updating partitions via an A/B scheme. See the
-[Chrome OS update process][chrome-os-update] for an example of how to achieve
-this. The appliance image built in the following example does not contain a
+Updates of appliances are usually either performed by replacing the entire image
+with a new one or by updating partitions via an A/B scheme. See the [Chrome OS
+update process][chrome-os-update] for an example of how to achieve this. The
+appliance image built in the following example does not contain a
 `configuration.nix` and thus you will not be able to call `nixos-rebuild` from
-this system. Furthermore, it uses a [Unified Kernel Image][unified-kernel-image].
+this system. Furthermore, it uses a [Unified Kernel
+Image][unified-kernel-image].
 
-[chrome-os-update]: https://chromium.googlesource.com/aosp/platform/system/update_engine/+/HEAD/README.md
-[unified-kernel-image]: https://uapi-group.org/specifications/specs/unified_kernel_image/
+[chrome-os-update]:
+  https://chromium.googlesource.com/aosp/platform/system/update_engine/+/HEAD/README.md
+[unified-kernel-image]:
+  https://uapi-group.org/specifications/specs/unified_kernel_image/
 
 ```nix
 let

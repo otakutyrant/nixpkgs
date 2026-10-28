@@ -45,8 +45,8 @@ With custom settings and a persistent identity:
 
 At startup, settings provided through
 [`services.rnsd.settings`](#opt-services.rnsd.settings) and
-[`services.rnsd.identityFile`](#opt-services.rnsd.identityFile)
-are copied into the service state directory with restrictive permissions.
+[`services.rnsd.identityFile`](#opt-services.rnsd.identityFile) are copied into
+the service state directory with restrictive permissions.
 
 ## Hardware Access {#module-services-rnsd-hardware-access}
 

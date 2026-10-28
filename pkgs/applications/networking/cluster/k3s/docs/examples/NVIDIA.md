@@ -44,9 +44,11 @@ Use the following command to ensure the GPU is accessible:
 nvidia-smi
 ```
 
-If there is an error in the output, a reboot may be required for the driver to be assigned to the GPU.
+If there is an error in the output, a reboot may be required for the driver to
+be assigned to the GPU.
 
-Additionally, `lspci -k` can be used to ensure the driver has been assigned to the GPU:
+Additionally, `lspci -k` can be used to ensure the driver has been assigned to
+the GPU:
 
 ```
 # lspci -k | grep -i nvidia
@@ -58,7 +60,8 @@ Additionally, `lspci -k` can be used to ensure the driver has been assigned to t
 
 ## Configure k3s
 
-You now need to create a new file in `/var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl` with the following:
+You now need to create a new file in
+`/var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl` with the following:
 
 ```
 {{ template "base" . }}
@@ -94,7 +97,8 @@ Ensure that the Nvidia runtime is detected by k3s:
 grep nvidia /var/lib/rancher/k3s/agent/etc/containerd/config.toml
 ```
 
-Apply the DaemonSet in the [generic-cdi-plugin README](https://github.com/OlfillasOdikno/generic-cdi-plugin):
+Apply the DaemonSet in the
+[generic-cdi-plugin README](https://github.com/OlfillasOdikno/generic-cdi-plugin):
 
 ```
 apiVersion: v1
@@ -205,7 +209,8 @@ spec:
         nvidia.com/gpu-all: "1"
 ```
 
-Once the pod is running, use the following command to test that the GPU was detected:
+Once the pod is running, use the following command to test that the GPU was
+detected:
 
 ```
 kubectl exec -n default -it pod/gpu-test -- nvidia-smi

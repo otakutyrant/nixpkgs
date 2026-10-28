@@ -1,18 +1,18 @@
 # Logging {#sec-logging}
 
-System-wide logging is provided by systemd's *journal*, which subsumes
-traditional logging daemons such as syslogd and klogd. Log entries are
-kept in binary files in `/var/log/journal/`. The command `journalctl`
-allows you to see the contents of the journal. For example,
+System-wide logging is provided by systemd's _journal_, which subsumes
+traditional logging daemons such as syslogd and klogd. Log entries are kept in
+binary files in `/var/log/journal/`. The command `journalctl` allows you to see
+the contents of the journal. For example,
 
 ```ShellSession
 $ journalctl -b
 ```
 
-shows all journal entries since the last reboot. (The output of
-`journalctl` is piped into `less` by default.) You can use various
-options and match operators to restrict output to messages of interest.
-For instance, to get all messages from PostgreSQL:
+shows all journal entries since the last reboot. (The output of `journalctl` is
+piped into `less` by default.) You can use various options and match operators
+to restrict output to messages of interest. For instance, to get all messages
+from PostgreSQL:
 
 ```ShellSession
 $ journalctl -u postgresql.service
@@ -24,8 +24,8 @@ Jan 07 15:45:10 hagbard postgres[2532]: [1-1] LOG:  database system was shut dow
 Jan 07 15:45:13 hagbard postgres[2500]: [1-1] LOG:  database system is ready to accept connections
 ```
 
-Or to get all messages since the last reboot that have at least a
-"critical" severity level:
+Or to get all messages since the last reboot that have at least a "critical"
+severity level:
 
 ```ShellSession
 $ journalctl -b -p crit
@@ -34,5 +34,5 @@ Dec 29 01:30:22 mandark kernel[6131]: [1053513.909444] CPU6: Core temperature ab
 ```
 
 The system journal is readable by root and by users in the `wheel` and
-`systemd-journal` groups. All users have a private journal that can be
-read using `journalctl`.
+`systemd-journal` groups. All users have a private journal that can be read
+using `journalctl`.

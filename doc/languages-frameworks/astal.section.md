@@ -4,7 +4,8 @@ Astal is a collection of building blocks for creating custom desktop shells.
 
 ## Bundling {#astal-bundling}
 
-Bundling an Astal application is done using the `ags` tool. You can use it like this:
+Bundling an Astal application is done using the `ags` tool. You can use it like
+this:
 
 ```nix
 ags.bundle {
@@ -40,4 +41,5 @@ ags.bundle {
 }
 ```
 
-You can also pass all other arguments that are supported by `stdenv.mkDerivation`.
+You can also pass all other arguments that are supported by
+`stdenv.mkDerivation`.

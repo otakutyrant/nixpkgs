@@ -4,9 +4,9 @@
 
 The [**Xen Project Hypervisor**](https://xenproject.org/) is an open-source
 type-1 virtual machine manager which allows multiple virtual machines, known as
-*domains*, to run concurrently with the host on the physical machine. This is
+_domains_, to run concurrently with the host on the physical machine. This is
 unlike a typical type-2 hypervisor, such as QEMU, where the virtual machines run
-as applications on top of the host. NixOS runs as the privileged *Domain 0*, and
+as applications on top of the host. NixOS runs as the privileged _Domain 0_, and
 can paravirtualise (PV Mode) or fully virtualise (HVM Mode) unprivileged domains
 (`domUs`).
 

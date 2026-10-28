@@ -1,13 +1,12 @@
 # NordVPN {#module-services-nordvpn}
 
-*Source:* {file}`modules/services/networking/nordvpn.nix`
+_Source:_ {file}`modules/services/networking/nordvpn.nix`
 
-*Upstream documentation:* <https://github.com/NordSecurity/nordvpn-linux>
+_Upstream documentation:_ <https://github.com/NordSecurity/nordvpn-linux>
 
-NordVPN offers a paid virtual private network (VPN) service.
-The service operates as closed-source,
-but the Linux client uses open-source code licensed under GPLv3.
-A minimal configuration in NixOS appears as follows:
+NordVPN offers a paid virtual private network (VPN) service. The service
+operates as closed-source, but the Linux client uses open-source code licensed
+under GPLv3. A minimal configuration in NixOS appears as follows:
 
 ```nix
 {
@@ -17,8 +16,9 @@ A minimal configuration in NixOS appears as follows:
 }
 ```
 
-When using a firewall, set `networking.firewall.checkReversePath` to `"loose"` or `false`.
-NordVPN includes a `kill-switch` feature that blocks all packets not associated with the VPN connection.
+When using a firewall, set `networking.firewall.checkReversePath` to `"loose"`
+or `false`. NordVPN includes a `kill-switch` feature that blocks all packets not
+associated with the VPN connection.
 
 Additionally, add your user to the `nordvpn` group.
 
@@ -61,5 +61,4 @@ Additionally, if you prefer to use the friendly GUI,
 nordvpn-gui
 ```
 
-**Disclaimer:** NixOS currently does not support meshnet.
-Contributions welcome!
+**Disclaimer:** NixOS currently does not support meshnet. Contributions welcome!

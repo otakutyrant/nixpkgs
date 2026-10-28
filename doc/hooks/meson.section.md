@@ -22,17 +22,19 @@ Controls the flags passed to `meson setup` during configure phase.
 
 Directory where Meson will put intermediate files.
 
-Setting this can be useful for debugging multiple Meson builds while in the same source directory, for example, when building for different platforms.
-Different values for each build will prevent build artifacts from interfering with each other.
-This setting has no tangible effect when running the build in a sandboxed derivation.
+Setting this can be useful for debugging multiple Meson builds while in the same
+source directory, for example, when building for different platforms. Different
+values for each build will prevent build artifacts from interfering with each
+other. This setting has no tangible effect when running the build in a sandboxed
+derivation.
 
 The default value is `build`.
 
 #### `mesonWrapMode` {#meson-wrap-mode}
 
 Which value is passed as
-[`-Dwrap_mode=`](https://mesonbuild.com/Builtin-options.html#core-options).
-In Nixpkgs, the default value is `nodownload`, so that no subproject will be
+[`-Dwrap_mode=`](https://mesonbuild.com/Builtin-options.html#core-options). In
+Nixpkgs, the default value is `nodownload`, so that no subproject will be
 downloaded (since network access is already disabled during deployment in
 Nixpkgs).
 
@@ -67,9 +69,9 @@ A list of installation tags passed to Meson's commandline option
 [`--tags`](https://mesonbuild.com/Installing.html#installation-tags) during
 install phase.
 
-Note: `mesonInstallTags` should be a list of strings that will be converted to
-a comma-separated string that is recognized to `--tags`.
-Example: `mesonInstallTags = [ "emulator" "assembler" ];` will be converted to
+Note: `mesonInstallTags` should be a list of strings that will be converted to a
+comma-separated string that is recognized to `--tags`. Example:
+`mesonInstallTags = [ "emulator" "assembler" ];` will be converted to
 `--tags emulator,assembler`.
 
 #### `dontUseMesonConfigure` {#dont-use-meson-configure}
@@ -96,6 +98,6 @@ Meson setup hook.
 
 #### `disabledTests` {#meson-disabled-tests}
 
-Specifies a list of tests to skip in `mesonCheckPhase`.
-You can optionally specify a subproject using a colon prefix, e.g. `subproject:test_name`.
-Meson will pick up the main project name as a default if no subproject is specified.
+Specifies a list of tests to skip in `mesonCheckPhase`. You can optionally
+specify a subproject using a colon prefix, e.g. `subproject:test_name`. Meson
+will pick up the main project name as a default if no subproject is specified.

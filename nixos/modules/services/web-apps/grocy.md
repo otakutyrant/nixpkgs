@@ -1,11 +1,12 @@
 # Grocy {#module-services-grocy}
 
-[Grocy](https://grocy.info/) is a web-based self-hosted groceries
-& household management solution for your home.
+[Grocy](https://grocy.info/) is a web-based self-hosted groceries & household
+management solution for your home.
 
 ## Basic usage {#module-services-grocy-basic-usage}
 
 A very basic configuration may look like this:
+
 ```nix
 { pkgs, ... }:
 {
@@ -15,20 +16,22 @@ A very basic configuration may look like this:
   };
 }
 ```
-This configures a simple vhost using [nginx](#opt-services.nginx.enable)
-which listens to `grocy.tld` with fully configured ACME/LE (this can be
-disabled by setting [services.grocy.nginx.enableSSL](#opt-services.grocy.nginx.enableSSL)
-to `false`). After the initial setup the credentials `admin:admin`
-can be used to login.
 
-The application's state is persisted at `/var/lib/grocy/grocy.db` in a
-`sqlite3` database. The migration is applied when requesting the `/`-route
-of the application.
+This configures a simple vhost using [nginx](#opt-services.nginx.enable) which
+listens to `grocy.tld` with fully configured ACME/LE (this can be disabled by
+setting [services.grocy.nginx.enableSSL](#opt-services.grocy.nginx.enableSSL) to
+`false`). After the initial setup the credentials `admin:admin` can be used to
+login.
+
+The application's state is persisted at `/var/lib/grocy/grocy.db` in a `sqlite3`
+database. The migration is applied when requesting the `/`-route of the
+application.
 
 ## Settings {#module-services-grocy-settings}
 
-The configuration for `grocy` is located at `/etc/grocy/config.php`.
-By default, the following settings can be defined in the NixOS-configuration:
+The configuration for `grocy` is located at `/etc/grocy/config.php`. By default,
+the following settings can be defined in the NixOS-configuration:
+
 ```nix
 { pkgs, ... }:
 {
@@ -54,8 +57,9 @@ By default, the following settings can be defined in the NixOS-configuration:
 }
 ```
 
-If you want to alter the configuration file on your own, you can do this manually with
-an expression like this:
+If you want to alter the configuration file on your own, you can do this
+manually with an expression like this:
+
 ```nix
 { lib, ... }:
 {

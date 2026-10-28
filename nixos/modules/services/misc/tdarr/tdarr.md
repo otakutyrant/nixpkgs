@@ -1,10 +1,13 @@
 # Tdarr {#module-services-tdarr}
 
-*Source:* {file}`modules/services/misc/tdarr`
+_Source:_ {file}`modules/services/misc/tdarr`
 
-*Upstream documentation:* <https://docs.tdarr.io/>
+_Upstream documentation:_ <https://docs.tdarr.io/>
 
-[Tdarr](https://tdarr.io) is a distributed transcoding system for automating media library transcoding operations using FFmpeg and HandBrake. It provides a web interface for managing transcoding nodes and configuring media processing pipelines.
+[Tdarr](https://tdarr.io) is a distributed transcoding system for automating
+media library transcoding operations using FFmpeg and HandBrake. It provides a
+web interface for managing transcoding nodes and configuring media processing
+pipelines.
 
 ## Basic Usage {#module-services-tdarr-basic-usage}
 
@@ -19,11 +22,13 @@ A minimal Tdarr setup with a server and one local node:
 }
 ```
 
-This creates a Tdarr server accessible at `http://localhost:8265` (web UI) with one processing node. The service runs as the `tdarr` user with data stored in `/var/lib/tdarr`.
+This creates a Tdarr server accessible at `http://localhost:8265` (web UI) with
+one processing node. The service runs as the `tdarr` user with data stored in
+`/var/lib/tdarr`.
 
-::: {.note}
-The `services.tdarr.enable` option is a convenience that enables both the server and all configured nodes. For finer control, use `services.tdarr.server.enable` and configure nodes independently.
-:::
+::: {.note} The `services.tdarr.enable` option is a convenience that enables
+both the server and all configured nodes. For finer control, use
+`services.tdarr.server.enable` and configure nodes independently. :::
 
 ### Server Only {#module-services-tdarr-server-only}
 
@@ -52,15 +57,16 @@ To run node(s) connecting to a remote server:
 }
 ```
 
-::: {.note}
-`serverIP` and `serverPort` must match the host and port in `serverURL`.
-Although these fields are deprecated upstream in favour of `serverURL`, the node binary still uses them for internal API calls.
-Without them the node falls back to `0.0.0.0` and cannot reach the server.
-:::
+::: {.note} `serverIP` and `serverPort` must match the host and port in
+`serverURL`. Although these fields are deprecated upstream in favour of
+`serverURL`, the node binary still uses them for internal API calls. Without
+them the node falls back to `0.0.0.0` and cannot reach the server. :::
 
 ## Authentication {#module-services-tdarr-authentication}
 
-Authentication should be enabled for any installation accessible beyond localhost. Secrets are passed via environment files to avoid leaking them into the Nix store:
+Authentication should be enabled for any installation accessible beyond
+localhost. Secrets are passed via environment files to avoid leaking them into
+the Nix store:
 
 ```nix
 {
@@ -82,9 +88,9 @@ Authentication should be enabled for any installation accessible beyond localhos
 }
 ```
 
-::: {.warning}
-When using unmapped nodes, files in Tdarr's library source and cache folders become accessible through the network API. Authentication is strongly recommended in this configuration.
-:::
+::: {.warning} When using unmapped nodes, files in Tdarr's library source and
+cache folders become accessible through the network API. Authentication is
+strongly recommended in this configuration. :::
 
 ## Node Configuration {#module-services-tdarr-nodes}
 
@@ -117,7 +123,8 @@ You can run multiple nodes on the same machine with different configurations:
 
 ### Worker Configuration {#module-services-tdarr-nodes-workers}
 
-Workers determine how many parallel transcoding and healthcheck operations a node can perform:
+Workers determine how many parallel transcoding and healthcheck operations a
+node can perform:
 
 ```nix
 {
@@ -132,16 +139,17 @@ Workers determine how many parallel transcoding and healthcheck operations a nod
 }
 ```
 
-::: {.note}
-GPU workers require appropriate hardware and drivers. Worker counts can also be adjusted at runtime through the Tdarr web UI.
-:::
+::: {.note} GPU workers require appropriate hardware and drivers. Worker counts
+can also be adjusted at runtime through the Tdarr web UI. :::
 
 ### Node Types {#module-services-tdarr-nodes-types}
 
 Tdarr supports two node types:
 
-- **Mapped nodes** (default): Access files directly from the library paths configured in the Tdarr web interface.
-- **Unmapped nodes**: Receive files over the network, useful for nodes without direct storage access.
+- **Mapped nodes** (default): Access files directly from the library paths
+  configured in the Tdarr web interface.
+- **Unmapped nodes**: Receive files over the network, useful for nodes without
+  direct storage access.
 
 ```nix
 {
@@ -156,7 +164,8 @@ Tdarr supports two node types:
 
 ### Path Translators {#module-services-tdarr-nodes-path-translators}
 
-Path translators enable cross-mount-point file access by mapping server paths to node paths:
+Path translators enable cross-mount-point file access by mapping server paths to
+node paths:
 
 ```nix
 {
@@ -175,10 +184,10 @@ Path translators enable cross-mount-point file access by mapping server paths to
 }
 ```
 
-::: {.note}
-`pathTranslators` cannot be set via environment variables (a tdarr upstream limitation), so they are written to the node's JSON config file.
-The module writes all node settings to this file to prevent tdarr from resetting `pathTranslators` to its empty default on startup.
-:::
+::: {.note} `pathTranslators` cannot be set via environment variables (a tdarr
+upstream limitation), so they are written to the node's JSON config file. The
+module writes all node settings to this file to prevent tdarr from resetting
+`pathTranslators` to its empty default on startup. :::
 
 ## Networking {#module-services-tdarr-networking}
 
@@ -269,7 +278,8 @@ Configure automatic plugin updates using cron expressions:
 
 ## Distributed Setup {#module-services-tdarr-distributed}
 
-Tdarr's distributed architecture allows running nodes on separate machines from the server.
+Tdarr's distributed architecture allows running nodes on separate machines from
+the server.
 
 ### Server Machine {#module-services-tdarr-distributed-server}
 
@@ -302,12 +312,10 @@ Tdarr's distributed architecture allows running nodes on separate machines from 
 }
 ```
 
-::: {.note}
-`serverIP` and `serverPort` must be set alongside `serverURL` for remote nodes.
-Even though these fields are deprecated upstream, the node binary uses them for
-internal API calls and will attempt `0.0.0.0` if they are absent.
+::: {.note} `serverIP` and `serverPort` must be set alongside `serverURL` for
+remote nodes. Even though these fields are deprecated upstream, the node binary
+uses them for internal API calls and will attempt `0.0.0.0` if they are absent.
 
 Ensure the server's firewall allows incoming connections on the configured
 ports. Both server and nodes must have access to the same media and transcode
-cache paths (for mapped nodes).
-:::
+cache paths (for mapped nodes). :::

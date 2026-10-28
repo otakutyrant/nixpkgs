@@ -1,7 +1,7 @@
 # Importing Modules {#sec-importing-modules}
 
-Sometimes NixOS modules need to be used in configuration but exist
-outside of Nixpkgs. These modules can be imported:
+Sometimes NixOS modules need to be used in configuration but exist outside of
+Nixpkgs. These modules can be imported:
 
 ```nix
 {

@@ -6,9 +6,10 @@ end-to-end encrypted platform for photos and videos.
 ## Quickstart {#module-services-ente-quickstart}
 
 To host ente, you need the following things:
+
 - An S3-compatible object storage server (either an external provider or a
-  self-hosted one such as [garage](#module-services-garage)). From your
-  storage provider you will need:
+  self-hosted one such as [garage](#module-services-garage)). From your storage
+  provider you will need:
   - the S3 endpoint URL
   - a bucket name
   - an access key ID and secret access key with read/write access to the bucket
@@ -84,16 +85,17 @@ Once you have an S3 endpoint, bucket and credentials, configure ente as follows:
 ```
 
 If you have a mail server or smtp relay, you can optionally configure
-`services.ente.api.settings.smtp` so ente can send you emails (registration code and possibly
-other events). This is optional.
+`services.ente.api.settings.smtp` so ente can send you emails (registration code
+and possibly other events). This is optional.
 
 Now ente should be ready to go under `https://photos.example.com`.
 
 ## Registering users {#module-services-ente-registering-users}
 
-Now you can open photos.example.com and register your user(s).
-Beware that the first created account will be considered to be the admin account,
-which among some other things allows you to use `ente-cli` to increase storage limits for any user.
+Now you can open photos.example.com and register your user(s). Beware that the
+first created account will be considered to be the admin account, which among
+some other things allows you to use `ente-cli` to increase storage limits for
+any user.
 
 If you have configured smtp, you will get a mail with a verification code,
 otherwise you can find the code in the server logs.
@@ -105,15 +107,14 @@ ente # [  157.145165] ente[982]: INFO[0141]email.go:130 sendViaTransmail Skippin
 ```
 
 After you have registered your users, you can set
-`settings.internal.disable-registration = true;` to prevent
-further signups.
+`settings.internal.disable-registration = true;` to prevent further signups.
 
 ## Increasing storage limit {#module-services-ente-increasing-storage-limit}
 
-By default, all users will be on the free plan which is the only plan
-available. While adding new plans is possible in theory, it requires some
-manual database operations which isn't worthwhile. Instead, use `ente-cli`
-with your admin user to modify the storage limit.
+By default, all users will be on the free plan which is the only plan available.
+While adding new plans is possible in theory, it requires some manual database
+operations which isn't worthwhile. Instead, use `ente-cli` with your admin user
+to modify the storage limit.
 
 ## iOS background sync {#module-services-ente-ios-background-sync}
 
@@ -121,9 +122,9 @@ On iOS, background sync is achieved via a silent notification sent by the server
 every 30 minutes that allows the phone to sync for about 30 seconds, enough for
 all but the largest videos to be synced on background (if the app is brought to
 foreground though, sync will resume as normal). To achieve this however, a
-Firebase account is needed. In the settings option, configure credentials-dir
-to point towards the directory where the JSON containing the Firebase
-credentials are stored.
+Firebase account is needed. In the settings option, configure credentials-dir to
+point towards the directory where the JSON containing the Firebase credentials
+are stored.
 
 ```nix
 {

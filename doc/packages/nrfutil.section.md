@@ -10,4 +10,5 @@ nrfutil can be built with its installables as following:
 ])
 ```
 
-Keep in mind that all installables might not be available for every supported platform.
+Keep in mind that all installables might not be available for every supported
+platform.

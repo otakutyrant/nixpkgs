@@ -1,26 +1,26 @@
 # Adding Custom Packages {#sec-custom-packages}
 
-It's possible that a package you need is not available in NixOS. In that
-case, you can do two things. Either you can package it with Nix, or you can try
-to use prebuilt packages from upstream. Due to the peculiarities of NixOS, it
-is important to note that building software from source is often easier than
-using pre-built executables.
+It's possible that a package you need is not available in NixOS. In that case,
+you can do two things. Either you can package it with Nix, or you can try to use
+prebuilt packages from upstream. Due to the peculiarities of NixOS, it is
+important to note that building software from source is often easier than using
+pre-built executables.
 
 ## Building with Nix {#sec-custom-packages-nix}
 
 This can be done either in-tree or out-of-tree. For an in-tree build, you can
 clone the Nixpkgs repository, add the package to your clone, and (optionally)
 submit a patch or pull request to have it accepted into the main Nixpkgs
-repository. This is described in detail in the [Nixpkgs
-manual](https://nixos.org/nixpkgs/manual). In short, you clone Nixpkgs:
+repository. This is described in detail in the
+[Nixpkgs manual](https://nixos.org/nixpkgs/manual). In short, you clone Nixpkgs:
 
 ```ShellSession
 $ git clone https://github.com/NixOS/nixpkgs
 $ cd nixpkgs
 ```
 
-Then you write and test the package as described in the Nixpkgs manual.
-Finally, you add it to [](#opt-environment.systemPackages), e.g.
+Then you write and test the package as described in the Nixpkgs manual. Finally,
+you add it to [](#opt-environment.systemPackages), e.g.
 
 ```nix
 { environment.systemPackages = [ pkgs.my-package ]; }
@@ -32,8 +32,8 @@ and you run `nixos-rebuild`, specifying your own Nixpkgs tree:
 # nixos-rebuild switch -I nixpkgs=/path/to/my/nixpkgs
 ```
 
-The second possibility is to add the package outside of the Nixpkgs
-tree. For instance, here is how you specify a build of the
+The second possibility is to add the package outside of the Nixpkgs tree. For
+instance, here is how you specify a build of the
 [GNU Hello](https://www.gnu.org/software/hello/) package directly in
 `configuration.nix`:
 
@@ -54,8 +54,8 @@ tree. For instance, here is how you specify a build of the
 }
 ```
 
-Of course, you can also move the definition of `my-hello` into a
-separate Nix expression, e.g.
+Of course, you can also move the definition of `my-hello` into a separate Nix
+expression, e.g.
 
 ```nix
 { environment.systemPackages = [ (pkgs.callPackage ./my-hello.nix { }) ]; }
@@ -87,8 +87,9 @@ Hello, world!
 ## Using pre-built executables {#sec-custom-packages-prebuilt}
 
 Most pre-built executables will not work on NixOS. There are two notable
-exceptions: flatpaks and AppImages. For flatpaks see the [dedicated
-section](#module-services-flatpak). AppImages can run "as-is" on NixOS.
+exceptions: flatpaks and AppImages. For flatpaks see the
+[dedicated section](#module-services-flatpak). AppImages can run "as-is" on
+NixOS.
 
 First you need to enable AppImage support: add to `/etc/nixos/configuration.nix`
 
@@ -113,7 +114,7 @@ If there are shared libraries missing add them with
 }
 ```
 
-To make other pre-built executables work on NixOS, you need to package them
-with Nix and special helpers like `autoPatchelfHook` or `buildFHSEnv`. See
-the [Nixpkgs manual](https://nixos.org/nixpkgs/manual) for details. This
-is complex and often doing a source build is easier.
+To make other pre-built executables work on NixOS, you need to package them with
+Nix and special helpers like `autoPatchelfHook` or `buildFHSEnv`. See the
+[Nixpkgs manual](https://nixos.org/nixpkgs/manual) for details. This is complex
+and often doing a source build is easier.

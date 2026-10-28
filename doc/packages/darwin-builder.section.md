@@ -1,21 +1,25 @@
 # darwin.linux-builder {#sec-darwin-builder}
 
-:::{.warning}
-By default, `darwin.linux-builder` uses a publicly-known private SSH **host key** (this is different from the SSH key used by the user that connects to the builder).
+:::{.warning} By default, `darwin.linux-builder` uses a publicly-known private
+SSH **host key** (this is different from the SSH key used by the user that
+connects to the builder).
 
-Given the intended use case for it (a Linux builder that runs **on the same machine**), this shouldn't be an issue.
-However, if you plan to deviate from this use case in any way (e.g. by exposing this builder to remote machines), you should understand the security implications of doing so and take any appropriate measures.
-:::
+Given the intended use case for it (a Linux builder that runs **on the same
+machine**), this shouldn't be an issue. However, if you plan to deviate from
+this use case in any way (e.g. by exposing this builder to remote machines), you
+should understand the security implications of doing so and take any appropriate
+measures. :::
 
-`darwin.linux-builder` provides a way to bootstrap a Linux remote builder on a macOS machine.
+`darwin.linux-builder` provides a way to bootstrap a Linux remote builder on a
+macOS machine.
 
 This requires macOS version 12.4 or later.
 
-The remote builder runs on host port 31022 by default.
-You can change it by overriding `virtualisation.darwin-builder.hostPort`.
-See the [example](#sec-darwin-builder-example-flake).
+The remote builder runs on host port 31022 by default. You can change it by
+overriding `virtualisation.darwin-builder.hostPort`. See the
+[example](#sec-darwin-builder-example-flake).
 
-You will also need to be a trusted user for your Nix installation.  In other
+You will also need to be a trusted user for your Nix installation. In other
 words, your `/etc/nix/nix.conf` should have something like:
 
 ```
@@ -64,7 +68,9 @@ builders = ssh-ng://builder@linux-builder ${ARCH}-linux /etc/nix/builder_ed25519
 builders-use-substitutes = true
 ```
 
-To allow Nix to connect to the default remote builder, which does not run on port 22, you will also need to create a new file at `/etc/ssh/ssh_config.d/100-linux-builder.conf`:
+To allow Nix to connect to the default remote builder, which does not run on
+port 22, you will also need to create a new file at
+`/etc/ssh/ssh_config.d/100-linux-builder.conf`:
 
 ```
 Host linux-builder
@@ -81,30 +87,31 @@ Host linux-builder
 $ sudo launchctl kickstart -k system/org.nixos.nix-daemon
 ```
 
-Note that if the builder is running and you have created the above ssh conf file, you can ssh into the builder with `sudo ssh builder@linux-builder`.
+Note that if the builder is running and you have created the above ssh conf
+file, you can ssh into the builder with `sudo ssh builder@linux-builder`.
 
 ## Using the Virtualization.framework backend {#sec-darwin-builder-vz}
 
-`darwin.linux-builder-vz` is a variant of `darwin.linux-builder` that runs the same
-NixOS guest on Apple's Virtualization.framework (via `pkgs.vzvm`) instead of QEMU.
-Instead of emulating x86_64, it exposes Rosetta to the guest, so `x86_64-linux`
-builds are translated rather than emulated, which is substantially faster. It
-requires an Apple silicon host (`aarch64-darwin`) running macOS 13 or newer, with
-Rosetta installed:
+`darwin.linux-builder-vz` is a variant of `darwin.linux-builder` that runs the
+same NixOS guest on Apple's Virtualization.framework (via `pkgs.vzvm`) instead
+of QEMU. Instead of emulating x86_64, it exposes Rosetta to the guest, so
+`x86_64-linux` builds are translated rather than emulated, which is
+substantially faster. It requires an Apple silicon host (`aarch64-darwin`)
+running macOS 13 or newer, with Rosetta installed:
 
 ```ShellSession
 $ softwareupdate --install-rosetta --agree-to-license
 ```
 
-The builder refuses to start when Rosetta is missing, rather than silently dropping
-`x86_64-linux` support; set `virtualisation.vz.rosetta.enable = false` to run
-without it.
+The builder refuses to start when Rosetta is missing, rather than silently
+dropping `x86_64-linux` support; set `virtualisation.vz.rosetta.enable = false`
+to run without it.
 
-It is a drop-in replacement: it listens on the same host port (31022) and presents
-the same host key as the QEMU builder, so the `nix.conf` and SSH configuration
-described above apply unchanged; only the transport behind the port changes, from
-TCP forwarding to vsock. Since a single builder VM handles both architectures
-through Rosetta, list both systems in your `builders` entry
+It is a drop-in replacement: it listens on the same host port (31022) and
+presents the same host key as the QEMU builder, so the `nix.conf` and SSH
+configuration described above apply unchanged; only the transport behind the
+port changes, from TCP forwarding to vsock. Since a single builder VM handles
+both architectures through Rosetta, list both systems in your `builders` entry
 (`aarch64-linux,x86_64-linux`), or with nix-darwin:
 
 ```nix
@@ -121,8 +128,8 @@ through Rosetta, list both systems in your `builders` entry
 ```
 
 When switching an existing QEMU builder over, delete its data disk first (e.g.
-`sudo rm /var/lib/linux-builder/nixos.qcow2`): the vz builder reuses the file name
-but writes a raw image, and refuses to misread a genuine qcow2 left behind.
+`sudo rm /var/lib/linux-builder/nixos.qcow2`): the vz builder reuses the file
+name but writes a raw image, and refuses to misread a genuine qcow2 left behind.
 
 The guest console goes to the macOS unified log by default; read it with:
 
@@ -131,8 +138,8 @@ $ /usr/bin/log show --last 5m --predicate 'subsystem == "systems.applicative.vzv
 ```
 
 The `virtualisation.vz.*` NixOS options configure the backend further, e.g.
-`virtualisation.vz.nestedVirtualization` gives the guest a working `/dev/kvm` for
-running NixOS integration tests on the builder (macOS 15+, M3 or newer).
+`virtualisation.vz.nestedVirtualization` gives the guest a working `/dev/kvm`
+for running NixOS integration tests on the builder (macOS 15+, M3 or newer).
 
 ## Example flake usage {#sec-darwin-builder-example-flake}
 
@@ -215,12 +222,13 @@ running NixOS integration tests on the builder (macOS 15+, M3 or newer).
 
 ## Reconfiguring the remote builder {#sec-darwin-builder-reconfiguring}
 
-Initially you should not change the remote builder configuration else you will not be
-able to use the binary cache. However, after you have the remote builder running locally
-you may use it to build a modified remote builder with additional storage or memory.
+Initially you should not change the remote builder configuration else you will
+not be able to use the binary cache. However, after you have the remote builder
+running locally you may use it to build a modified remote builder with
+additional storage or memory.
 
-To do this, you just need to set the `virtualisation.darwin-builder.*` parameters as
-in the example below and rebuild.
+To do this, you just need to set the `virtualisation.darwin-builder.*`
+parameters as in the example below and rebuild.
 
 ```nix
 {
@@ -245,7 +253,9 @@ you could enable Docker or X11 forwarding to your Darwin host.
 
 ## Troubleshooting the generated configuration {#sec-darwin-builder-troubleshoot}
 
-The `linux-builder` package exposes the attributes `nixosConfig` and `nixosOptions` that allow you to inspect the generated NixOS configuration in the `nix repl`. For example:
+The `linux-builder` package exposes the attributes `nixosConfig` and
+`nixosOptions` that allow you to inspect the generated NixOS configuration in
+the `nix repl`. For example:
 
 ```
 $ nix repl --file ~/src/nixpkgs --argstr system aarch64-darwin

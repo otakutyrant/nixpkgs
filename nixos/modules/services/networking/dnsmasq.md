@@ -14,9 +14,10 @@ queries and caching, with DNSSEC enabled.
 The following example assumes that
 
 - you have disabled your router's integrated DHCP server, if it has one
-- your router's address is set in  [](#opt-networking.defaultGateway.address)
+- your router's address is set in [](#opt-networking.defaultGateway.address)
 - your system's Ethernet interface is `eth0`
-- you have configured the address(es) to forward DNS queries in [](#opt-networking.nameservers)
+- you have configured the address(es) to forward DNS queries in
+  [](#opt-networking.nameservers)
 
 ```nix
 {

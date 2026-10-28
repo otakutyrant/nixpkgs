@@ -1,9 +1,8 @@
 # User Sessions {#sec-user-sessions}
 
-Systemd keeps track of all users who are logged into the system (e.g. on
-a virtual console or remotely via SSH). The command `loginctl` allows
-querying and manipulating user sessions. For instance, to list all user
-sessions:
+Systemd keeps track of all users who are logged into the system (e.g. on a
+virtual console or remotely via SSH). The command `loginctl` allows querying and
+manipulating user sessions. For instance, to list all user sessions:
 
 ```ShellSession
 $ loginctl
@@ -13,10 +12,10 @@ $ loginctl
         c4        500 alice
 ```
 
-This shows that two users are logged in locally, while another is logged
-in remotely. ("Seats" are essentially the combinations of displays and
-input devices attached to the system; usually, there is only one seat.)
-To get information about a session:
+This shows that two users are logged in locally, while another is logged in
+remotely. ("Seats" are essentially the combinations of displays and input
+devices attached to the system; usually, there is only one seat.) To get
+information about a session:
 
 ```ShellSession
 $ loginctl session-status c3
@@ -33,10 +32,10 @@ c3 - root (0)
                   └─10355 w3m nixos.org
 ```
 
-This shows that the user is logged in on virtual console 3. It also
-lists the processes belonging to this session. Since systemd keeps track
-of this, you can terminate a session in a way that ensures that all the
-session's processes are gone:
+This shows that the user is logged in on virtual console 3. It also lists the
+processes belonging to this session. Since systemd keeps track of this, you can
+terminate a session in a way that ensures that all the session's processes are
+gone:
 
 ```ShellSession
 # loginctl terminate-session c3

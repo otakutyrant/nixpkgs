@@ -1,13 +1,9 @@
 ## services\.frobnicator\.types\.\<name>\.enable {#opt-services.frobnicator.types._name_.enable}
 
-Whether to enable the frobnication of this (` <name> `) type\.
+Whether to enable the frobnication of this (`<name>`) type\.
 
+_Type:_ boolean
 
+_Declared by:_
 
-*Type:*
-boolean
-
-*Declared by:*
- - [\<nixpkgs/nixos/modules/services/frobnicator\.nix>](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/frobnicator.nix)
-
-
+- [\<nixpkgs/nixos/modules/services/frobnicator\.nix>](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/frobnicator.nix)

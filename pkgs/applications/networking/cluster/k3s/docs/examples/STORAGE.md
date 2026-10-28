@@ -1,6 +1,7 @@
 # Storage Examples
 
-The following are some NixOS specific considerations for specific storage mechanisms with kubernetes/k3s.
+The following are some NixOS specific considerations for specific storage
+mechanisms with kubernetes/k3s.
 
 ## Longhorn
 
@@ -14,7 +15,8 @@ services.openiscsi = {
 };
 ```
 
-The Longhorn container has trouble with the NixOS path. Solution is to override PATH environment variable, such as:
+The Longhorn container has trouble with the NixOS path. Solution is to override
+PATH environment variable, such as:
 
 ```
 PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin
@@ -81,7 +83,8 @@ services.rpcbind.enable = true;
 
 ## Rook/Ceph
 
-In order to support Rook/Ceph, the following NixOS kernelModule configuration is required:
+In order to support Rook/Ceph, the following NixOS kernelModule configuration is
+required:
 
 ```
   boot.kernelModules = [ "rbd" ];
@@ -89,7 +92,10 @@ In order to support Rook/Ceph, the following NixOS kernelModule configuration is
 
 ## ZFS ContainerD Support
 
-The [ZFS snapshotter](https://github.com/containerd/zfs) can be enabled for k3s' embedded ContainerD though it requires mounting a dataset to a specific path used by k3s: `/var/lib/rancher/k3s/agent/containerd/io.containerd.snapshotter.v1.zfs`
+The [ZFS snapshotter](https://github.com/containerd/zfs) can be enabled for k3s'
+embedded ContainerD though it requires mounting a dataset to a specific path
+used by k3s:
+`/var/lib/rancher/k3s/agent/containerd/io.containerd.snapshotter.v1.zfs`
 
 For example:
 

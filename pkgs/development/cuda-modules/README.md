@@ -1,9 +1,9 @@
 # CUDA Modules
 
-> [!NOTE]
-> This document is meant to help CUDA maintainers understand the structure of
-> the CUDA packages in Nixpkgs. It is not meant to be a user-facing document.
-> For a user-facing document, see [the CUDA section of the manual](../../../doc/languages-frameworks/cuda.section.md).
+> [!NOTE] This document is meant to help CUDA maintainers understand the
+> structure of the CUDA packages in Nixpkgs. It is not meant to be a user-facing
+> document. For a user-facing document, see
+> [the CUDA section of the manual](../../../doc/languages-frameworks/cuda.section.md).
 
 The files in this directory are added (in some way) to the `cudaPackages`
 package set by [cuda-packages.nix](../../top-level/cuda-packages.nix).
@@ -11,41 +11,44 @@ package set by [cuda-packages.nix](../../top-level/cuda-packages.nix).
 ## Top-level directories
 
 - `_cuda`: Fixed-point used to configure, construct, and extend the CUDA package
-    set. This includes NVIDIA manifests.
+  set. This includes NVIDIA manifests.
 - `buildRedist`: Contains the logic to build packages using NVIDIA's manifests.
 - `packages`: Contains packages which exist in every instance of the CUDA
-    package set. These packages are built in a `by-name` fashion.
+  package set. These packages are built in a `by-name` fashion.
 - `tests`: Contains tests which can be run against the CUDA package set.
 
 Many redistributable packages are in the `packages` directory. Their presence
-ensures that, even if a CUDA package set which no longer includes a given package
-is being constructed, the attribute for that package will still exist (but refer
-to a broken package). This prevents missing attribute errors as the package set
-evolves.
+ensures that, even if a CUDA package set which no longer includes a given
+package is being constructed, the attribute for that package will still exist
+(but refer to a broken package). This prevents missing attribute errors as the
+package set evolves.
 
 ## Distinguished packages
 
-Some packages are purposefully not in the `packages` directory. These are packages
-which do not make sense for Nixpkgs, require further investigation, or are otherwise
-not straightforward to include. These packages are:
+Some packages are purposefully not in the `packages` directory. These are
+packages which do not make sense for Nixpkgs, require further investigation, or
+are otherwise not straightforward to include. These packages are:
 
 - `cuda`:
-  - `collectx_bringup`: missing `libssl.so.1.1` and `libcrypto.so.1.1`; not sure how
-    to provide them or what the package does.
+  - `collectx_bringup`: missing `libssl.so.1.1` and `libcrypto.so.1.1`; not sure
+    how to provide them or what the package does.
   - `cuda_sandbox_dev`: unclear on purpose.
-  - `driver_assistant`: we don't use the drivers from the CUDA releases; irrelevant.
+  - `driver_assistant`: we don't use the drivers from the CUDA releases;
+    irrelevant.
   - `mft_autocomplete`: unsure of purpose; contains FHS paths.
   - `mft_oem`: unsure of purpose; contains FHS paths.
   - `mft`: unsure of purpose; contains FHS paths.
-  - `nvidia_driver`: we don't use the drivers from the CUDA releases; irrelevant.
+  - `nvidia_driver`: we don't use the drivers from the CUDA releases;
+    irrelevant.
 - `cudnn`:
   - `cudnn_samples`: requires FreeImage, which is abandoned and not packaged.
 
 > [!NOTE]
 >
-> When packaging redistributables, prefer `autoPatchelfIgnoreMissingDeps` to providing
-> paths to stubs with `extraAutoPatchelfLibs`; the stubs are meant to be used for
-> projects where linking against libraries available only at runtime is unavoidable.
+> When packaging redistributables, prefer `autoPatchelfIgnoreMissingDeps` to
+> providing paths to stubs with `extraAutoPatchelfLibs`; the stubs are meant to
+> be used for projects where linking against libraries available only at runtime
+> is unavoidable.
 
 ### CUDA Compatibility
 
@@ -78,17 +81,17 @@ non-obvious ways, especially with other Nix-built software.
 
 Since `cuda_compat` is a known derivation, the easy way to do this in Nix would
 be to add `cuda_compat` as a dependency of CUDA libraries and applications and
-let Nix do its magic by filling the `DT_RUNPATH` fields. However,
-`cuda_compat` itself depends on `libnvrm_mem` and `libnvrm_gpu` which are loaded
-dynamically at runtime from `/run/opengl-driver`. This doesn't please the Nix
-sandbox when building, which can't find those (a second minor issue is that
+let Nix do its magic by filling the `DT_RUNPATH` fields. However, `cuda_compat`
+itself depends on `libnvrm_mem` and `libnvrm_gpu` which are loaded dynamically
+at runtime from `/run/opengl-driver`. This doesn't please the Nix sandbox when
+building, which can't find those (a second minor issue is that
 `addOpenGLRunpathHook` prepends the `/run/opengl-driver` path, so that would
 still take precedence).
 
 The current solution is to do something similar to `addOpenGLRunpathHook`: the
-`addCudaCompatRunpathHook` prepends the path to `cuda_compat`'s `libcuda.so`
-to the `DT_RUNPATH` of whichever package includes the hook as a dependency, and
-we include the hook by default for packages in `cudaPackages` (by adding it as an
+`addCudaCompatRunpathHook` prepends the path to `cuda_compat`'s `libcuda.so` to
+the `DT_RUNPATH` of whichever package includes the hook as a dependency, and we
+include the hook by default for packages in `cudaPackages` (by adding it as an
 input in `genericManifestBuilder`). We also make sure it's included after
 `addOpenGLRunpathHook`, so that it appears _before_ in the `DT_RUNPATH` and
 takes precedence.

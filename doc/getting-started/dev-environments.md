@@ -41,9 +41,9 @@ To leave the shell
 ctrl+D
 ```
 
-:::{.note}
-You should use [pinned nixpkgs](https://nix.dev/guides/recipes/dependency-management.html).
-The example used `unstable` here for demonstration purposes only
-:::
+:::{.note} You should use
+[pinned nixpkgs](https://nix.dev/guides/recipes/dependency-management.html). The
+example used `unstable` here for demonstration purposes only :::
 
-For further information check out [nix-shell](https://nix.dev/manual/nix/stable/command-ref/nix-shell)
+For further information check out
+[nix-shell](https://nix.dev/manual/nix/stable/command-ref/nix-shell)

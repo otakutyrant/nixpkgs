@@ -73,7 +73,9 @@ Controls the flags passed to `cargo tauri build`.
 
 #### `tauriBundleType` {#tauri-bundle-type}
 
-The [bundle type](https://tauri.app/reference/javascript/api/namespaceapp/#bundletype) to build.
+The
+[bundle type](https://tauri.app/reference/javascript/api/namespaceapp/#bundletype)
+to build.
 
 #### `dontTauriBuild` {#dont-tauri-build}
 

@@ -2,12 +2,12 @@
 
 For a desktop installation using NetworkManager (e.g., GNOME or KDE), you should
 make sure the user is in the `networkmanager` group and you can just configure
-wireless networks from the Settings app.
-It is also possible to declare (some) wireless networks from the NixOS
-configuration with [](#opt-networking.networkmanager.ensureProfiles.profiles).
+wireless networks from the Settings app. It is also possible to declare (some)
+wireless networks from the NixOS configuration with
+[](#opt-networking.networkmanager.ensureProfiles.profiles).
 
-Alternatively, without NetworkManager, you can configure wireless networks
-using wpa_supplicant by setting
+Alternatively, without NetworkManager, you can configure wireless networks using
+wpa_supplicant by setting
 
 ```nix
 { networking.wireless.enable = true; }
@@ -17,8 +17,8 @@ By default, wpa_supplicant will manage the first wireless interface that becomes
 available. It is however recommended to set the desired interface name with
 [](#opt-networking.wireless.interfaces), as it is more reliable.
 
-If multiple interfaces are set, NixOS will create a separate systemd service
-for each one of them, for example:
+If multiple interfaces are set, NixOS will create a separate systemd service for
+each one of them, for example:
 
 ```nix
 {
@@ -30,7 +30,6 @@ for each one of them, for example:
 ```
 
 results in `wpa_supplicant-wlan0.service` and `wpa_supplicant-wlan1.service`.
-
 
 ## Declarative configuration {#sec-wireless-declarative}
 
@@ -58,9 +57,9 @@ NixOS lets you specify networks declaratively:
 ```
 
 If the network is using WPA2, the pre-shared key (PSK) can be also specified
-with the `pskRaw` option as 64 hexadecimal digits.
-This is useful to both obfuscate passwords and make the connection slightly
-faster, as the key doesn't need to be derived every time.
+with the `pskRaw` option as 64 hexadecimal digits. This is useful to both
+obfuscate passwords and make the connection slightly faster, as the key doesn't
+need to be derived every time.
 
 The `pskRaw` values can be calculated using the `wpa_passphrase` tool:
 
@@ -83,6 +82,7 @@ network={
 
 Other wpa_supplicant configuration can be set using the {option}`extraConfig`
 option, either globally or per-network. For example:
+
 ```
 {
   networking.wireless.extraConfig = ''
@@ -99,15 +99,12 @@ option, either globally or per-network. For example:
 }
 ```
 
-::: {.note}
-The generated wpa_supplicant configuration file is linked to
-`/etc/wpa_supplicant/nixos.conf` for easier inspection.
-:::
-
+::: {.note} The generated wpa_supplicant configuration file is linked to
+`/etc/wpa_supplicant/nixos.conf` for easier inspection. :::
 
 Be aware that in the previous examples the keys would be written to the Nix
-store in plain text and readable to every local user.
-It is recommended to specify secrets (PSKs, passwords, etc.) in a safe way using
+store in plain text and readable to every local user. It is recommended to
+specify secrets (PSKs, passwords, etc.) in a safe way using
 [](#opt-networking.wireless.secretsFile) and the `ext:` syntax. For example:
 
 ```nix
@@ -133,21 +130,19 @@ psk_home=mypassword
 pass_work=myworkpassword
 ```
 
-::: {.note}
-The secrets file should be owned and placed in a location accessible (only) by
-the `wpa_supplicant` user. Only certain fields support the `ext:` syntax,
-for example `psk`, `sae_password` and `password`, but not `ssid`.
-:::
+::: {.note} The secrets file should be owned and placed in a location accessible
+(only) by the `wpa_supplicant` user. Only certain fields support the `ext:`
+syntax, for example `psk`, `sae_password` and `password`, but not `ssid`. :::
 
-
-## Imperative configuration  {#sec-wireless-imperative}
+## Imperative configuration {#sec-wireless-imperative}
 
 It can be useful to add a new network without rebuilding the NixOS
-configuration, particularly if you don't yet have Internet access.
-Setting [](#opt-networking.wireless.userControlled) to `true` will allow users
-of the `wpa_supplicant` group to configure wpa_supplicant imperatively.
+configuration, particularly if you don't yet have Internet access. Setting
+[](#opt-networking.wireless.userControlled) to `true` will allow users of the
+`wpa_supplicant` group to configure wpa_supplicant imperatively.
 
 For example, using `wpa_cli` you can add a new network and connect to it as:
+
 ```console
 # wpa_cli
 Selected interface 'wlan0'
@@ -164,25 +159,26 @@ OK
 OK
 ```
 
-Note that these changes will be lost when wpa_supplicant is restarted.
-To make them persistent, the option
+Note that these changes will be lost when wpa_supplicant is restarted. To make
+them persistent, the option
 [](#opt-networking.wireless.allowAuxiliaryImperativeNetworks) can be set, which
-allows to use the `save` command in `wpa_cli`, or even directly editing the
-file `/etc/wpa_supplicant/imperative.conf`.
+allows to use the `save` command in `wpa_cli`, or even directly editing the file
+`/etc/wpa_supplicant/imperative.conf`.
 
-::: {.note}
-Remember that after manually editing `imperative.conf` the wpa_supplicant daemon
-needs to be restarted:
+::: {.note} Remember that after manually editing `imperative.conf` the
+wpa_supplicant daemon needs to be restarted:
+
 ```console
 # systemctl restart wpa_supplicant.service
 ```
+
 or
+
 ```console
 # systemctl restart wpa_supplicant-<interface>.service
 ```
-if [](#opt-networking.wireless.interfaces) has been set.
-:::
 
+if [](#opt-networking.wireless.interfaces) has been set. :::
 
 ## Enterprise networks {#sec-wireless-enterprise}
 
@@ -204,11 +200,11 @@ using the free-form `auth` option, for example:
 ```
 
 For examples and a list of available options, see the
-[wpa_supplicant.conf(5)](man:wpa_supplicant.conf(5)) man page.
+[wpa_supplicant.conf(5)](<man:wpa_supplicant.conf(5)>) man page.
 
-::: {.warning}
-By default, security hardening measures that limit access to files, devices and
-network capabilities are applied to the wpa_supplicant daemon.
+::: {.warning} By default, security hardening measures that limit access to
+files, devices and network capabilities are applied to the wpa_supplicant
+daemon.
 
 Certificates and other files supplied here need to be readable by the
 `wpa_supplicant` user; it is therefore recommended to store them in the
@@ -217,17 +213,18 @@ Certificates and other files supplied here need to be readable by the
 With [](#opt-networking.wireless.pkcs11.enable), the default tpm2-pkcs11
 database directory `/etc/tpm2_pkcs11` is available inside the sandbox. A
 database in another location must be added explicitly:
+
 ```nix
 { systemd.services.wpa_supplicant.serviceConfig.BindPaths = [ "/var/lib/tpm2_pkcs11" ]; }
 ```
 
 If your network authentication protocol requires other access that cannot be
 granted explicitly, you may have to disable security hardening with
+
 ```nix
 { networking.wireless.enableHardening = false; }
 ```
 
-This setting also applies to networks configured from NetworkManager, unless
-the WiFi [backend](#opt-networking.networkmanager.wifi.backend) in use is not
-wpa_supplicant.
-:::
+This setting also applies to networks configured from NetworkManager, unless the
+WiFi [backend](#opt-networking.networkmanager.wifi.backend) in use is not
+wpa_supplicant. :::

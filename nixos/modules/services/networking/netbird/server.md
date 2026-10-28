@@ -1,12 +1,16 @@
 # Netbird server {#module-services-netbird-server}
 
-NetBird is a VPN built on top of WireGuard® making it easy to create secure private networks for your organization or home.
+NetBird is a VPN built on top of WireGuard® making it easy to create secure
+private networks for your organization or home.
 
 ## Quickstart {#module-services-netbird-server-quickstart}
 
-To fully setup Netbird as a self-hosted server, we need both a Coturn server and an identity provider, the list of supported SSOs and their setup are available [on Netbird's documentation](https://docs.netbird.io/selfhosted/selfhosted-guide#step-3-configure-identity-provider-idp).
+To fully setup Netbird as a self-hosted server, we need both a Coturn server and
+an identity provider, the list of supported SSOs and their setup are available
+[on Netbird's documentation](https://docs.netbird.io/selfhosted/selfhosted-guide#step-3-configure-identity-provider-idp).
 
-There are quite a few settings that need to be passed to Netbird for it to function, and a minimal config looks like :
+There are quite a few settings that need to be passed to Netbird for it to
+function, and a minimal config looks like :
 
 ```nix
 {

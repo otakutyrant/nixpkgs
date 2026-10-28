@@ -2,16 +2,18 @@
 
 ## Demo
 
-Here's a demo of this being used: https://asciinema.org/a/euXb9dIeUybE3VkstLWLbvhmp
+Here's a demo of this being used:
+https://asciinema.org/a/euXb9dIeUybE3VkstLWLbvhmp
 
 ## Usage
 
-This is meant to be an example image that you can copy into your own
-project and modify to your own needs. Notice that the example image
-includes a built-in test user account, which by default uses your
-`~/.ssh/id_ed25519.pub` as an `authorized_key`.
+This is meant to be an example image that you can copy into your own project and
+modify to your own needs. Notice that the example image includes a built-in test
+user account, which by default uses your `~/.ssh/id_ed25519.pub` as an
+`authorized_key`.
 
 Build and upload the image
+
 ```shell
 $ ./upload-image.sh ./examples/basic/image.nix
 
@@ -37,6 +39,6 @@ img="/subscriptions/.../..." # use output from last command
 ## Future Work
 
 1. If the user specifies a hard-coded user, then the agent could be removed.
-   Probably has security benefits; definitely has closure-size benefits.
-   (It's likely the VM will need to be booted with a special flag. See:
+   Probably has security benefits; definitely has closure-size benefits. (It's
+   likely the VM will need to be booted with a special flag. See:
    https://github.com/Azure/azure-cli/issues/12775 for details.)
